@@ -13,15 +13,17 @@ module.exports = function(config) {
 		files: [
 			// Libs
 			"lib/jquery/jquery.min.js",
+			"lib/lugajs/luga.core.min.js",
 
 			// Jasmine libs and configuration
 			"test/lib/jasmine/jasmine-jquery.js",
-			"dist/jasmine-tree.min.js",
-			"dist/jasmine-tree.css",
+			"test/lib/jasmine/jasmine-tree.min.js",
+			"test/lib/jasmine/asmine-tree.css",
 			"test/fixtures.karma.config.js",
 
 			// Source files
-			"src/**/*.js",
+			"src/luga.router.js",
+			"src/luga.history.js",
 
 			// Test specs
 			"test/spec/*.Spec.js",
