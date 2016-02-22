@@ -23,7 +23,7 @@ module.exports = function(config) {
 
 			// Source files
 			"src/luga.router.js",
-			"src/luga.history.js",
+			"src/luga.navigate.js",
 
 			// Test specs
 			"test/spec/*.Spec.js",
