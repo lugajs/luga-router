@@ -1,2 +1,3 @@
-- luga.navigate
-  Should we url encode the input or assume it's already encoded?
+- Add JSDoc
+
+
