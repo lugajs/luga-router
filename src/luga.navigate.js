@@ -22,7 +22,11 @@
 	};
 
 	luga.navigate = function(fragment, options){
-
+		var config = {
+			replace: false,
+			title: document.title
+		};
+		luga.merge(config, options);
 	};
 
 }());
