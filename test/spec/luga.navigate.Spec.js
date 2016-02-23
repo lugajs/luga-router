@@ -8,8 +8,7 @@ describe("luga", function(){
 
 	afterEach(function(){
 		luga.navigateSetup({
-			pushState: false,
-			root: "/"
+			pushState: false
 		});
 	});
 
@@ -20,9 +19,6 @@ describe("luga", function(){
 			it("pushState = false", function(){
 				expect(luga.navigateSetup().pushState).toEqual(false);
 			});
-			it("root = '/'", function(){
-				expect(luga.navigateSetup().root).toEqual("/");
-			});
 
 		});
 
@@ -30,9 +26,6 @@ describe("luga", function(){
 
 			it("pushState", function(){
 				expect(luga.navigateSetup({pushState: true}).pushState).toEqual(true);
-			});
-			it("root", function(){
-				expect(luga.navigateSetup({root: "/app/subappa/"}).root).toEqual("/app/subappa/");
 			});
 
 		});

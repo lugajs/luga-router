@@ -2,8 +2,7 @@
 	"use strict";
 
 	var config = {
-		pushState: false,
-		root: "/"
+		pushState: false
 	};
 
 	luga.navigateSetup = function(options){
