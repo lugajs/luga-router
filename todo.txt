@@ -3,7 +3,29 @@ DOCS:
 - Add navigation
 - Link to dist/minified .js files
 
+-------------
 
-luga.history.navigate:
+ROUTER:
+
+- Allow multiple routers to exists? Or enforce singleton with getInstance()?
+  https://github.com/flatiron/director#adhoc-routing
+- Implement start() and stop()
+- Expose callbacks
+- Expose event notification (luga.Notifier)
+- Support route execution priority?
+- Allows arbitrary payload to be passed by a route
+- Retrieve state object (if any, created by pushState) to be passed by a route
+
+- router.add()
+- router.remove()
+- router.execute()
+- router.clear() -> remove all routes
+
+-------------
+
+HISTORY:
 
 - Encode/decode fragment?
+- Expose state object when using pushState?
+- Document implication of pushState:
+  https://github.com/flatiron/director#history-api
