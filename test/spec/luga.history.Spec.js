@@ -26,36 +26,62 @@ describe("luga.history", function(){
 			spyOn(history, "replaceState");
 		});
 
-		describe("By default add an history entry", function(){
+		describe("Add an history entry", function(){
 
 			describe("Invoking history.pushState() passing:", function(){
 
 				it("The given URL fragment and an empty string as title", function(){
-					luga.history.navigate("test.htm");
-					expect(history.pushState).toHaveBeenCalledWith({}, "", "test.htm");
+					luga.history.navigate("test/route");
+					expect(history.pushState).toHaveBeenCalledWith({}, "", "test/route");
 				});
 
 				it("The given URL fragment and an optional title", function(){
-					luga.history.navigate("test.htm", {title: "Test Title"});
-					expect(history.pushState).toHaveBeenCalledWith({}, "Test Title", "test.htm");
+					luga.history.navigate("test/route", {title: "Test Title"});
+					expect(history.pushState).toHaveBeenCalledWith({}, "Test Title", "test/route");
 				});
 
 			});
 
 		});
 
-		describe("If options.replace = true, replace the current history entry", function(){
+		describe("If options.replace = true, replace the current history entry instead", function(){
 
 			describe("Invoking history.replaceState() passing:", function(){
 
 				it("The given URL fragment and an empty string as title", function(){
-					luga.history.navigate("test.htm", {replace: true});
-					expect(history.replaceState).toHaveBeenCalledWith({}, "", "test.htm");
+					luga.history.navigate("test/route", {replace: true});
+					expect(history.replaceState).toHaveBeenCalledWith({}, "", "test/route");
 				});
 
 				it("The given URL fragment and an optional title", function(){
-					luga.history.navigate("test.htm", {replace: true, title: "Test Title"});
-					expect(history.replaceState).toHaveBeenCalledWith({}, "Test Title", "test.htm");
+					luga.history.navigate("test/route", {replace: true, title: "Test Title"});
+					expect(history.replaceState).toHaveBeenCalledWith({}, "Test Title", "test/route");
+				});
+
+			});
+
+		});
+
+		describe("If pushState is not supported or luga.history is configured to not use it", function(){
+
+			beforeEach(function(){
+				luga.history.setup({pushState: false});
+			});
+
+			describe("Add an history entry", function(){
+
+				it("Setting location.hash", function(){
+					luga.history.navigate("test/route");
+					expect(location.hash).toEqual("#test/route");
+				});
+
+			});
+
+			describe("If options.replace = true, replace the current history entry instead", function(){
+
+				it("Invoking location.replace()", function(){
+					luga.history.navigate("test/route", {replace: true});
+					expect(location.hash).toEqual("#test/route");
 				});
 
 			});

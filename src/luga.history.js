@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {object} luga.history.options
 	 *
-	 * @property {boolean} pushState  Determine if we use pushState or the hashbang. Default to true. If pushState is not available (like in IE9) the hashbang will be used anyway
+	 * @property {boolean} pushState  Determine if we use pushState or the location hash. Default to true. If pushState is not available (like in IE9) the location hash will be used anyway
 	 */
 
 	luga.namespace("luga.history");
@@ -57,7 +57,7 @@
 	 * https://developer.mozilla.org/en-US/docs/Web/API/History_API
 	 * @param {string} fragment
 	 * @param {luga.history.navigate.options} options
-	 * @fires window.hashchange                        This is fired whenever pushState is not used and the hashbang is modified instead
+	 * @fires window.hashchange                        This is fired whenever pushState is not used and the location hash is modified instead
 	 */
 	luga.history.navigate = function(fragment, options){
 		var config = {
@@ -74,9 +74,16 @@
 			}
 			history[historyMethod]({}, config.title, fragment);
 		}
-		// hashbang
+		// location hash
 		else{
-
+			if(config.replace === true){
+				var newLocation = location.href.replace(/(javascript:|#).*$/, "");
+				location.replace(newLocation  + "#" + fragment);
+			}
+			else{
+				// Some browsers require that location hash contains a leading #
+				location.hash = "#" + fragment;
+			}
 		}
 	};
 
