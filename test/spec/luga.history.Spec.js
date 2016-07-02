@@ -36,7 +36,6 @@ describe("luga.history", function(){
 
 	});
 
-
 	describe(".usePushState()", function(){
 
 		describe("Return false:", function(){
