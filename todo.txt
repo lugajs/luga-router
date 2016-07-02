@@ -1,3 +1,4 @@
+DOCS:
 
-
-
+- Add navigation
+- Link to dist/minified .js files
