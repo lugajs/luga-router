@@ -2,3 +2,8 @@ DOCS:
 
 - Add navigation
 - Link to dist/minified .js files
+
+
+luga.history.navigate:
+
+- Encode/decode fragment?
