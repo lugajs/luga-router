@@ -3,7 +3,16 @@ DOCS:
 - Add navigation
 - Link to dist/minified .js files
 
+-------------
 
-luga.history.navigate:
+ROUTER:
+
+- Allow multiple routers to exists?
+- Expose callbacks
+- Expose event notification (luga.Notifier)
+
+-------------
+
+HISTORY:
 
 - Encode/decode fragment?
