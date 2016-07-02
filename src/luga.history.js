@@ -57,7 +57,6 @@
 	 * https://developer.mozilla.org/en-US/docs/Web/API/History_API
 	 * @param {string} fragment
 	 * @param {luga.history.navigate.options} options
-	 * @fires window.hashchange                        This is fired whenever pushState is not used and the location hash is modified instead
 	 */
 	luga.history.navigate = function(fragment, options){
 		var config = {
