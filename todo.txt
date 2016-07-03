@@ -9,17 +9,21 @@ ROUTER:
 
 - Allow multiple routers to exists? Or enforce singleton with getInstance()?
   https://github.com/flatiron/director#adhoc-routing
-- Implement start() and stop()
-- Expose callbacks
+- Support route execution priority or rely on order of inclusion?
 - Expose event notification (luga.Notifier)
-- Support route execution priority?
 - Allows arbitrary payload to be passed by a route
 - Retrieve state object (if any, created by pushState) to be passed by a route
 
-- router.add()
-- router.remove()
-- router.execute()
-- router.clear() -> remove all routes
+- Router.start()
+- Router.stop()
+- Router.add()
+- Router.remove()
+- Router.execute()
+- Router.clear() -> remove all routes
+- Expose callbacks
+
+- route definitions and matching syntax
+  Should we use Express's syntax? http://expressjs.com/en/guide/routing.html
 
 -------------
 
@@ -29,3 +33,5 @@ HISTORY:
 - Expose state object when using pushState?
 - Document implication of pushState:
   https://github.com/flatiron/director#history-api
+
+- Document basic HTML alternative: <a href="#/books">#/books</a>
