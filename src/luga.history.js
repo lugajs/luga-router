@@ -17,7 +17,7 @@
 	};
 
 	/**
-	 * Change current options
+	 * Change current configuration
 	 * @param {luga.history.options} options
 	 * @returns {luga.history.options}
 	 */

@@ -6,9 +6,33 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.namespace("luga.router");
+	/**
+	 * @typedef {object} luga.Router.options
+	 *
+	 */
 
-	luga.router.version = "0.1.0";
+	/**
+	 * Router class
+	 *
+	 * @param {luga.Router.options} options
+	 * @constructor
+	 * @extends luga.Notifier
+	 * @fires routeChanged
+	 */
+	luga.Router = function(options){
 
+		var CONST = {
+			ERROR_MESSAGES: {}
+		};
+
+		var config = {};
+		luga.merge(config, options);
+		luga.extend(luga.Notifier, this);
+
+		/** @type {luga.Router} */
+		var self = this;
+	};
+
+	luga.Router.version = "0.1.0";
 
 }());
