@@ -10,6 +10,8 @@ ROUTER:
 - Allow multiple routers to exists? Or enforce singleton with getInstance()?
   https://github.com/flatiron/director#adhoc-routing
 - Support route execution priority or rely on order of inclusion?
+- How to handle duplicated/overlapping routes?
+
 - Expose event notification (luga.Notifier)
 - Allows arbitrary payload to be passed by a route
 - Retrieve state object (if any, created by pushState) to be passed by a route
