@@ -13,7 +13,6 @@ ROUTER:
 - Support route execution priority or rely on order of inclusion?
   Sort routes alphanumerically to define priority?
 
-- Enforce singleton with getInstance()
 - By default routes are locked. Global .setUp() or add() config may alter this
 
 - Expose event notification (luga.Notifier)
