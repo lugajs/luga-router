@@ -14,22 +14,18 @@ module.exports = function(config) {
 			// Libs
 			"lib/jquery/jquery.min.js",
 			"lib/lugajs/luga.core.min.js",
+			"test/lib/jasmine/jasmine-ducktype.js",
 
 			// Jasmine libs and configuration
-			"test/lib/jasmine/jasmine-jquery.js",
 			"test/lib/jasmine/jasmine-tree.min.js",
 			"test/lib/jasmine/asmine-tree.css",
-			"test/fixtures.karma.config.js",
 
 			// Source files
 			"src/luga.router.js",
 			"src/luga.history.js",
 
 			// Test specs
-			"test/spec/*.Spec.js",
-
-			// Fixtures
-			{pattern: "test/fixtures/**/*.htm", watched: true, served: true, included: false}
+			"test/spec/*.Spec.js"
 		],
 		// if true, Karma captures browsers, runs the tests and exits
 		singleRun: false,
