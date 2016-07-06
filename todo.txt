@@ -1,6 +1,3 @@
-- Be isomorphic, don't depend on jQuery
-
-
 DOCS:
 
 - Add navigation
