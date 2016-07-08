@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-03T14:59:54.306Z
+luga-router 0.1.0 2016-07-06T10:56:24.613Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -8,37 +8,38 @@ if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
 
+luga.namespace("luga.router");
+luga.router.version = "0.1.0";
+
 (function(){
 	"use strict";
 
+	var instance = null;
+
 	/**
-	 * @typedef {object} luga.Router.options
-	 *
+	 * Static accessor method
+	 * @returns {Router}
 	 */
+	luga.router.getInstance = function(){
+		if(instance === null){
+			instance = new Router();
+		}
+		return instance;
+	};
 
 	/**
 	 * Router class
-	 *
-	 * @param {luga.Router.options} options
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires routeChanged
 	 */
-	luga.Router = function(options){
+	var Router = function(){
 
-		var CONST = {
-			ERROR_MESSAGES: {}
-		};
-
-		var config = {};
-		luga.merge(config, options);
 		luga.extend(luga.Notifier, this);
 
-		/** @type {luga.Router} */
+		/** @type {Router} */
 		var self = this;
 	};
-
-	luga.Router.version = "0.1.0";
 
 }());
 (function(){

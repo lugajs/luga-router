@@ -1,10 +1,6 @@
-- Be isomorphic, don't depend on jQuery
-
-
 DOCS:
 
-- Add navigation
-- Link to dist/minified .js files
+- Start
 
 -------------
 
@@ -35,14 +31,3 @@ ROUTER:
   Should we use Express's syntax? http://expressjs.com/en/guide/routing.html
   Or more Crossroad? https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
 - Path can be only string or RegExp too?
-
--------------
-
-HISTORY:
-
-- Encode/decode fragment?
-- Expose state object when using pushState?
-- Document implication of pushState:
-  https://github.com/flatiron/director#history-api
-
-- Document basic HTML alternative: <a href="#/books">#/books</a>
