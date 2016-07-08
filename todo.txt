@@ -6,7 +6,7 @@ DOCS:
 
 ROUTER:
 
-- Support route execution priority or rely on order of inclusion?
+- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win
   Sort routes alphanumerically to define priority?
 
 - By default routes are locked. Global .setUp() or add() config may alter this
@@ -26,8 +26,9 @@ ROUTER:
 - Router.clear() -> remove all routes
 - Router.setUp() -> set merge strategy
 
-
 - route definitions and matching syntax
   Should we use Express's syntax? http://expressjs.com/en/guide/routing.html
   Or more Crossroad? https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
 - Path can be only string or RegExp too?
+
+- In order to stay isomorphic we can't read HTTP metod or headers
