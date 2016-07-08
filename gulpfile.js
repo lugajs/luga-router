@@ -17,7 +17,7 @@ var pkg = require("./package.json");
 
 var CONST = {
 	SRC_ROUTER: "src/luga.router.js",
-	SRC_FILES: ["src/luga.router.js","src/luga.history.js"],
+	SRC_FILES: ["src/luga.router.js"],
 	DIST_FOLDER: "dist",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_FILE: "luga.router.js",
