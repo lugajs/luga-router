@@ -31,4 +31,4 @@ ROUTER:
   Or more Crossroad? https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
 - Path can be only string or RegExp too?
 
-- In order to stay isomorphic we can't read HTTP metod or headers (Like Spring or .MET MVC)
+- In order to stay isomorphic we can't read HTTP method or headers (Like Spring or .MET MVC)
