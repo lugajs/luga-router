@@ -34,6 +34,27 @@ luga.router.version = "0.1.0";
 
 		/** @type {Router} */
 		var self = this;
+
+		/**
+		 * Bootstrap the Router
+		 * If inside a browser, start listening to the "hashchange" and "popstate" events
+		 */
+		this.start = function(){
+			/* istanbul ignore else */
+			if(window !== undefined){
+				window.addEventListener("hashchange", self.onHashChange, false);
+				window.addEventListener("popstate", self.onPopstate, false);
+			}
+		};
+
+		this.onHashChange = function(){
+
+		};
+
+		this.onPopstate = function(){
+
+		};
+
 	};
 
 }());

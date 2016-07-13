@@ -18,7 +18,6 @@ ROUTER:
 - Parameters data to be passed by a route
 - Tokenized path to be passed by a route (nice to have)
 
-- Router.start()
 - Router.stop()
 - Router.add(path, callbacks, config)
 - Router.remove()
