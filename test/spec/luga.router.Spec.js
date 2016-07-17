@@ -4,7 +4,7 @@ describe("luga.router", function(){
 
 	var baseRouter;
 	beforeEach(function(){
-		baseRouter = luga.router.getInstance();
+		baseRouter = new luga.router.Router();
 	});
 
 	it("Lives inside its own namespace", function(){
@@ -17,38 +17,30 @@ describe("luga.router", function(){
 		});
 	});
 
-	describe(".getInstance()", function(){
+	describe(".Router:", function(){
 
-		it("Return a reference to the router  singleton", function(){
-			expect(baseRouter).toBeDefined();
+		it("Is the base router constructor", function(){
+			expect(luga.router.Router).toBeDefined();
 		});
 
-		it("Return a reference to the same object if invoked multiple times", function(){
-			expect(baseRouter).toBe(luga.router.getInstance());
+		it("Implements the luga.Notifier interface", function(){
+			var MockNotifier = function(){
+				luga.extend(luga.Notifier, this);
+			};
+			expect(baseRouter).toMatchDuckType(new MockNotifier());
 		});
 
-		describe("The router:", function(){
+		describe(".start()", function(){
 
-			it("Implements the luga.Notifier interface", function(){
-				var MockNotifier = function(){
-					luga.extend(luga.Notifier, this);
-				};
-				expect(baseRouter).toMatchDuckType(new MockNotifier());
+			it("Add a listener to window.hashchange and window.popstate", function(){
+				spyOn(window, "addEventListener");
+
+				baseRouter.start();
+				expect(window.addEventListener.calls.count()).toEqual(2);
+				expect(window.addEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+				expect(window.addEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
 			});
 
-		});
-
-	});
-
-	describe(".start()", function(){
-
-		it("Add a listener to window.hashchange and window.popstate", function(){
-			spyOn(window, "addEventListener");
-
-			baseRouter.start();
-			expect(window.addEventListener.calls.count()).toEqual(2);
-			expect(window.addEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
-			expect(window.addEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
 		});
 
 	});
