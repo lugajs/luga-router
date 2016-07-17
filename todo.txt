@@ -1,6 +1,8 @@
 DOCS:
 
-- Start
+- Multiple router instances are possible (explain the implications)
+
+- Integration with luga.history
 
 -------------
 
@@ -8,43 +10,42 @@ ROUTER:
 
 - Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win
 
-- Is the router a singleton or we can have multiple instances?
-  In case we go for a singleton, by default routes are locked. Global .setUp() or add() config may alter this
+- Greedy mode allows multiple routes matching(off by default)
 
-- Do we want to allow multiple routes matching? If yes, this greedy mode is off by default
-
-- Expose events notification (routeMatch, routeSwitch)
+- Expose events notification (routeMatch, routeSwitch?)
 
 - Allows arbitrary payload to be passed by a route
 - Retrieve state object (if any, created by pushState) to be passed by a route
 - Parameters data to be passed by a route
 - As many useful data to be passed by a route (including the route object itself)
 
+- The path is a route's unique identifier. Router.add() throws an exception in case of duplicated paths
+
 - Router.stop()
-- Router.add(path, callback|[callback], options) @return {luga.Route}
+- Router.add(path, callback|[callback], options) @return {luga.Route}|{custom.Route}
 - Router.add({luga.Route})
 - Router.remove(path)
 - Router.getRoutes() @return array.<{luga.Route}>
+- Router.findMatch(fragment) @return {luga.Route}|undefined
 - Router.clear() -> remove all routes
 - Router.setUp() -> set options
 
-- Router.sort() Sort routes alphanumerically to further improve priority?
-
 - Router.options = {
      rootPath: {string}
+     greedy: {boolean}
 }
 
 - Static luga.router.patternLexer class compiles route paths into RegExp
 
 - Route.path
-- Route.match()
+- Route.match(fragment)
 - Route.execute()
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
 
-- Path can be only string or RegExp too?
+- Path can be only string, RegExp are not allowed
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (none does)
