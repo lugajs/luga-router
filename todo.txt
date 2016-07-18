@@ -12,7 +12,7 @@ ROUTER:
 
 - Greedy mode allows multiple routes matching(off by default)
 
-- Expose events notification (routeMatch, routeSwitch?)
+- Expose events notification (routeEnter, routeExit)
 
 - Allows arbitrary payload to be passed by a route
 - Retrieve state object (if any, created by pushState) to be passed by a route
@@ -39,7 +39,8 @@ ROUTER:
 
 - Route.path
 - Route.match(fragment)
-- Route.execute()
+- Route.enter()
+- Route.exit()
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
