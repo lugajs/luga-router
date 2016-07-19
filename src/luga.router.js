@@ -34,6 +34,18 @@ luga.router.version = "0.1.0";
 			}
 		};
 
+		/**
+		 * Stop the Router
+		 * If inside a browser, stop listening to the "hashchange" and "popstate" events
+		 */
+		this.stop = function(){
+			/* istanbul ignore else */
+			if(window !== undefined){
+				window.removeEventListener("hashchange", self.onHashChange, false);
+				window.removeEventListener("popstate", self.onPopstate, false);
+			}
+		};
+
 		this.onHashChange = function(){
 
 		};

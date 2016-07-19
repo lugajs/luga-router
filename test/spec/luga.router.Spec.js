@@ -43,6 +43,19 @@ describe("luga.router", function(){
 
 		});
 
+		describe(".stop()", function(){
+
+			it("Remove the listener from window.hashchange and window.popstate", function(){
+				spyOn(window, "removeEventListener");
+
+				baseRouter.stop();
+				expect(window.removeEventListener.calls.count()).toEqual(2);
+				expect(window.removeEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+				expect(window.removeEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
+			});
+
+		});
+
 	});
 
 });

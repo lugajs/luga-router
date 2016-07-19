@@ -21,7 +21,6 @@ ROUTER:
 
 - The path is a route's unique identifier. Router.add() throws an exception in case of duplicated paths
 
-- Router.stop()
 - Router.add(path, callback|[callback], options) @return {luga.Route}|{custom.Route}
 - Router.add({luga.Route})
 - Router.remove(path)
