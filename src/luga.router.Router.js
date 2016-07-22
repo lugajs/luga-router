@@ -71,10 +71,9 @@
 		 * @returns {luga.router.iRoute|undefined}
 		 */
 		this.getRoute = function(path){
-			var matchingRoute = routes.find(function(element, index, array){
+			return routes.find(function(element, index, array){
 				return element.path === path;
 			});
-			return matchingRoute;
 		};
 
 		/**
