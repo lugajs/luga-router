@@ -21,11 +21,11 @@ ROUTER:
 
 - The path is a route's unique identifier. Router.add() throws an exception in case of duplicated paths
 
-- Router.add(path, callback|[callback], options) @return {luga.Route}|{custom.Route}
-- Router.add({luga.Route})
+- Router.add(path, callback|[callback], options) @return {luga.router.iRoute}
+- Router.add({luga.router.iRoute})
 - Router.remove(path)
-- Router.getRoutes() @return array.<{luga.Route}>
-- Router.findMatch(fragment) @return {luga.Route}|undefined
+- Router.getRoutes() @return array.<{luga.router.iRoute}>
+- Router.findMatch(fragment) @return {luga.router.iRoute}|undefined
 - Router.clear() -> remove all routes
 - Router.setUp() -> set options
 
@@ -35,11 +35,6 @@ ROUTER:
 }
 
 - Static luga.router.patternLexer class compiles route paths into RegExp
-
-- Route.path
-- Route.match(fragment)
-- Route.enter()
-- Route.exit()
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
