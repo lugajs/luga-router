@@ -40,14 +40,15 @@
 		/** @type {luga.router.iRoute} */
 		var self = this;
 
+		// TODO: turn path into RegExp
 		this.path = config.path;
 
 		/**
-		 * Execute registered exit callbacks, if any
+		 * Execute registered enter callbacks, if any
 		 */
 		this.enter = function(){
 			config.enterCallBacks.forEach(function(element, i, collection){
-				element.call();
+				element.apply(null, []);
 			});
 		};
 
@@ -56,7 +57,7 @@
 		 */
 		this.exit = function(){
 			config.exitCallBacks.forEach(function(element, i, collection){
-				element.call();
+				element.apply(null, []);
 			});
 		};
 

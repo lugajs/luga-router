@@ -36,6 +36,9 @@ ROUTER:
 
 - Static luga.router.patternLexer class compiles route paths into RegExp
 
+- Static utilities:
+  luga.router.isValidRoute()
+
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html

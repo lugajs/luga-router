@@ -14,6 +14,9 @@
 		/** @type {luga.router.Router} */
 		var self = this;
 
+		/** @type {array.<luga.router.iRoute>} */
+		var routes = [];
+
 		/**
 		 * Bootstrap the Router
 		 * If inside a browser, start listening to the "hashchange" and "popstate" events
