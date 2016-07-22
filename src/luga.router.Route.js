@@ -13,6 +13,7 @@
  * @property {string}           path              Path. Required
  * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
  * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+ * @property {object} payload
  */
 
 (function(){
@@ -32,7 +33,8 @@
 		var config = {
 			path: "",
 			enterCallBacks: [],
-			exitCallBacks: []
+			exitCallBacks: [],
+			payload: undefined
 		};
 
 		luga.merge(config, options);
