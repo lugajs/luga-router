@@ -1,7 +1,6 @@
 DOCS:
 
 - Multiple router instances are possible (explain the implications)
-
 - Integration with luga.history
 
 -------------
@@ -9,6 +8,11 @@ DOCS:
 ROUTER:
 
 - Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win
+
+- Router.add(path, callback|[callback], options) @return {luga.router.iRoute}
+  Path can be only string, RegExp are not allowed
+- Router.findMatch(fragment) @return {luga.router.iRoute}|undefined
+- Router.execute(fragment)
 
 - Greedy mode allows multiple routes matching(off by default)
 
@@ -19,16 +23,10 @@ ROUTER:
 - Parameters data to be passed by a route
 - As many useful data to be passed by a route (including the route object itself)
 
-- The path is a route's unique identifier. Router.add() throws an exception in case of duplicated paths
-
-- Router.add(path, callback|[callback], options) @return {luga.router.iRoute}
-- Router.add({luga.router.iRoute})
 - Router.remove(path)
-- Router.getRoutes() @return array.<{luga.router.iRoute}>
-- Router.findMatch(fragment) @return {luga.router.iRoute}|undefined
-- Router.clear() -> remove all routes
-- Router.setUp() -> set options
+- Router.removeAllRoutes() -> remove all routes
 
+- Router.setUp() -> set options
 - Router.options = {
      rootPath: {string}
      greedy: {boolean}
@@ -40,8 +38,6 @@ ROUTER:
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
-
-- Path can be only string, RegExp are not allowed
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (none does)

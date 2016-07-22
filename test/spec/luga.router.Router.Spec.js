@@ -2,9 +2,27 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var baseRouter;
+	var emptyRouter, baseRouter, firstRoute, secondRoute;
 	beforeEach(function(){
+
+		emptyRouter = new luga.router.Router();
 		baseRouter = new luga.router.Router();
+
+		firstRoute = new luga.router.Route({
+			path: "test/first",
+			enterCallBacks: [],
+			exitCallBacks: []
+		});
+
+		secondRoute = new luga.router.Route({
+			path: "test/second",
+			enterCallBacks: [],
+			exitCallBacks: []
+		});
+
+		baseRouter.add(firstRoute);
+		baseRouter.add(secondRoute);
+
 	});
 
 	it("Is the base router constructor", function(){
@@ -16,6 +34,59 @@ describe("luga.router.Router", function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(baseRouter).toMatchDuckType(new MockNotifier());
+	});
+
+	describe(".add()", function(){
+
+		describe("If invoked passing just a single route object:", function(){
+
+			it("Register the route", function(){
+				emptyRouter.add(firstRoute);
+				expect(emptyRouter.getAllRoutes().length).toEqual(1);
+				expect(emptyRouter.getAllRoutes()[0]).toEqual(firstRoute);
+			});
+
+			it("Throws an exception if the given object is not a valid route", function(){
+				expect(function(){
+					emptyRouter.add({});
+				}).toThrow();
+			});
+
+			it("Throws an exception if the given object path is associated with an already registered route ", function(){
+				emptyRouter.add(firstRoute);
+				expect(function(){
+					emptyRouter.add(firstRoute);
+				}).toThrow();
+			});
+
+		});
+
+	});
+
+	describe(".getAllRoutes()", function(){
+
+		it("Return an array containing all the registered route objects", function(){
+			expect(baseRouter.getAllRoutes().length).toEqual(2);
+			expect(baseRouter.getAllRoutes()[0]).toEqual(firstRoute);
+			expect(baseRouter.getAllRoutes()[1]).toEqual(secondRoute);
+		});
+
+		it("Return an empty array on a freshly create Router", function(){
+			expect(emptyRouter.getAllRoutes().length).toEqual(0);
+		});
+
+	});
+
+	describe(".getRoute()", function(){
+
+		it("Return a registered route object matching the given path", function(){
+			expect(baseRouter.getRoute("test/first")).toEqual(firstRoute);
+		});
+
+		it("Return undefined if there is no match", function(){
+			expect(baseRouter.getRoute("xx/xx")).toBeUndefined();
+		});
+
 	});
 
 	describe(".start()", function(){

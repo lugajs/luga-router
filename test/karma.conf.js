@@ -17,6 +17,8 @@ module.exports = function(config) {
 
 			// Source files
 			"src/luga.router.js",
+			"src/luga.router.Route.js",
+			"src/luga.router.Router.js",
 
 			// Jasmine custom matcher. Requires Luga
 			"test/lib/jasmine/jasmine-ducktype.js",
