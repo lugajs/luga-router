@@ -8,9 +8,12 @@ describe("luga.router.RouteHandler", function(){
 		path = "test/path";
 
 		callBacks = {
-			enter: function(){},
-			secondEnter: function(){},
-			exit: function(){}
+			enter: function(){
+			},
+			secondEnter: function(){
+			},
+			exit: function(){
+			}
 		};
 
 		spyOn(callBacks, "enter");
@@ -27,6 +30,14 @@ describe("luga.router.RouteHandler", function(){
 
 	it("Is the base routeHandler constructor", function(){
 		expect(luga.router.RouteHandler).toBeDefined();
+	});
+
+	it("Throws an exception if a RegExp is passed to the constructor as path", function(){
+		expect(function(){
+			new luga.router.RouteHandler({
+				path: new RegExp("")
+			});
+		}).toThrow();
 	});
 
 	describe(".enter()", function(){

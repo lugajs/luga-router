@@ -27,6 +27,12 @@
 	 */
 	luga.router.RouteHandler = function(options){
 
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_PATH_REGEXP: "luga.router.RouteHandler: Invalid path. You must use strings, RegExp are not allowed"
+			}
+		};
+
 		/**
 		 * @type {luga.router.iRouteHandler.options}
 		 */
@@ -39,7 +45,11 @@
 
 		luga.merge(config, options);
 
-		// TODO: turn path into RegExp
+		if(luga.type(config.path) === "regexp"){
+			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
+		}
+
+		// TODO: compile path
 		this.path = config.path;
 
 		/**
