@@ -14,7 +14,6 @@ DOCS:
 
 ROUTER:
 
-- Test routeContext.fragment
 - Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
   Path can be only string, RegExp are not allowed. Throw an exception
 

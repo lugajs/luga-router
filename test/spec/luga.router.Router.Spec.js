@@ -211,6 +211,18 @@ describe("luga.router.Router", function(){
 					expect(firstHandler.enter).toHaveBeenCalled();
 				});
 
+				describe("Passing the route's context. Containing the following keys:", function(){
+
+					it("context.fragment", function(){
+						spyOn(firstHandler, "enter");
+						baseRouter.resolve("test/first");
+						expect(firstHandler.enter).toHaveBeenCalledWith({
+							fragment: "test/first"
+						});
+					});
+
+				});
+
 			});
 
 			describe("If the Router already matched at least one route:", function(){
