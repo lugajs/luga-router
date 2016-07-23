@@ -224,7 +224,7 @@
 		};
 
 		this.onHashChange = function(){
-
+			self.resolve(location.hash.substring(1));
 		};
 
 		this.onPopstate = function(){

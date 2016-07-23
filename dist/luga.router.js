@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T15:42:00.454Z
+luga-router 0.1.0 2016-07-23T16:21:05.522Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -258,7 +258,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.onHashChange = function(){
-
+			self.resolve(location.hash.substring(1));
 		};
 
 		this.onPopstate = function(){
