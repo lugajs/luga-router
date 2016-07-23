@@ -18,10 +18,10 @@ ROUTER:
 
 - Expose events notification (routeEnter, routeExit)
 
-- Allows arbitrary payload to be passed by a route
-- Retrieve state object (if any, created by pushState) to be passed by a route
-- Parameters data to be passed by a route
-- As many useful data to be passed by a route (including the route object itself)
+- Allows arbitrary payload to be passed along the route context
+- Retrieve state object (if any, created by pushState) to be passed along the route context
+- Parameters data to be passed along the route context
+- As many useful data to be passed along the route context (including the route object itself?)
 
 - Router.remove(path)
 - Router.removeAllRoutes() -> remove all routes
@@ -40,4 +40,4 @@ ROUTER:
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
-  We can't handle HTTP headers too (none does)
+  We can't handle HTTP headers too (other libraries don't either)
