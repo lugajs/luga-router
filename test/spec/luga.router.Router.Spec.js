@@ -73,7 +73,30 @@ describe("luga.router.Router", function(){
 
 	describe(".add()", function(){
 
-		describe("If invoked passing just a single routeHandler object:", function(){
+		var path, callBacks;
+		beforeEach(function(){
+
+			path = "test/path";
+
+			callBacks = {
+				enter: function(){
+				},
+				secondEnter: function(){
+				},
+				exit: function(){
+				},
+				secondExit: function(){
+				}
+			};
+
+			spyOn(callBacks, "enter");
+			spyOn(callBacks, "secondEnter");
+			spyOn(callBacks, "exit");
+			spyOn(callBacks, "secondExit");
+
+		});
+
+		describe("If invoked passing just a routeHandler object as first and only argument:", function(){
 
 			it("Register the routeHandler", function(){
 				emptyRouter.add(firstHandler);
@@ -92,6 +115,54 @@ describe("luga.router.Router", function(){
 				expect(function(){
 					emptyRouter.add(firstHandler);
 				}).toThrow();
+			});
+
+		});
+
+		describe("If invoked passing multiple arguments:", function(){
+
+			it("The first argument, path is a string:", function(){
+				expect(emptyRouter.getByPath(path)).toBeUndefined();
+				emptyRouter.add(path);
+				expect(emptyRouter.getByPath(path)).not.toBeUndefined();
+			});
+
+			describe("The second argument, enterCallBack, can be either:", function(){
+
+				it("A single function", function(){
+					emptyRouter.add(path, callBacks.enter);
+					var handler = emptyRouter.getByPath(path);
+					handler.enter();
+					expect(callBacks.enter).toHaveBeenCalled();
+				});
+
+				it("An array of functions", function(){
+					emptyRouter.add(path, [callBacks.enter, callBacks.secondEnter]);
+					var handler = emptyRouter.getByPath(path);
+					handler.enter();
+					expect(callBacks.enter).toHaveBeenCalled();
+					expect(callBacks.secondEnter).toHaveBeenCalled();
+				});
+
+			});
+
+			describe("The third argument, exitCallBacks, can be either:", function(){
+
+				it("A single function", function(){
+					emptyRouter.add(path, undefined, callBacks.exit);
+					var handler = emptyRouter.getByPath(path);
+					handler.exit();
+					expect(callBacks.exit).toHaveBeenCalled();
+				});
+
+				it("An array of functions", function(){
+					emptyRouter.add(path, callBacks.enter, [callBacks.exit, callBacks.secondExit]);
+					var handler = emptyRouter.getByPath(path);
+					handler.exit();
+					expect(callBacks.exit).toHaveBeenCalled();
+					expect(callBacks.secondExit).toHaveBeenCalled();
+				});
+
 			});
 
 		});

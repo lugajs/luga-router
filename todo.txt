@@ -6,17 +6,16 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
-- routeContext: fragment, payload
+- routeContext properties: fragment, payload
 
 - Integration with luga.history
 
+- Router.add() is overloaded, explain signatures
 - Path can only be strings, RexExp aren't allowed
 
 -------------
 
 ROUTER:
-
-- Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
 
 - Router.onPopstate(): implement and test
   Retrieve state object (if any, created by pushState) to be passed along the route context

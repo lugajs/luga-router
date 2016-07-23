@@ -85,7 +85,7 @@
 					options.enterCallBacks = [enterCallBack];
 				}
 				if(luga.isArray(exitCallBack) === true){
-					options.enterCallBacks = exitCallBack;
+					options.exitCallBacks = exitCallBack;
 				}
 				if(luga.type(exitCallBack) === "function"){
 					options.exitCallBacks = [exitCallBack];
