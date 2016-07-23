@@ -77,6 +77,18 @@
 		};
 
 		/**
+		 * Return a registered route object matching the given fragment
+		 * Return undefined if none is fund
+		 * @param {string} fragment
+		 * @returns {luga.router.iRouteHandler|undefined}
+		 */
+		this.getMatchingHandler = function(fragment){
+			return routeHandlers.find(function(element, index, array){
+				return element.match(fragment) === true;
+			});
+		};
+
+		/**
 		 * Bootstrap the Router
 		 * If inside a browser, start listening to the "hashchange" and "popstate" events
 		 */

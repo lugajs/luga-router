@@ -77,14 +77,14 @@ describe("luga.router.Router", function(){
 
 	});
 
-	describe(".findMatch()", function(){
+	describe(".getMatchingHandler()", function(){
 
 		it("Return a registered route object matching the given fragment", function(){
-			expect(baseRouter.getHandlerByPath("test/first")).toEqual(firstRoute);
+			expect(baseRouter.getMatchingHandler("test/first")).toEqual(firstRoute);
 		});
 
 		it("Return undefined if there is no match", function(){
-			expect(baseRouter.getHandlerByPath("xx/xx")).toBeUndefined();
+			expect(baseRouter.getMatchingHandler("xx/xx")).toBeUndefined();
 		});
 
 	});

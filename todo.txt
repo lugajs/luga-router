@@ -12,8 +12,7 @@ ROUTER:
 
 - Router.add(path, callback|[callback], payload) @return {luga.router.iRoute}
   Path can be only string, RegExp are not allowed
-- Router.findMatch(fragment) @return {luga.router.iRouteHandler}|undefined
-- Router.execute(fragment)
+- Router.handle(fragment)
 
 - Greedy mode allows multiple routes matching(off by default)
 
