@@ -31,8 +31,7 @@ ROUTER:
 - Static utilities:
   luga.router.compilePath(path) compiles route paths into RegExp
 
-- Parameters data to be passed along the route context
-- As many useful data to be passed along the route context
+- Parameters and as many useful data to be passed along the route context
 
 -------------
 
