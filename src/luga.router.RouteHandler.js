@@ -1,13 +1,4 @@
 /**
- * @typedef {object} luga.router.iRouteHandler
- *
- * @property {string} path
- * @property {function} enter
- * @property {function} exit
- * @property {function} match
- */
-
-/**
  * @typedef {object} luga.router.iRouteHandler.options
  *
  * @property {string}           path              Path. Required
@@ -69,6 +60,15 @@
 			config.exitCallBacks.forEach(function(element, i, collection){
 				element.apply(null, []);
 			});
+		};
+
+		/**
+		 * Return the handler payload, if any
+		 * Return undefined if no payload is associated with the handler
+		 * @returns {luga.router.routeContext|undefined}
+		 */
+		this.getPayload = function(){
+			return config.payload;
 		};
 
 		/**

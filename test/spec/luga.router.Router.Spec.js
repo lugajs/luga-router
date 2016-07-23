@@ -221,6 +221,22 @@ describe("luga.router.Router", function(){
 						});
 					});
 
+					it("context.payload (if specified by the routeHandler)", function(){
+						var payloadObj = {name: "myPayload"};
+						var payloadHandler = new luga.router.RouteHandler({
+							path: "test/payload",
+							payload: payloadObj
+						});
+						spyOn(payloadHandler, "enter");
+						emptyRouter.add(payloadHandler);
+
+						emptyRouter.resolve("test/payload");
+						expect(payloadHandler.enter).toHaveBeenCalledWith({
+							fragment: "test/payload",
+							payload: payloadObj
+						});
+					});
+
 				});
 
 			});

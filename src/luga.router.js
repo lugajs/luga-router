@@ -3,6 +3,16 @@ if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
 
+/**
+ * @typedef {object} luga.router.iRouteHandler
+ *
+ * @property {string} path
+ * @property {function} enter
+ * @property {function} exit
+ * @property {function} getPayload
+ * @property {function} match
+ */
+
 (function(){
 	"use strict";
 
@@ -19,6 +29,7 @@ if(typeof(luga) === "undefined"){
 			if((luga.type(obj.path) === "string") &&
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
+				(luga.type(obj.getPayload) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}

@@ -187,19 +187,13 @@
 		 */
 		this.resolve = function(fragment){
 			var matches = self.getMatch(fragment);
-
-			/** @type {luga.router.routeContext} */
-			var context = {
-				fragment: fragment
-			};
-
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches], context);
+				enter([matches], fragment);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches, context);
+				enter(matches, fragment);
 			}
 		};
 
@@ -207,11 +201,18 @@
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
-		 * @param {luga.router.routeContext} context
+		 * @param {string} fragment
 		 */
-		var enter = function(handlers, context){
+		var enter = function(handlers, fragment){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
+				/** @type {luga.router.routeContext} */
+				var context = {
+					fragment: fragment
+				}
+				if(element.getPayload() !== undefined){
+					context.payload = element.getPayload();
+				}
 				element.enter(context);
 			});
 		};

@@ -18,8 +18,6 @@ ROUTER:
 
 - Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
 
-- Add payload to route context and test
-
 - Router.onPopstate(): implement and test
   Retrieve state object (if any, created by pushState) to be passed along the route context
 
