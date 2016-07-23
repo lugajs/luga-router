@@ -4,7 +4,7 @@ DOCS:
 
 - Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win.
   If no match is found, nothing happens
-- Greedy mode allows multiple routes matching (false by default)
+- Greedy mode allows multiple routes matching (false by default). Less efficient
 
 - Integration with luga.history
 
@@ -12,7 +12,7 @@ DOCS:
 
 ROUTER:
 
-- Router.add(path, callback|[callback], payload) @return {luga.router.iRoute}
+- Router.add(path, callback|[callback], payload)
   Path can be only string, RegExp are not allowed
 - Router.handle(fragment)
 
@@ -38,4 +38,4 @@ ROUTER:
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
 
-- Use Router uses luga.Route by default, make this configurable?
+- Router uses luga.RouteHandler by default, make this configurable?
