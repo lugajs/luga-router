@@ -1,6 +1,7 @@
 DOCS:
 
 - Multiple router instances are possible (explain the implications)
+- Greedy mode allows multiple routes matching (false by default)
 - Integration with luga.history
 
 -------------
@@ -14,8 +15,6 @@ ROUTER:
   Path can be only string, RegExp are not allowed
 - Router.handle(fragment)
 
-- Greedy mode allows multiple routes matching(off by default)
-
 - Expose events notification (routeEnter, routeExit)
 
 - Allows arbitrary payload to be passed along the route context
@@ -25,12 +24,6 @@ ROUTER:
 
 - Router.removeHandler(path)
 - Router.removeAllHandlers() -> remove all routes
-
-- Router.setUp() -> set options
-- Router.options = {
-     rootPath: {string}
-     greedy: {boolean}
-}
 
 - Static utilities:
   luga.router.compilePath(path) compiles route paths into RegExp

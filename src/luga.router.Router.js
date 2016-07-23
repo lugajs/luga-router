@@ -1,14 +1,22 @@
+/**
+ * @typedef {object} luga.router.options
+ *
+ * @property {string} rootPath     Default to empty string
+ * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
+ */
+
 (function(){
 	"use strict";
 
 	/**
 	 * Router class
+	 * @param options {luga.router.options}
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires routeEnter
 	 * @fires routeExit
 	 */
-	luga.router.Router = function(){
+	luga.router.Router = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
@@ -19,11 +27,24 @@
 
 		luga.extend(luga.Notifier, this);
 
+		/**
+		 * @type {luga.router.options}
+		 */
+		var config = {
+			rootPath: "",
+			greedy: false
+		};
+
+		luga.merge(config, options);
+
 		/** @type {luga.router.Router} */
 		var self = this;
 
 		/** @type {array.<luga.router.iRouteHandler>} */
 		var routeHandlers = [];
+
+		/** @type {array.<luga.router.iRouteHandler>} */
+		var currentHandlers = [];
 
 		/**
 		 * Add a Route. It can be invoked with two different sets of arguments:
@@ -86,6 +107,16 @@
 			return routeHandlers.find(function(element, index, array){
 				return element.match(fragment) === true;
 			});
+		};
+
+		/**
+		 * Change current configuration
+		 * @param {luga.router.options} options
+		 * @returns {luga.router.options}
+		 */
+		this.setup = function(options){
+			luga.merge(config, options);
+			return config;
 		};
 
 		/**

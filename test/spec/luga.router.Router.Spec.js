@@ -101,6 +101,34 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".setup()", function(){
+
+		describe("If called with no arguments. Return an object containing name/value pairs:", function(){
+
+			it("rootPath = empty string", function(){
+				expect(baseRouter.setup().rootPath).toEqual("");
+			});
+
+			it("greedy = greedy", function(){
+				expect(baseRouter.setup().greedy).toEqual(false);
+			});
+
+		});
+
+		describe("If a set of name/value pairs is passed as argument. Set the following configuration options:", function(){
+
+			it("rootPath", function(){
+				expect(baseRouter.setup({rootPath: "xxx"}).rootPath).toEqual("xxx");
+			});
+
+			it("greedy", function(){
+				expect(baseRouter.setup({greedy: true}).greedy).toEqual(true);
+			});
+
+		});
+
+	});
+
 	describe(".start()", function(){
 
 		it("Add a listener to window.hashchange and window.popstate", function(){
