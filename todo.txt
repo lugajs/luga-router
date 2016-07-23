@@ -14,15 +14,18 @@ DOCS:
 
 ROUTER:
 
-- Router.add(path, callback|[callback], payload)
+- Test router.onHashChange()
+- Test routeContext
+
+- Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
   Path can be only string, RegExp are not allowed
+  Allows arbitrary payload to be passed along the route context
 
 - Expose events notification (routeEnter, routeExit)
 
-- Allows arbitrary payload to be passed along the route context
 - Retrieve state object (if any, created by pushState) to be passed along the route context
 - Parameters data to be passed along the route context
-- As many useful data to be passed along the route context (including the routeHandler itself?)
+- As many useful data to be passed along the route context
 
 - Static utilities:
   luga.router.compilePath(path) compiles route paths into RegExp
