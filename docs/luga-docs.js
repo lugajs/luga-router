@@ -38,7 +38,6 @@ luga.namespace("luga.docs");
 
 		var loadRouter = function(){
 
-
 			var rootHandler = new luga.router.RouteHandler({
 				path: "index",
 				enterCallBacks: [routeResolver]
@@ -75,7 +74,7 @@ luga.namespace("luga.docs");
 
 			jQuery.ajax(fragmentUrl)
 				.done(function(response, textStatus, jqXHR){
-
+					// Read include and inject content
 					jQuery(CONST.SELECTORS.CONTENT).empty();
 					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 				})

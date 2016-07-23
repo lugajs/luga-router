@@ -13,7 +13,7 @@
 	<div class="panel-heading">Unit tests</div>
 	<div class="panel-body">
 		<p>
-			Luga Router contains a comprehensive set of <a href="test/SpecRunner.htm">unit tests</a>, developed
+			Luga Router contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>, developed
 			with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
 		</p>
 
@@ -24,7 +24,7 @@
 
 		<p>
 			Code coverage is usually around 100%. You can check <a
-				href="test/coverage/lcov-report/src/index.html">coverage report</a> by yourself
+				href="../test/coverage/lcov-report/src/index.html">coverage report</a> by yourself
 		</p>
 	</div>
 </div>
