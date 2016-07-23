@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T14:16:30.899Z
+luga-router 0.1.0 2016-07-23T15:42:00.454Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -126,9 +126,11 @@ if(typeof(luga) === "undefined"){
 		 * @returns {luga.router.iRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
-			return routeHandlers.find(function(element, index, array){
-				return element.path === path;
-			});
+			for(var i = 0; i < routeHandlers.length; i++){
+				if(routeHandlers[i].path === path){
+					return routeHandlers[i];
+				}
+			}
 		};
 
 		/**
@@ -145,15 +147,80 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
-				return routeHandlers.find(function(element, index, array){
-					return element.match(fragment) === true;
-				});
+				for(var i = 0; i < routeHandlers.length; i++){
+					if(routeHandlers[i].match(fragment) === true){
+						return routeHandlers[i];
+					}
+				}
 			}
 			else{
 				return routeHandlers.filter(function(element, index, array){
 					return element.match(fragment) === true;
 				});
 			}
+		};
+
+		/**
+		 * Remove the routeHandler matching the given path
+		 * Fails silently if the given path does not match any routeHandler
+		 * @param {string} path
+		 */
+		this.remove = function(path){
+			var index = routeHandlers.indexOf(self.getByPath(path));
+			if(index !== -1){
+				routeHandlers.splice(index, 1);
+			}
+		};
+
+		/**
+		 * Remove all routeHandlers
+		 */
+		this.removeAll = function(){
+			routeHandlers = [];
+		};
+
+		/**
+		 * If options.greedy is false either fails silently if no match is fund or:
+		 * 1) Call the exit() method of the previously matched routeHandler
+		 * 2) Call the enter() method of the first registered routeHandler matching the given fragment
+		 *
+		 * If options.greedy is true either fails silently if no match is fund or:
+		 * 1) Call the exit() method of the previously matched routeHandlers
+		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
+		 *
+		 * @param {string} fragment
+		 */
+		this.resolve = function(fragment){
+			var matches = self.getMatch(fragment);
+			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
+				exit();
+				enter([matches]);
+			}
+			if(luga.isArray(matches) === true){
+				exit();
+				enter(matches);
+			}
+		};
+
+		/**
+		 * Overwrite the current handlers with the given ones
+		 * Then execute the enter() method on each of them
+		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 */
+		var enter = function(handlers){
+			currentHandlers = handlers;
+			currentHandlers.forEach(function(element, i, collection){
+				element.enter();
+			});
+		};
+
+		/**
+		 * Execute the exit() method on all the current handlers
+		 */
+		var exit = function(){
+			currentHandlers.forEach(function(element, i, collection){
+				element.exit();
+			});
 		};
 
 		/**
@@ -241,9 +308,6 @@ if(typeof(luga) === "undefined"){
 		};
 
 		luga.merge(config, options);
-
-		/** @type {luga.router.RouteHandler} */
-		var self = this;
 
 		// TODO: turn path into RegExp
 		this.path = config.path;

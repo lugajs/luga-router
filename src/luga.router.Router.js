@@ -92,9 +92,11 @@
 		 * @returns {luga.router.iRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
-			return routeHandlers.find(function(element, index, array){
-				return element.path === path;
-			});
+			for(var i = 0; i < routeHandlers.length; i++){
+				if(routeHandlers[i].path === path){
+					return routeHandlers[i];
+				}
+			}
 		};
 
 		/**
@@ -111,9 +113,11 @@
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
-				return routeHandlers.find(function(element, index, array){
-					return element.match(fragment) === true;
-				});
+				for(var i = 0; i < routeHandlers.length; i++){
+					if(routeHandlers[i].match(fragment) === true){
+						return routeHandlers[i];
+					}
+				}
 			}
 			else{
 				return routeHandlers.filter(function(element, index, array){
@@ -139,6 +143,50 @@
 		 */
 		this.removeAll = function(){
 			routeHandlers = [];
+		};
+
+		/**
+		 * If options.greedy is false either fails silently if no match is fund or:
+		 * 1) Call the exit() method of the previously matched routeHandler
+		 * 2) Call the enter() method of the first registered routeHandler matching the given fragment
+		 *
+		 * If options.greedy is true either fails silently if no match is fund or:
+		 * 1) Call the exit() method of the previously matched routeHandlers
+		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
+		 *
+		 * @param {string} fragment
+		 */
+		this.resolve = function(fragment){
+			var matches = self.getMatch(fragment);
+			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
+				exit();
+				enter([matches]);
+			}
+			if(luga.isArray(matches) === true){
+				exit();
+				enter(matches);
+			}
+		};
+
+		/**
+		 * Overwrite the current handlers with the given ones
+		 * Then execute the enter() method on each of them
+		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 */
+		var enter = function(handlers){
+			currentHandlers = handlers;
+			currentHandlers.forEach(function(element, i, collection){
+				element.enter();
+			});
+		};
+
+		/**
+		 * Execute the exit() method on all the current handlers
+		 */
+		var exit = function(){
+			currentHandlers.forEach(function(element, i, collection){
+				element.exit();
+			});
 		};
 
 		/**

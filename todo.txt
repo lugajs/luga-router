@@ -14,7 +14,6 @@ ROUTER:
 
 - Router.add(path, callback|[callback], payload)
   Path can be only string, RegExp are not allowed
-- Router.resolve(fragment)
 
 - Expose events notification (routeEnter, routeExit)
 

@@ -2,11 +2,12 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var emptyRouter, baseRouter, firstHandler, secondHandler, catchAllHandler;
+	var emptyRouter, baseRouter, greedyRouter, firstHandler, secondHandler, catchAllHandler;
 	beforeEach(function(){
 
 		emptyRouter = new luga.router.Router();
 		baseRouter = new luga.router.Router();
+		greedyRouter = new luga.router.Router({greedy: true});
 
 		firstHandler = new luga.router.RouteHandler({
 			path: "test/first",
@@ -32,6 +33,10 @@ describe("luga.router.Router", function(){
 
 		baseRouter.add(firstHandler);
 		baseRouter.add(secondHandler);
+
+		greedyRouter.add(firstHandler);
+		greedyRouter.add(secondHandler);
+		greedyRouter.add(catchAllHandler);
 
 	});
 
@@ -174,6 +179,86 @@ describe("luga.router.Router", function(){
 			expect(baseRouter.getAll().length).toEqual(2);
 			baseRouter.removeAll();
 			expect(baseRouter.getAll()).toEqual([]);
+		});
+
+	});
+
+	describe(".resolve()", function(){
+
+		it("Fails silently if the given fragment does not match any routeHandler", function(){
+			spyOn(firstHandler, "enter");
+			baseRouter.resolve("no/match");
+			expect(firstHandler.enter).not.toHaveBeenCalled();
+		});
+
+		describe("If options.greedy = false", function(){
+
+			describe("If the Router just started:", function(){
+
+				it("Call the enter() method of the first registered routeHandler matching the given fragment", function(){
+					spyOn(firstHandler, "enter");
+					baseRouter.resolve("test/first");
+					expect(firstHandler.enter).toHaveBeenCalled();
+				});
+
+			});
+
+			describe("If the Router already matched at least one route:", function(){
+
+				it("First: call the exit() method of the previously matched routeHandler", function(){
+					baseRouter.resolve("test/second");
+					spyOn(secondHandler, "exit");
+					baseRouter.resolve("test/first");
+					expect(secondHandler.exit).toHaveBeenCalled();
+				});
+
+				it("Then: call the enter() method of the first registered routeHandler matching the given fragment", function(){
+					baseRouter.resolve("test/second");
+					spyOn(firstHandler, "enter");
+					baseRouter.resolve("test/first");
+					expect(firstHandler.enter).toHaveBeenCalled();
+				});
+
+			});
+
+		});
+
+		describe("If options.greedy = true", function(){
+
+			describe("If the Router just started:", function(){
+
+				it("Call the enter() method of the all registered routeHandlers matching the given fragment", function(){
+					spyOn(firstHandler, "enter");
+					spyOn(catchAllHandler, "enter");
+					greedyRouter.resolve("test/first");
+					expect(firstHandler.enter).toHaveBeenCalled();
+					expect(catchAllHandler.enter).toHaveBeenCalled();
+				});
+
+			});
+
+			describe("If the Router already matched at least one route:", function(){
+
+				it("First: call the exit() method of the previously matched routeHandlers", function(){
+					greedyRouter.resolve("test/second");
+					spyOn(secondHandler, "exit");
+					spyOn(catchAllHandler, "exit");
+					greedyRouter.resolve("test/first");
+					expect(secondHandler.exit).toHaveBeenCalled();
+					expect(catchAllHandler.exit).toHaveBeenCalled();
+				});
+
+				it("Then: call the enter() method of all the registered routeHandlers matching the given fragment", function(){
+					greedyRouter.resolve("test/second");
+					spyOn(firstHandler, "enter");
+					spyOn(catchAllHandler, "enter");
+					greedyRouter.resolve("test/first");
+					expect(firstHandler.enter).toHaveBeenCalled();
+					expect(catchAllHandler.enter).toHaveBeenCalled();
+				});
+
+			});
+
 		});
 
 	});
