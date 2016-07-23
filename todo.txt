@@ -6,21 +6,25 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
+- Router.add() is overloaded, explain signatures
+  Path can only be strings, RexExp aren't allowed
+
+- Enter and exit callbacks
+- Payload
 - routeContext properties: fragment, payload
 
 - Integration with luga.history
-
-- Router.add() is overloaded, explain signatures
-- Path can only be strings, RexExp aren't allowed
 
 -------------
 
 ROUTER:
 
 - Router.onPopstate(): implement and test
-  Retrieve state object (if any, created by pushState) to be passed along the route context
+  document.location.pathname is the fragment
+  Modify luga.history to only modify the pathname, without touching the host?
+  Retrieve historyState object (if any, created by pushState) to be passed along the route context
 
-- Expose events notification (routeEnter, routeExit)
+- Expose events notification (routeEnter, routeExit). Pass context
 
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
@@ -39,5 +43,7 @@ FUTURE:
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
   Should we provide a mechanism for Node.js?
+
+- Router.options.basePath?
 
 - Router.add() create instances of luga.RouteHandler by default, make this configurable?
