@@ -3,7 +3,6 @@ luga.namespace("luga.docs");
 (function(){
 	"use strict";
 
-
 	var Controller = function(){
 
 		var CONST = {

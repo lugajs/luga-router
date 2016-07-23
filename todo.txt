@@ -2,7 +2,7 @@ DOCS:
 
 - Multiple router instances are possible (explain the implications)
 
-- Routes priority rely on order of inclusion. RouteHandlers are processed from top to bottom, the first match win.
+- Priority rely on order of registration. RouteHandlers are processed from top to bottom, the first match win.
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
@@ -14,7 +14,6 @@ DOCS:
 
 ROUTER:
 
-- Test router.onHashChange()
 - Test routeContext
 - Test payload
 - Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
@@ -24,15 +23,18 @@ ROUTER:
 - Expose events notification (routeEnter, routeExit)
 
 - Retrieve state object (if any, created by pushState) to be passed along the route context
-- Parameters data to be passed along the route context
-- As many useful data to be passed along the route context
 
-- Static utilities:
-  luga.router.compilePath(path) compiles route paths into RegExp
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
+
+- Static utilities:
+  luga.router.compilePath(path) compiles route paths into RegExp
+
+- Parameters data to be passed along the route context
+- As many useful data to be passed along the route context
+
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)

@@ -157,6 +157,16 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".onHashChange()", function(){
+
+		it("When invoked, call .resolve() passing location.hash minus #", function(){
+			spyOn(baseRouter, "resolve");
+			baseRouter.onHashChange();
+			expect(baseRouter.resolve).toHaveBeenCalledWith(location.hash.substring(1));
+		});
+
+	});
+
 	describe(".remove()", function(){
 
 		it("Remove the routeHandler matching the given path", function(){
@@ -293,12 +303,15 @@ describe("luga.router.Router", function(){
 
 	describe(".start()", function(){
 
-		it("Add a listener to window.hashchange and window.popstate", function(){
+		it("Add .onHashChange() as listener to window.hashchange", function(){
 			spyOn(window, "addEventListener");
-
 			baseRouter.start();
-			expect(window.addEventListener.calls.count()).toEqual(2);
 			expect(window.addEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+		});
+
+		it("Add .onPopstate() as listener to window.popstate", function(){
+			spyOn(window, "addEventListener");
+			baseRouter.start();
 			expect(window.addEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
 		});
 
@@ -306,12 +319,17 @@ describe("luga.router.Router", function(){
 
 	describe(".stop()", function(){
 
-		it("Remove the listener from window.hashchange and window.popstate", function(){
+		it("Remove .onHashChange() as listener from window.hashchange", function(){
 			spyOn(window, "removeEventListener");
-
 			baseRouter.stop();
 			expect(window.removeEventListener.calls.count()).toEqual(2);
 			expect(window.removeEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+		});
+
+		it("Remove .onPopstate() as listener from window.popstate", function(){
+			spyOn(window, "removeEventListener");
+			baseRouter.stop();
+			expect(window.removeEventListener.calls.count()).toEqual(2);
 			expect(window.removeEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
 		});
 

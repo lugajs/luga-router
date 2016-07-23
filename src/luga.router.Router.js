@@ -64,6 +64,7 @@
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
+			/* istanbul ignore else */
 			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
 				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
 					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
