@@ -3,37 +3,38 @@ if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
 
-luga.namespace("luga.router");
-luga.router.version = "0.1.0";
+/**
+ * @typedef {object} luga.router.iRouteHandler
+ *
+ * @property {string} path
+ * @property {function} enter
+ * @property {function} exit
+ * @property {function} getPayload
+ * @property {function} match
+ */
 
 (function(){
 	"use strict";
 
-	var instance = null;
+	luga.namespace("luga.router");
+	luga.router.version = "0.1.0";
 
 	/**
-	 * Static accessor method
-	 * @returns {Router}
+	 * Return true if the given object implements the luga.router.iRouteHandler interface. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
 	 */
-	luga.router.getInstance = function(){
-		if(instance === null){
-			instance = new Router();
+	luga.router.isValidRouteHandler = function(obj){
+		if(luga.type(obj) === "object"){
+			if((luga.type(obj.path) === "string") &&
+				(luga.type(obj.enter) === "function") &&
+				(luga.type(obj.exit) === "function") &&
+				(luga.type(obj.getPayload) === "function") &&
+				(luga.type(obj.match) === "function")){
+				return true;
+			}
 		}
-		return instance;
-	};
-
-	/**
-	 * Router class
-	 * @constructor
-	 * @extends luga.Notifier
-	 * @fires routeChanged
-	 */
-	var Router = function(){
-
-		luga.extend(luga.Notifier, this);
-
-		/** @type {Router} */
-		var self = this;
+		return false;
 	};
 
 }());

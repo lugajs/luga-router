@@ -1,37 +1,3 @@
-/*! 
-luga-router 0.1.0 2016-07-23T18:18:05.173Z
-Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
-Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
- */
-/* istanbul ignore if */
-if(typeof(luga) === "undefined"){
-	throw("Unable to find Luga JS Core");
-}
-
-(function(){
-	"use strict";
-
-	luga.namespace("luga.router");
-	luga.router.version = "0.1.0";
-
-	/**
-	 * Return true if the given object implements the luga.router.iRouteHandler interface. False otherwise
-	 * @param {*} obj
-	 * @returns {boolean}
-	 */
-	luga.router.isValidRouteHandler = function(obj){
-		if(luga.type(obj) === "object"){
-			if((luga.type(obj.path) === "string") &&
-				(luga.type(obj.enter) === "function") &&
-				(luga.type(obj.exit) === "function") &&
-				(luga.type(obj.match) === "function")){
-				return true;
-			}
-		}
-		return false;
-	};
-
-}());
 /**
  * @typedef {object} luga.router.options
  *
@@ -98,6 +64,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
+			/* istanbul ignore else */
 			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
 				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
 					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
@@ -220,19 +187,13 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.resolve = function(fragment){
 			var matches = self.getMatch(fragment);
-
-			/** @type {luga.router.routeContext} */
-			var context = {
-				fragment: fragment
-			};
-
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches], context);
+				enter([matches], fragment);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches, context);
+				enter(matches, fragment);
 			}
 		};
 
@@ -240,11 +201,18 @@ if(typeof(luga) === "undefined"){
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
-		 * @param {luga.router.routeContext} context
+		 * @param {string} fragment
 		 */
-		var enter = function(handlers, context){
+		var enter = function(handlers, fragment){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
+				/** @type {luga.router.routeContext} */
+				var context = {
+					fragment: fragment
+				}
+				if(element.getPayload() !== undefined){
+					context.payload = element.getPayload();
+				}
 				element.enter(context);
 			});
 		};
@@ -298,82 +266,6 @@ if(typeof(luga) === "undefined"){
 
 		this.onPopstate = function(){
 
-		};
-
-	};
-
-}());
-/**
- * @typedef {object} luga.router.iRouteHandler
- *
- * @property {string} path
- * @property {function} enter
- * @property {function} exit
- * @property {function} match
- */
-
-/**
- * @typedef {object} luga.router.iRouteHandler.options
- *
- * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
- * @property {object} payload
- */
-
-(function(){
-	"use strict";
-
-	/**
-	 * Route class
-	 * @param options {luga.router.iRouteHandler.options}
-	 * @constructor
-	 * @extends luga.router.iRouteHandler
-	 */
-	luga.router.RouteHandler = function(options){
-
-		/**
-		 * @type {luga.router.iRouteHandler.options}
-		 */
-		var config = {
-			path: "",
-			enterCallBacks: [],
-			exitCallBacks: [],
-			payload: undefined
-		};
-
-		luga.merge(config, options);
-
-		// TODO: turn path into RegExp
-		this.path = config.path;
-
-		/**
-		 * Execute registered enter callbacks, if any
-		 * @param {luga.router.routeContext} context
-		 */
-		this.enter = function(context){
-			config.enterCallBacks.forEach(function(element, i, collection){
-				element.apply(context, []);
-			});
-		};
-
-		/**
-		 * Execute registered exit callbacks, if any
-		 */
-		this.exit = function(){
-			config.exitCallBacks.forEach(function(element, i, collection){
-				element.apply(null, []);
-			});
-		};
-
-		/**
-		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param fragment
-		 * @returns {boolean}
-		 */
-		this.match = function(fragment){
-			// TODO: implement pattern matching
-			return fragment === config.path;
 		};
 
 	};
