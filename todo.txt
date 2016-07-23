@@ -25,6 +25,8 @@ ROUTER:
 - Router.removeHandler(path)
 - Router.removeAllHandlers() -> remove all routes
 
+- Test different options passed to constructor
+
 - Static utilities:
   luga.router.compilePath(path) compiles route paths into RegExp
 

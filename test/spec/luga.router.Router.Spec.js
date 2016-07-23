@@ -36,6 +36,26 @@ describe("luga.router.Router", function(){
 		expect(baseRouter).toMatchDuckType(new MockNotifier());
 	});
 
+	describe("Accepts an Options object as single argument", function(){
+
+		describe("options.rootPath:", function(){
+
+			it("Default to an empty string", function(){
+				expect(baseRouter.setup().rootPath).toEqual("");
+			});
+
+		});
+
+		describe("options.greedy:", function(){
+
+			it("Default to false", function(){
+				expect(baseRouter.setup().greedy).toEqual(false);
+			});
+
+		});
+
+	});
+
 	describe(".add()", function(){
 
 		describe("If invoked passing just a single route object:", function(){
