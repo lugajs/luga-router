@@ -152,6 +152,22 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".remove()", function(){
+
+		it("Remove the routeHandler matching the given path", function(){
+			expect(baseRouter.getAll().length).toEqual(2);
+			baseRouter.remove("test/first");
+			expect(baseRouter.getAll().length).toEqual(1);
+		});
+
+		it("Fails silently if the given path does not match any routeHandler", function(){
+			expect(baseRouter.getAll().length).toEqual(2);
+			baseRouter.remove("no/match");
+			expect(baseRouter.getAll().length).toEqual(2);
+		});
+
+	});
+
 	describe(".removeAll()", function(){
 
 		it("Remove all routeHandlers", function(){

@@ -123,9 +123,21 @@
 		};
 
 		/**
+		 * Remove the routeHandler matching the given path
+		 * Fails silently if the given path does not match any routeHandler
+		 * @param {string} path
+		 */
+		this.remove = function(path){
+			var index = routeHandlers.indexOf(self.getByPath(path));
+			if(index !== -1){
+				routeHandlers.splice(index, 1);
+			}
+		};
+
+		/**
 		 * Remove all routeHandlers
 		 */
-		this.removeAll = function(options){
+		this.removeAll = function(){
 			routeHandlers = [];
 		};
 

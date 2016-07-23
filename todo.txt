@@ -23,10 +23,6 @@ ROUTER:
 - Parameters data to be passed along the route context
 - As many useful data to be passed along the route context (including the routeHandler itself?)
 
-- Router.remove(path)
-
-- Test different options passed to constructor
-
 - Static utilities:
   luga.router.compilePath(path) compiles route paths into RegExp
 
