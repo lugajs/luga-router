@@ -5,6 +5,12 @@
  * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
  */
 
+/**
+ * @typedef {object} luga.router.routeContext
+ *
+ * @property {string} fragment   Route fragment
+ */
+
 (function(){
 	"use strict";
 
@@ -158,13 +164,19 @@
 		 */
 		this.resolve = function(fragment){
 			var matches = self.getMatch(fragment);
+
+			/** @type {luga.router.routeContext} */
+			var context = {
+				fragment: fragment
+			};
+
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches]);
+				enter([matches], context);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches);
+				enter(matches, context);
 			}
 		};
 
@@ -172,11 +184,12 @@
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 * @param {luga.router.routeContext} context
 		 */
-		var enter = function(handlers){
+		var enter = function(handlers, context){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
-				element.enter();
+				element.enter(context);
 			});
 		};
 

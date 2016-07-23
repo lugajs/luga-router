@@ -44,10 +44,11 @@
 
 		/**
 		 * Execute registered enter callbacks, if any
+		 * @param {luga.router.routeContext} context
 		 */
-		this.enter = function(){
+		this.enter = function(context){
 			config.enterCallBacks.forEach(function(element, i, collection){
-				element.apply(null, []);
+				element.apply(context, []);
 			});
 		};
 

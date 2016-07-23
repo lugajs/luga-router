@@ -6,15 +6,13 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
+- routeContext
+
 - Integration with luga.history
 
 -------------
 
 ROUTER:
-
-- Pass context to callbacks: {
-	fragment
-  }
 
 - Router.add(path, callback|[callback], payload)
   Path can be only string, RegExp are not allowed

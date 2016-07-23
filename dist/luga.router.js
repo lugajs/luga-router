@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T16:21:05.522Z
+luga-router 0.1.0 2016-07-23T17:17:29.954Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -37,6 +37,12 @@ if(typeof(luga) === "undefined"){
  *
  * @property {string} rootPath     Default to empty string
  * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
+ */
+
+/**
+ * @typedef {object} luga.router.routeContext
+ *
+ * @property {string} fragment   Route fragment
  */
 
 (function(){
@@ -192,13 +198,19 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.resolve = function(fragment){
 			var matches = self.getMatch(fragment);
+
+			/** @type {luga.router.routeContext} */
+			var context = {
+				fragment: fragment
+			};
+
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches]);
+				enter([matches], context);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches);
+				enter(matches, context);
 			}
 		};
 
@@ -206,11 +218,12 @@ if(typeof(luga) === "undefined"){
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 * @param {luga.router.routeContext} context
 		 */
-		var enter = function(handlers){
+		var enter = function(handlers, context){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
-				element.enter();
+				element.enter(context);
 			});
 		};
 
@@ -314,10 +327,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Execute registered enter callbacks, if any
+		 * @param {luga.router.routeContext} context
 		 */
-		this.enter = function(){
+		this.enter = function(context){
 			config.enterCallBacks.forEach(function(element, i, collection){
-				element.apply(null, []);
+				element.apply(context, []);
 			});
 		};
 
