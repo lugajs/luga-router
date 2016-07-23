@@ -21,7 +21,12 @@ luga.namespace("luga.docs");
 		};
 
 		var init = function(){
-			loadFragment(CONST.FRAGMENTS.INDEX);
+			var currentHash = location.hash.substring(1);
+			if((currentHash !== "") && (CONST.FRAGMENTS[currentHash] !== undefined)){
+				loadFragment(currentHash);
+			} else {
+				loadFragment(CONST.FRAGMENTS.INDEX);
+			}
 			initRouter();
 		};
 
