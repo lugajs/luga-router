@@ -1,15 +1,16 @@
 DOCS:
 
 - Multiple router instances are possible (explain the implications)
+
+- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win.
+  If no match is found, nothing happens
 - Greedy mode allows multiple routes matching (false by default)
+
 - Integration with luga.history
 
 -------------
 
 ROUTER:
-
-- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win.
-  If no match is found, nothing happens
 
 - Router.add(path, callback|[callback], payload) @return {luga.router.iRoute}
   Path can be only string, RegExp are not allowed

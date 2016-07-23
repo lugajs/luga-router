@@ -25,7 +25,7 @@ describe("luga.router.RouteHandler", function(){
 
 	});
 
-	it("Is the base route constructor", function(){
+	it("Is the base routeHandler constructor", function(){
 		expect(luga.router.RouteHandler).toBeDefined();
 	});
 

@@ -101,12 +101,19 @@
 		 * Return a registered route object matching the given fragment
 		 * Return undefined if none is fund
 		 * @param {string} fragment
-		 * @returns {luga.router.iRouteHandler|undefined}
+		 * @returns {luga.router.iRouteHandler|undefined|array.<luga.router.iRouteHandler>}
 		 */
 		this.getMatchingHandler = function(fragment){
-			return routeHandlers.find(function(element, index, array){
-				return element.match(fragment) === true;
-			});
+			if(config.greedy === false){
+				return routeHandlers.find(function(element, index, array){
+					return element.match(fragment) === true;
+				});
+			}
+			else{
+				return routeHandlers.filter(function(element, index, array){
+					return element.match(fragment) === true;
+				});
+			}
 		};
 
 		/**

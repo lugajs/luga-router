@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T10:27:47.177Z
+luga-router 0.1.0 2016-07-23T12:03:29.177Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -32,17 +32,25 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
+/**
+ * @typedef {object} luga.router.options
+ *
+ * @property {string} rootPath     Default to empty string
+ * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
+ */
+
 (function(){
 	"use strict";
 
 	/**
 	 * Router class
+	 * @param options {luga.router.options}
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires routeEnter
 	 * @fires routeExit
 	 */
-	luga.router.Router = function(){
+	luga.router.Router = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
@@ -53,11 +61,24 @@ if(typeof(luga) === "undefined"){
 
 		luga.extend(luga.Notifier, this);
 
+		/**
+		 * @type {luga.router.options}
+		 */
+		var config = {
+			rootPath: "",
+			greedy: false
+		};
+
+		luga.merge(config, options);
+
 		/** @type {luga.router.Router} */
 		var self = this;
 
 		/** @type {array.<luga.router.iRouteHandler>} */
 		var routeHandlers = [];
+
+		/** @type {array.<luga.router.iRouteHandler>} */
+		var currentHandlers = [];
 
 		/**
 		 * Add a Route. It can be invoked with two different sets of arguments:
@@ -108,6 +129,35 @@ if(typeof(luga) === "undefined"){
 			return routeHandlers.find(function(element, index, array){
 				return element.path === path;
 			});
+		};
+
+		/**
+		 * Return a registered route object matching the given fragment
+		 * Return undefined if none is fund
+		 * @param {string} fragment
+		 * @returns {luga.router.iRouteHandler|undefined|array.<luga.router.iRouteHandler>}
+		 */
+		this.getMatchingHandler = function(fragment){
+			if(config.greedy === false){
+				return routeHandlers.find(function(element, index, array){
+					return element.match(fragment) === true;
+				});
+			}
+			else{
+				return routeHandlers.filter(function(element, index, array){
+					return element.match(fragment) === true;
+				});
+			}
+		};
+
+		/**
+		 * Change current configuration
+		 * @param {luga.router.options} options
+		 * @returns {luga.router.options}
+		 */
+		this.setup = function(options){
+			luga.merge(config, options);
+			return config;
 		};
 
 		/**
