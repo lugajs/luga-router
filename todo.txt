@@ -14,15 +14,16 @@ DOCS:
 
 ROUTER:
 
-- Test routeContext
-- Test payload
+- Test routeContext.fragment
 - Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
-  Path can be only string, RegExp are not allowed
-  Allows arbitrary payload to be passed along the route context
+  Path can be only string, RegExp are not allowed. Throw an exception
+
+- Add payload to route context and test
+
+- Router.onPopstate(): implement and test
+  Retrieve state object (if any, created by pushState) to be passed along the route context
 
 - Expose events notification (routeEnter, routeExit)
-
-- Retrieve state object (if any, created by pushState) to be passed along the route context
 
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
@@ -35,6 +36,9 @@ ROUTER:
 - Parameters data to be passed along the route context
 - As many useful data to be passed along the route context
 
+-------------
+
+FUTURE:
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
