@@ -72,8 +72,8 @@ describe("luga.router.Router", function(){
 
 			it("Register the routeHandler", function(){
 				emptyRouter.add(firstHandler);
-				expect(emptyRouter.getAllHandlers().length).toEqual(1);
-				expect(emptyRouter.getAllHandlers()[0]).toEqual(firstHandler);
+				expect(emptyRouter.getAll().length).toEqual(1);
+				expect(emptyRouter.getAll()[0]).toEqual(firstHandler);
 			});
 
 			it("Throws an exception if the given object is not a valid routeHandler", function(){
@@ -93,33 +93,45 @@ describe("luga.router.Router", function(){
 
 	});
 
-	describe(".getAllHandlers()", function(){
+	describe(".getAll()", function(){
 
 		it("Return an array containing all the registered routeHandler objects", function(){
-			expect(baseRouter.getAllHandlers().length).toEqual(2);
-			expect(baseRouter.getAllHandlers()[0]).toEqual(firstHandler);
-			expect(baseRouter.getAllHandlers()[1]).toEqual(secondHandler);
+			expect(baseRouter.getAll().length).toEqual(2);
+			expect(baseRouter.getAll()[0]).toEqual(firstHandler);
+			expect(baseRouter.getAll()[1]).toEqual(secondHandler);
 		});
 
 		it("Return an empty array on a freshly create Router", function(){
-			expect(emptyRouter.getAllHandlers().length).toEqual(0);
+			expect(emptyRouter.getAll().length).toEqual(0);
 		});
 
 	});
 
-	describe(".getMatchingHandler()", function(){
+	describe(".getByPath()", function(){
+
+		it("Return a registered routeHandler object associated the given path", function(){
+			expect(baseRouter.getByPath("test/first")).toEqual(firstHandler);
+		});
+
+		it("Return undefined if none is fund", function(){
+			expect(baseRouter.getByPath("xx/xx")).toBeUndefined();
+		});
+
+	});
+
+	describe(".getMatch()", function(){
 
 		describe("If options.greedy = false", function(){
 
 			it("Return a registered routeHandler object matching the given fragment", function(){
-				expect(baseRouter.getMatchingHandler("test/first")).toEqual(firstHandler);
+				expect(baseRouter.getMatch("test/first")).toEqual(firstHandler);
 			});
 			it("Return undefined if there is no match", function(){
-				expect(baseRouter.getMatchingHandler("xx/xx")).toBeUndefined();
+				expect(baseRouter.getMatch("xx/xx")).toBeUndefined();
 			});
 			it("Return the first fund routeHandler object matching the given fragment, even if multiple routeHandlers match it", function(){
 				baseRouter.add(catchAllHandler);
-				expect(baseRouter.getMatchingHandler("test/first")).toEqual(firstHandler);
+				expect(baseRouter.getMatch("test/first")).toEqual(firstHandler);
 			});
 
 		});
@@ -129,25 +141,13 @@ describe("luga.router.Router", function(){
 			it("Return an array of registered routeHandler objects matching the given fragment if greedy is true", function(){
 				baseRouter.setup({greedy: true});
 				baseRouter.add(catchAllHandler);
-				expect(baseRouter.getMatchingHandler("test/first")).toEqual([firstHandler, catchAllHandler]);
+				expect(baseRouter.getMatch("test/first")).toEqual([firstHandler, catchAllHandler]);
 			});
 			it("Return an empty array if there is no match", function(){
 				baseRouter.setup({greedy: true});
-				expect(baseRouter.getMatchingHandler("xx/xx")).toEqual([]);
+				expect(baseRouter.getMatch("xx/xx")).toEqual([]);
 			});
 
-		});
-
-	});
-
-	describe(".getHandlerByPath()", function(){
-
-		it("Return a registered routeHandler object associated the given path", function(){
-			expect(baseRouter.getHandlerByPath("test/first")).toEqual(firstHandler);
-		});
-
-		it("Return undefined if none is fund", function(){
-			expect(baseRouter.getHandlerByPath("xx/xx")).toBeUndefined();
 		});
 
 	});

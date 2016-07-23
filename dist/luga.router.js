@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T12:03:29.177Z
+luga-router 0.1.0 2016-07-23T14:16:30.899Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -105,7 +105,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.router.iRouteHandler} route
 		 */
 		var addHandler = function(route){
-			if(self.getHandlerByPath(route.path) !== undefined){
+			if(self.getByPath(route.path) !== undefined){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.DUPLICATE_ROUTE, [route.path]));
 			}
 			routeHandlers.push(route);
@@ -115,7 +115,7 @@ if(typeof(luga) === "undefined"){
 		 * Return all the available route objects
 		 * @returns {array.<luga.router.iRouteHandler>}
 		 */
-		this.getAllHandlers = function(){
+		this.getAll = function(){
 			return routeHandlers;
 		};
 
@@ -125,19 +125,25 @@ if(typeof(luga) === "undefined"){
 		 * @param {string} path
 		 * @returns {luga.router.iRouteHandler|undefined}
 		 */
-		this.getHandlerByPath = function(path){
+		this.getByPath = function(path){
 			return routeHandlers.find(function(element, index, array){
 				return element.path === path;
 			});
 		};
 
 		/**
-		 * Return a registered route object matching the given fragment
-		 * Return undefined if none is fund
+		 * If options.greedy is false either:
+		 * 1) Return a registered routeHandler object matching the given fragment
+		 * 2) Return undefined if none is fund
+		 *
+		 * If options.greedy is true either:
+		 * 1) Return an array of matching routeHandler objects if options.greedy is true
+		 * 2) Return an empty array if none is fund
+		 *
 		 * @param {string} fragment
 		 * @returns {luga.router.iRouteHandler|undefined|array.<luga.router.iRouteHandler>}
 		 */
-		this.getMatchingHandler = function(fragment){
+		this.getMatch = function(fragment){
 			if(config.greedy === false){
 				return routeHandlers.find(function(element, index, array){
 					return element.match(fragment) === true;

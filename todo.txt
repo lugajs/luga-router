@@ -2,9 +2,9 @@ DOCS:
 
 - Multiple router instances are possible (explain the implications)
 
-- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win.
+- Routes priority rely on order of inclusion. RouteHandlers are processed from top to bottom, the first match win.
   If no match is found, nothing happens
-- Greedy mode allows multiple routes matching (false by default). Less efficient
+- Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
 - Integration with luga.history
 
@@ -14,17 +14,17 @@ ROUTER:
 
 - Router.add(path, callback|[callback], payload)
   Path can be only string, RegExp are not allowed
-- Router.handle(fragment)
+- Router.resolve(fragment)
 
 - Expose events notification (routeEnter, routeExit)
 
 - Allows arbitrary payload to be passed along the route context
 - Retrieve state object (if any, created by pushState) to be passed along the route context
 - Parameters data to be passed along the route context
-- As many useful data to be passed along the route context (including the route object itself?)
+- As many useful data to be passed along the route context (including the routeHandler itself?)
 
-- Router.removeHandler(path)
-- Router.removeAllHandlers() -> remove all routes
+- Router.remove(path)
+- Router.removeAll() -> remove all routeHandlers
 
 - Test different options passed to constructor
 
