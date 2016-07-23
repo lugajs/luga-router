@@ -14,21 +14,21 @@ describe("luga.router", function(){
 
 	describe(".isValidRoute()", function(){
 
-		it("Return true if the given object implements the luga.router.iRoute interface", function(){
+		it("Return true if the given object implements the luga.router.iRouteHandler interface", function(){
 
-			var goodRute = new luga.router.Route({
+			var goodRute = new luga.router.RouteHandler({
 				path: "ciccio",
 				enterCallBacks: [],
 				exitCallBacks: []
 			});
 
-			expect(luga.router.isValidRoute(goodRute)).toEqual(true);
+			expect(luga.router.isValidRouteHandler(goodRute)).toEqual(true);
 		});
 
 		it("Return false otherwise", function(){
-			expect(luga.router.isValidRoute(new luga.router.Router())).toEqual(false);
-			expect(luga.router.isValidRoute({})).toEqual(false);
-			expect(luga.router.isValidRoute("test")).toEqual(false);
+			expect(luga.router.isValidRouteHandler(new luga.router.Router())).toEqual(false);
+			expect(luga.router.isValidRouteHandler({})).toEqual(false);
+			expect(luga.router.isValidRouteHandler("test")).toEqual(false);
 		});
 
 	});

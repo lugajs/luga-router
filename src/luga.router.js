@@ -10,11 +10,11 @@ if(typeof(luga) === "undefined"){
 	luga.router.version = "0.1.0";
 
 	/**
-	 * Return true if the given object implements the luga.router.iRoute interface. False otherwise
+	 * Return true if the given object implements the luga.router.iRouteHandler interface. False otherwise
 	 * @param {*} obj
 	 * @returns {boolean}
 	 */
-	luga.router.isValidRoute = function(obj){
+	luga.router.isValidRouteHandler = function(obj){
 		if(luga.type(obj) === "object"){
 			if((luga.type(obj.path) === "string") &&
 				(luga.type(obj.enter) === "function") &&

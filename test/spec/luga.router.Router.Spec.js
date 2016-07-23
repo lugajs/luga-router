@@ -8,13 +8,13 @@ describe("luga.router.Router", function(){
 		emptyRouter = new luga.router.Router();
 		baseRouter = new luga.router.Router();
 
-		firstRoute = new luga.router.Route({
+		firstRoute = new luga.router.RouteHandler({
 			path: "test/first",
 			enterCallBacks: [],
 			exitCallBacks: []
 		});
 
-		secondRoute = new luga.router.Route({
+		secondRoute = new luga.router.RouteHandler({
 			path: "test/second",
 			enterCallBacks: [],
 			exitCallBacks: []
@@ -42,8 +42,8 @@ describe("luga.router.Router", function(){
 
 			it("Register the route", function(){
 				emptyRouter.add(firstRoute);
-				expect(emptyRouter.getAllRoutes().length).toEqual(1);
-				expect(emptyRouter.getAllRoutes()[0]).toEqual(firstRoute);
+				expect(emptyRouter.getAllHandlers().length).toEqual(1);
+				expect(emptyRouter.getAllHandlers()[0]).toEqual(firstRoute);
 			});
 
 			it("Throws an exception if the given object is not a valid route", function(){
@@ -63,28 +63,40 @@ describe("luga.router.Router", function(){
 
 	});
 
-	describe(".getAllRoutes()", function(){
+	describe(".getAllHandlers()", function(){
 
 		it("Return an array containing all the registered route objects", function(){
-			expect(baseRouter.getAllRoutes().length).toEqual(2);
-			expect(baseRouter.getAllRoutes()[0]).toEqual(firstRoute);
-			expect(baseRouter.getAllRoutes()[1]).toEqual(secondRoute);
+			expect(baseRouter.getAllHandlers().length).toEqual(2);
+			expect(baseRouter.getAllHandlers()[0]).toEqual(firstRoute);
+			expect(baseRouter.getAllHandlers()[1]).toEqual(secondRoute);
 		});
 
 		it("Return an empty array on a freshly create Router", function(){
-			expect(emptyRouter.getAllRoutes().length).toEqual(0);
+			expect(emptyRouter.getAllHandlers().length).toEqual(0);
 		});
 
 	});
 
-	describe(".getRoute()", function(){
+	describe(".findMatch()", function(){
 
-		it("Return a registered route object matching the given path", function(){
-			expect(baseRouter.getRoute("test/first")).toEqual(firstRoute);
+		it("Return a registered route object matching the given fragment", function(){
+			expect(baseRouter.getHandlerByPath("test/first")).toEqual(firstRoute);
 		});
 
 		it("Return undefined if there is no match", function(){
-			expect(baseRouter.getRoute("xx/xx")).toBeUndefined();
+			expect(baseRouter.getHandlerByPath("xx/xx")).toBeUndefined();
+		});
+
+	});
+
+	describe(".getHandlerByPath()", function(){
+
+		it("Return a registered route object associated the given path", function(){
+			expect(baseRouter.getHandlerByPath("test/first")).toEqual(firstRoute);
+		});
+
+		it("Return undefined if none is fund", function(){
+			expect(baseRouter.getHandlerByPath("xx/xx")).toBeUndefined();
 		});
 
 	});

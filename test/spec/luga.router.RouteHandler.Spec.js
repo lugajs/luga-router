@@ -1,4 +1,4 @@
-describe("luga.router.Route", function(){
+describe("luga.router.RouteHandler", function(){
 
 	"use strict";
 
@@ -17,7 +17,7 @@ describe("luga.router.Route", function(){
 		spyOn(callBacks, "secondEnter");
 		spyOn(callBacks, "exit");
 
-		baseRoute = new luga.router.Route({
+		baseRoute = new luga.router.RouteHandler({
 			path: path,
 			enterCallBacks: [callBacks.enter, callBacks.secondEnter],
 			exitCallBacks: [callBacks.exit]
@@ -26,7 +26,7 @@ describe("luga.router.Route", function(){
 	});
 
 	it("Is the base route constructor", function(){
-		expect(luga.router.Route).toBeDefined();
+		expect(luga.router.RouteHandler).toBeDefined();
 	});
 
 	describe(".enter()", function(){

@@ -7,11 +7,12 @@ DOCS:
 
 ROUTER:
 
-- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win
+- Routes priority rely on order of inclusion. Routes are processed from top to bottom, the first match win.
+  If no match is found, nothing happens
 
 - Router.add(path, callback|[callback], payload) @return {luga.router.iRoute}
   Path can be only string, RegExp are not allowed
-- Router.findMatch(fragment) @return {luga.router.iRoute}|undefined
+- Router.findMatch(fragment) @return {luga.router.iRouteHandler}|undefined
 - Router.execute(fragment)
 
 - Greedy mode allows multiple routes matching(off by default)
@@ -23,8 +24,8 @@ ROUTER:
 - Parameters data to be passed along the route context
 - As many useful data to be passed along the route context (including the route object itself?)
 
-- Router.remove(path)
-- Router.removeAllRoutes() -> remove all routes
+- Router.removeHandler(path)
+- Router.removeAllHandlers() -> remove all routes
 
 - Router.setUp() -> set options
 - Router.options = {
@@ -41,3 +42,5 @@ ROUTER:
 
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
+
+- Use Router uses luga.Route by default, make this configurable?

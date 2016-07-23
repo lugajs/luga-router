@@ -22,56 +22,56 @@
 		/** @type {luga.router.Router} */
 		var self = this;
 
-		/** @type {array.<luga.router.iRoute>} */
-		var routes = [];
+		/** @type {array.<luga.router.iRouteHandler>} */
+		var routeHandlers = [];
 
 		/**
 		 * Add a Route. It can be invoked with two different sets of arguments:
 		 * 1) Only one single Route object:
-		 * ex: Router.add({luga.router.iRoute})
+		 * ex: Router.add({luga.router.iRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.iRoute} path
-		 * @param {function|array.<function>} enterCallBack
-		 * @param {function|array.<function>} exitCallBack
-		 * @param {object} options
+		 * @param {string|luga.router.iRouteHandler} path            Either a Route object or a path expressed as string. Required
+		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route
+		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
+		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
-		this.add = function(path, enterCallBack, exitCallBack, options){
-			if(arguments.length === 1){
-				if(luga.router.isValidRoute(arguments[0]) !== true){
+		this.add = function(path, enterCallBack, exitCallBack, payload){
+			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
+				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
 					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
 				}
-				addRoute(arguments[0]);
+				addHandler(arguments[0]);
 			}
 		};
 
 		/**
 		 *
-		 * @param {luga.router.iRoute} route
+		 * @param {luga.router.iRouteHandler} route
 		 */
-		var addRoute = function(route){
-			if(self.getRoute(route.path) !== undefined){
+		var addHandler = function(route){
+			if(self.getHandlerByPath(route.path) !== undefined){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.DUPLICATE_ROUTE, [route.path]));
 			}
-			routes.push(route);
+			routeHandlers.push(route);
 		};
 
 		/**
 		 * Return all the available route objects
-		 * @returns {array.<luga.router.iRoute>}
+		 * @returns {array.<luga.router.iRouteHandler>}
 		 */
-		this.getAllRoutes = function(){
-			return routes;
+		this.getAllHandlers = function(){
+			return routeHandlers;
 		};
 
 		/**
-		 * Return a registered route object matching the given path
-		 * Return undefined if there is no match
+		 * Return a registered route object associated with the given path
+		 * Return undefined if none is fund
 		 * @param {string} path
-		 * @returns {luga.router.iRoute|undefined}
+		 * @returns {luga.router.iRouteHandler|undefined}
 		 */
-		this.getRoute = function(path){
-			return routes.find(function(element, index, array){
+		this.getHandlerByPath = function(path){
+			return routeHandlers.find(function(element, index, array){
 				return element.path === path;
 			});
 		};

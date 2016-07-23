@@ -1,5 +1,5 @@
 /**
- * @typedef {object} luga.router.iRoute
+ * @typedef {object} luga.router.iRouteHandler
  *
  * @property {string} path
  * @property {function} enter
@@ -8,7 +8,7 @@
  */
 
 /**
- * @typedef {object} luga.router.iRoute.options
+ * @typedef {object} luga.router.iRouteHandler.options
  *
  * @property {string}           path              Path. Required
  * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
@@ -21,14 +21,14 @@
 
 	/**
 	 * Route class
-	 * @param options {luga.router.iRoute.options}
+	 * @param options {luga.router.iRouteHandler.options}
 	 * @constructor
-	 * @extends luga.router.iRoute
+	 * @extends luga.router.iRouteHandler
 	 */
-	luga.router.Route = function(options){
+	luga.router.RouteHandler = function(options){
 
 		/**
-		 * @type {luga.router.iRoute.options}
+		 * @type {luga.router.iRouteHandler.options}
 		 */
 		var config = {
 			path: "",
@@ -39,7 +39,7 @@
 
 		luga.merge(config, options);
 
-		/** @type {luga.router.iRoute} */
+		/** @type {luga.router.RouteHandler} */
 		var self = this;
 
 		// TODO: turn path into RegExp
