@@ -10,56 +10,53 @@ luga.namespace("luga.docs");
 			SELECTORS: {
 				CONTENT: "#content"
 			},
-			FRAGMENTS_PATH: "fragments/",
-			FRAGMENTS_SUFFIX: ".inc",
-			FRAGMENTS: {
-				INDEX: "index",
-				API: "/",
-				CLIENT_SIDE: ".inc",
-				SERVER_SIDE: ".inc"
-			}
+			INCLUDES_PATH: "fragments/",
+			INCLUDES_SUFFIX: ".inc",
+			BASE_INCLUDE_ID: "index"
 		};
+
+		/**
+		 * @type {luga.router.Router}
+		 */
+		var router = new luga.router.Router();
 
 		var init = function(){
+
+			loadRouter();
+
 			var currentHash = location.hash.substring(1);
-			if((currentHash !== "") && (CONST.FRAGMENTS[currentHash] !== undefined)){
-				loadFragment(currentHash);
-			} else {
-				loadFragment(CONST.FRAGMENTS.INDEX);
+			// If the hash is a valid route, load it
+			if(router.getByPath(currentHash) !== undefined){
+				loadInclude(currentHash);
 			}
-			initRouter();
+			else{
+				loadInclude(CONST.BASE_INCLUDE_ID);
+			}
+
+			router.start();
 		};
 
-		var initRouter = function(){
+		var loadRouter = function(){
 
-			var router = new luga.router.Router();
 
 			var rootHandler = new luga.router.RouteHandler({
-				path: "",
-				enterCallBacks: [function(){
-					loadFragment(CONST.FRAGMENTS.INDEX);
-				}]
+				path: "index",
+				enterCallBacks: [routeResolver]
 			});
 
 			var apiHandler = new luga.router.RouteHandler({
 				path: "api",
-				enterCallBacks: [function(){
-					loadFragment("api");
-				}]
+				enterCallBacks: [routeResolver]
 			});
 
 			var clientSideHandler = new luga.router.RouteHandler({
 				path: "client-side",
-				enterCallBacks: [function(){
-					loadFragment("client-side");
-				}]
+				enterCallBacks: [routeResolver]
 			});
 
 			var serverSideHandler = new luga.router.RouteHandler({
 				path: "server-side",
-				enterCallBacks: [function(){
-					loadFragment("server-side");
-				}]
+				enterCallBacks: [routeResolver]
 			});
 
 			router.add(rootHandler);
@@ -67,11 +64,14 @@ luga.namespace("luga.docs");
 			router.add(clientSideHandler);
 			router.add(serverSideHandler);
 
-			router.start();
 		};
 
-		var loadFragment = function(id){
-			var fragmentUrl = CONST.FRAGMENTS_PATH + id + CONST.FRAGMENTS_SUFFIX;
+		var routeResolver = function(){
+			loadInclude(this.fragment);
+		};
+
+		var loadInclude = function(id){
+			var fragmentUrl = CONST.INCLUDES_PATH + id + CONST.INCLUDES_SUFFIX;
 
 			jQuery.ajax(fragmentUrl)
 				.done(function(response, textStatus, jqXHR){
