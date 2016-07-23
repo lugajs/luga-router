@@ -6,7 +6,7 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
-- routeContext
+- routeContext: fragment, payload
 
 - Integration with luga.history
 
@@ -16,8 +16,8 @@ ROUTER:
 
 - Test router.onHashChange()
 - Test routeContext
-
-- Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
+- Test payload
+- Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
   Path can be only string, RegExp are not allowed
   Allows arbitrary payload to be passed along the route context
 

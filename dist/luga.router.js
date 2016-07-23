@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T17:17:29.954Z
+luga-router 0.1.0 2016-07-23T18:18:05.173Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -93,7 +93,7 @@ if(typeof(luga) === "undefined"){
 		 *
 		 *
 		 * @param {string|luga.router.iRouteHandler} path            Either a Route object or a path expressed as string. Required
-		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route
+		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
@@ -103,6 +103,28 @@ if(typeof(luga) === "undefined"){
 					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
 				}
 				addHandler(arguments[0]);
+			}
+			if((arguments.length > 0) && (luga.type(arguments[0]) === "string")){
+				var options = {
+					path: path,
+					enterCallBacks: [],
+					exitCallBacks: [],
+					payload: payload
+				};
+				if(luga.isArray(enterCallBack) === true){
+					options.enterCallBacks = enterCallBack;
+				}
+				if(luga.type(enterCallBack) === "function"){
+					options.enterCallBacks = [enterCallBack];
+				}
+				if(luga.isArray(exitCallBack) === true){
+					options.enterCallBacks = exitCallBack;
+				}
+				if(luga.type(exitCallBack) === "function"){
+					options.exitCallBacks = [exitCallBack];
+				}
+				var handler = new luga.router.RouteHandler(options);
+				addHandler(handler);
 			}
 		};
 

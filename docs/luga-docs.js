@@ -22,7 +22,7 @@ luga.namespace("luga.docs");
 
 		var init = function(){
 
-			loadRouter();
+			initRouter();
 
 			var currentHash = location.hash.substring(1);
 			// If the hash is a valid route, load it
@@ -33,36 +33,14 @@ luga.namespace("luga.docs");
 				loadInclude(CONST.BASE_INCLUDE_ID);
 			}
 
-			router.start();
 		};
 
-		var loadRouter = function(){
-
-			var rootHandler = new luga.router.RouteHandler({
-				path: "index",
-				enterCallBacks: [routeResolver]
-			});
-
-			var apiHandler = new luga.router.RouteHandler({
-				path: "api",
-				enterCallBacks: [routeResolver]
-			});
-
-			var clientSideHandler = new luga.router.RouteHandler({
-				path: "client-side",
-				enterCallBacks: [routeResolver]
-			});
-
-			var serverSideHandler = new luga.router.RouteHandler({
-				path: "server-side",
-				enterCallBacks: [routeResolver]
-			});
-
-			router.add(rootHandler);
-			router.add(apiHandler);
-			router.add(clientSideHandler);
-			router.add(serverSideHandler);
-
+		var initRouter = function(){
+			router.add("index", routeResolver);
+			router.add("api", routeResolver);
+			router.add("client-side", routeResolver);
+			router.add("server-side", routeResolver);
+			router.start();
 		};
 
 		var routeResolver = function(){
@@ -79,6 +57,7 @@ luga.namespace("luga.docs");
 					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 				})
 				.fail(function(){
+					// TODO: implement error handling
 					alert("error loading fragment");
 				});
 
