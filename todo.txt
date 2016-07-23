@@ -24,7 +24,6 @@ ROUTER:
 - As many useful data to be passed along the route context (including the routeHandler itself?)
 
 - Router.remove(path)
-- Router.removeAll() -> remove all routeHandlers
 
 - Test different options passed to constructor
 

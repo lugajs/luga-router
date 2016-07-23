@@ -123,6 +123,13 @@
 		};
 
 		/**
+		 * Remove all routeHandlers
+		 */
+		this.removeAll = function(options){
+			routeHandlers = [];
+		};
+
+		/**
 		 * Change current configuration
 		 * @param {luga.router.options} options
 		 * @returns {luga.router.options}

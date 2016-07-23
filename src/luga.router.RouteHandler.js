@@ -39,9 +39,6 @@
 
 		luga.merge(config, options);
 
-		/** @type {luga.router.RouteHandler} */
-		var self = this;
-
 		// TODO: turn path into RegExp
 		this.path = config.path;
 

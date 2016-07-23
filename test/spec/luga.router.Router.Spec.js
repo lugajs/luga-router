@@ -152,6 +152,16 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".removeAll()", function(){
+
+		it("Remove all routeHandlers", function(){
+			expect(baseRouter.getAll().length).toEqual(2);
+			baseRouter.removeAll();
+			expect(baseRouter.getAll()).toEqual([]);
+		});
+
+	});
+
 	describe(".setup()", function(){
 
 		describe("If called with no arguments. Return an object containing name/value pairs:", function(){
