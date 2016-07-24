@@ -9,21 +9,24 @@ DOCS:
 - Router.add() is overloaded, explain signatures
   Path can only be strings, RexExp aren't allowed
 
-- Enter and exit callbacks
-- Payload
 - routeContext properties: fragment, payload, historyState
 
 - Integration with luga.history
   1) hash: call .resolve() passing location.hash minus #
   2) popState: call .resolve() passing document.location.pathname minus options.rootPath
-  Retrieve historyState object (if any, created by pushState) and pass it along the route context
-  
+
 -------------
 
 ROUTER:
 
+- Router.normalizedHash(hashStr)
+- Router.normalizedFragment(fragment)
+
+- Test options on RouteHandler constructor
+
 - Expose events notification (routeEnter, routeExit). Pass context
 
+- Enable test on Node.js
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
