@@ -11,12 +11,13 @@ DOCS:
 
 - Enter and exit callbacks
 - Payload
-- routeContext properties: fragment, payload
+- routeContext properties: fragment, payload, historyState
 
 - Integration with luga.history
   1) hash: call .resolve() passing location.hash minus #
   2) popState: call .resolve() passing document.location.pathname minus options.rootPath
   Retrieve historyState object (if any, created by pushState) and pass it along the route context
+  
 -------------
 
 ROUTER:

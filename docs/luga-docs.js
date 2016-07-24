@@ -23,7 +23,7 @@ luga.namespace("luga.docs");
 			initRouter();
 			var routed = router.resolve(location.hash.substring(1));
 			if(routed === false){
-				// Current hash is not resolved, load default
+				// Current hash is not resolved, load default content
 				loadInclude(CONST.DEFAULT_INCLUDE_ID);
 			}
 		};
