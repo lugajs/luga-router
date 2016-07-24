@@ -178,17 +178,20 @@
 		 *
 		 * @param {string} fragment
 		 * @param {object} options.state
+		 * @returns {boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
 		this.resolve = function(fragment, options){
 			var matches = self.getMatch(fragment);
-			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
-				exit();
-				enter([matches], fragment, options);
+			if(matches === undefined){
+				return false;
 			}
-			if(luga.isArray(matches) === true){
-				exit();
-				enter(matches, fragment, options);
+			// Single match
+			if(luga.isArray(matches) === false){
+				matches = [matches];
 			}
+			exit();
+			enter(matches, fragment, options);
+			return matches.length > 0;
 		};
 
 		/**

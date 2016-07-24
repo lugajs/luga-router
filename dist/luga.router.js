@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-24T05:56:59.345Z
+luga-router 0.1.0 2016-07-24T07:15:23.770Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -16,6 +16,15 @@ if(typeof(luga) === "undefined"){
  * @property {function} exit
  * @property {function} getPayload
  * @property {function} match
+ */
+
+/**
+ * @typedef {object} luga.router.routeContext
+ *
+ * @property {string} fragment                Route fragment. Required
+ * @property {object|undefined} payload       Payload associated with the current iRouteHandler. Optional
+ * @property {object|undefined} historyState  Object associated with a popstate event. Optional
+ *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
 
 (function(){
@@ -49,13 +58,6 @@ if(typeof(luga) === "undefined"){
  * @property {string} rootPath     Default to empty string
  * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
  */
-
-/**
- * @typedef {object} luga.router.routeContext
- *
- * @property {string} fragment   Route fragment
- */
-
 (function(){
 	"use strict";
 
@@ -230,17 +232,20 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @param {string} fragment
 		 * @param {object} options.state
+		 * @returns {boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
 		this.resolve = function(fragment, options){
 			var matches = self.getMatch(fragment);
-			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
-				exit();
-				enter([matches], fragment, options);
+			if(matches === undefined){
+				return false;
 			}
-			if(luga.isArray(matches) === true){
-				exit();
-				enter(matches, fragment, options);
+			// Single match
+			if(luga.isArray(matches) === false){
+				matches = [matches];
 			}
+			exit();
+			enter(matches, fragment, options);
+			return matches.length > 0;
 		};
 
 		/**
@@ -253,16 +258,7 @@ if(typeof(luga) === "undefined"){
 		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
-				/** @type {luga.router.routeContext} */
-				var context = {
-					fragment: fragment
-				}
-				if(element.getPayload() !== undefined){
-					context.payload = element.getPayload();
-				}
-				if(options !== undefined && (options.historyState !== undefined)){
-					context.historyState = options.historyState;
-				}
+				var context = assembleContext(element, fragment, options);
 				element.enter(context);
 			});
 		};
@@ -274,6 +270,25 @@ if(typeof(luga) === "undefined"){
 			currentHandlers.forEach(function(element, i, collection){
 				element.exit();
 			});
+		};
+
+		/**
+		 * Assemble a route context
+		 * @param {luga.router.iRouteHandler} handler
+		 * @param {string} fragment
+		 * @param {object} options
+		 * @returns {luga.router.routeContext}
+		 */
+		var assembleContext = function(handler, fragment, options){
+			/** @type {luga.router.routeContext} */
+			var context = {
+				fragment: fragment
+			};
+			if(handler.getPayload() !== undefined){
+				context.payload = handler.getPayload();
+			}
+			luga.merge(context, options);
+			return context;
 		};
 
 		/**
@@ -311,7 +326,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * React to a hashchange event
+		 * Handle a hashchange event
 		 * https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
 		 */
 		this.onHashChange = function(){
@@ -319,7 +334,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * React to a popstate event
+		 * Handle a popstate event
 		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
 		 * @param {event} event
 		 */

@@ -342,10 +342,24 @@ describe("luga.router.Router", function(){
 
 	describe(".resolve()", function(){
 
-		it("Fails silently if the given fragment does not match any routeHandler", function(){
-			spyOn(firstHandler, "enter");
-			baseRouter.resolve("no/match");
-			expect(firstHandler.enter).not.toHaveBeenCalled();
+
+
+		describe("Return:", function(){
+
+			it("True if at least one routeHandler was resolved", function(){
+				spyOn(firstHandler, "enter");
+				var ret = baseRouter.resolve("test/first");
+				expect(firstHandler.enter).toHaveBeenCalled();
+				expect(ret).toEqual(true);
+			});
+
+			it("False otherwise", function(){
+				spyOn(firstHandler, "enter");
+				var ret = baseRouter.resolve("no/match");
+				expect(firstHandler.enter).not.toHaveBeenCalled();
+				expect(ret).toEqual(false);
+			});
+
 		});
 
 		describe("If options.greedy = false", function(){
