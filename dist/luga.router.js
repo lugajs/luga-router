@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T18:18:05.173Z
+luga-router 0.1.0 2016-07-24T05:56:59.345Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -7,6 +7,16 @@ Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
+
+/**
+ * @typedef {object} luga.router.iRouteHandler
+ *
+ * @property {string} path
+ * @property {function} enter
+ * @property {function} exit
+ * @property {function} getPayload
+ * @property {function} match
+ */
 
 (function(){
 	"use strict";
@@ -24,6 +34,7 @@ if(typeof(luga) === "undefined"){
 			if((luga.type(obj.path) === "string") &&
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
+				(luga.type(obj.getPayload) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}
@@ -98,6 +109,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
+			/* istanbul ignore else */
 			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
 				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
 					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
@@ -118,7 +130,7 @@ if(typeof(luga) === "undefined"){
 					options.enterCallBacks = [enterCallBack];
 				}
 				if(luga.isArray(exitCallBack) === true){
-					options.enterCallBacks = exitCallBack;
+					options.exitCallBacks = exitCallBack;
 				}
 				if(luga.type(exitCallBack) === "function"){
 					options.exitCallBacks = [exitCallBack];
@@ -217,22 +229,17 @@ if(typeof(luga) === "undefined"){
 		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
 		 *
 		 * @param {string} fragment
+		 * @param {object} options.state
 		 */
-		this.resolve = function(fragment){
+		this.resolve = function(fragment, options){
 			var matches = self.getMatch(fragment);
-
-			/** @type {luga.router.routeContext} */
-			var context = {
-				fragment: fragment
-			};
-
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches], context);
+				enter([matches], fragment, options);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches, context);
+				enter(matches, fragment, options);
 			}
 		};
 
@@ -240,11 +247,22 @@ if(typeof(luga) === "undefined"){
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
-		 * @param {luga.router.routeContext} context
+		 * @param {string} fragment
+		 * @param {object} options.state
 		 */
-		var enter = function(handlers, context){
+		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
+				/** @type {luga.router.routeContext} */
+				var context = {
+					fragment: fragment
+				}
+				if(element.getPayload() !== undefined){
+					context.payload = element.getPayload();
+				}
+				if(options !== undefined && (options.historyState !== undefined)){
+					context.historyState = options.historyState;
+				}
 				element.enter(context);
 			});
 		};
@@ -292,26 +310,28 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * React to a hashchange event
+		 * https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
+		 */
 		this.onHashChange = function(){
 			self.resolve(location.hash.substring(1));
 		};
 
-		this.onPopstate = function(){
-
+		/**
+		 * React to a popstate event
+		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+		 * @param {event} event
+		 */
+		this.onPopstate = function(event){
+			var pattern = new RegExp("^\/" + config.rootPath);
+			var fragment = document.location.pathname.replace(pattern, "");
+			self.resolve(fragment, {historyState: event.state});
 		};
 
 	};
 
 }());
-/**
- * @typedef {object} luga.router.iRouteHandler
- *
- * @property {string} path
- * @property {function} enter
- * @property {function} exit
- * @property {function} match
- */
-
 /**
  * @typedef {object} luga.router.iRouteHandler.options
  *
@@ -332,6 +352,12 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.router.RouteHandler = function(options){
 
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_PATH_REGEXP: "luga.router.RouteHandler: Invalid path. You must use strings, RegExp are not allowed"
+			}
+		};
+
 		/**
 		 * @type {luga.router.iRouteHandler.options}
 		 */
@@ -344,7 +370,11 @@ if(typeof(luga) === "undefined"){
 
 		luga.merge(config, options);
 
-		// TODO: turn path into RegExp
+		if(luga.type(config.path) === "regexp"){
+			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
+		}
+
+		// TODO: compile path
 		this.path = config.path;
 
 		/**
@@ -364,6 +394,15 @@ if(typeof(luga) === "undefined"){
 			config.exitCallBacks.forEach(function(element, i, collection){
 				element.apply(null, []);
 			});
+		};
+
+		/**
+		 * Return the handler payload, if any
+		 * Return undefined if no payload is associated with the handler
+		 * @returns {luga.router.routeContext|undefined}
+		 */
+		this.getPayload = function(){
+			return config.payload;
 		};
 
 		/**

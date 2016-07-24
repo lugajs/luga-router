@@ -6,22 +6,22 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
-- routeContext: fragment, payload
+- Router.add() is overloaded, explain signatures
+  Path can only be strings, RexExp aren't allowed
+
+- Enter and exit callbacks
+- Payload
+- routeContext properties: fragment, payload
 
 - Integration with luga.history
-
-- Path can only be strings, RexExp aren't allowed
-
+  1) hash: call .resolve() passing location.hash minus #
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+  Retrieve historyState object (if any, created by pushState) and pass it along the route context
 -------------
 
 ROUTER:
 
-- Test: Router.add(path, callback|[callback], callback|[callback]|undefined, payload)
-
-- Router.onPopstate(): implement and test
-  Retrieve state object (if any, created by pushState) to be passed along the route context
-
-- Expose events notification (routeEnter, routeExit)
+- Expose events notification (routeEnter, routeExit). Pass context
 
 
 - Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
