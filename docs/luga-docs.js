@@ -21,8 +21,7 @@ luga.namespace("luga.docs");
 
 		var init = function(){
 			initRouter();
-			var routed = router.resolve(location.hash.substring(1));
-			if(routed === false){
+			if(router.resolve(router.normalizeHash(location.hash)) === false){
 				// Current hash is not resolved, load default content
 				loadInclude(CONST.DEFAULT_INCLUDE_ID);
 			}

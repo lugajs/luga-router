@@ -149,6 +149,31 @@
 		};
 
 		/**
+		 * Remove the rootPath in front of the given string
+		 * @param {string} inputString
+		 * @returns {string}
+		 */
+		this.normalizeFragment = function(inputString){
+			var pattern = new RegExp("^\/?" + config.rootPath);
+			return inputString.replace(pattern, "");
+		};
+
+		/**
+		 * Remove any '#' and/or '!' in front of the given string
+		 * @param {string} inputString
+		 * @returns {string}
+		 */
+		this.normalizeHash = function(inputString){
+			if(inputString[0] === "#"){
+				inputString = inputString.substring(1);
+			}
+			if(inputString[0] === "!"){
+				inputString = inputString.substring(1);
+			}
+			return self.normalizeFragment(inputString);
+		};
+
+		/**
 		 * Remove the routeHandler matching the given path
 		 * Fails silently if the given path does not match any routeHandler
 		 * @param {string} path
@@ -276,7 +301,7 @@
 		 * https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
 		 */
 		this.onHashChange = function(){
-			self.resolve(location.hash.substring(1));
+			self.resolve(self.normalizeHash(location.hash));
 		};
 
 		/**
@@ -285,8 +310,7 @@
 		 * @param {event} event
 		 */
 		this.onPopstate = function(event){
-			var pattern = new RegExp("^\/" + config.rootPath);
-			var fragment = document.location.pathname.replace(pattern, "");
+			var fragment = self.normalizeFragment(document.location.pathname);
 			self.resolve(fragment, {historyState: event.state});
 		};
 

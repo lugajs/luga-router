@@ -276,12 +276,45 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".normalizeFragment()", function(){
+
+		it("Remove the basePath from the beginning of the given string", function(){
+			baseRouter.setup({
+				rootPath: "root/"
+			});
+			expect(baseRouter.normalizeFragment("root/test/path")).toEqual("test/path");
+			expect(baseRouter.normalizeFragment("/root/test/path")).toEqual("test/path");
+		});
+
+	});
+
+	describe(".normalizeHash()", function(){
+
+		describe("Given a string:", function(){
+
+			it("Remove any '#' and/or '!' in front of it", function(){
+				expect(baseRouter.normalizeHash("test/path")).toEqual("test/path");
+				expect(baseRouter.normalizeHash("#test/path")).toEqual("test/path");
+				expect(baseRouter.normalizeHash("#!test/path")).toEqual("test/path");
+			});
+
+			it("Remove the basePath from the beginning of the string", function(){
+				baseRouter.setup({
+					rootPath: "root/"
+				});
+				expect(baseRouter.normalizeHash("#root/test/path")).toEqual("test/path");
+			});
+
+		});
+
+	});
+
 	describe(".onHashChange()", function(){
 
-		it("When invoked, call .resolve() passing location.hash minus #", function(){
+		it("When invoked, call .resolve() passing normalized location.hash", function(){
 			spyOn(baseRouter, "resolve");
 			baseRouter.onHashChange();
-			expect(baseRouter.resolve).toHaveBeenCalledWith(location.hash.substring(1));
+			expect(baseRouter.resolve).toHaveBeenCalledWith(baseRouter.normalizeHash(location.hash));
 		});
 
 	});
@@ -341,7 +374,6 @@ describe("luga.router.Router", function(){
 	});
 
 	describe(".resolve()", function(){
-
 
 
 		describe("Return:", function(){

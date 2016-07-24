@@ -15,12 +15,12 @@ DOCS:
   1) hash: call .resolve() passing location.hash minus #
   2) popState: call .resolve() passing document.location.pathname minus options.rootPath
 
+- Router.normalizeHash()
+- Router.normalizeFragment()
+
 -------------
 
 ROUTER:
-
-- Router.normalizedHash(hashStr)
-- Router.normalizedFragment(fragment)
 
 - Test options on RouteHandler constructor
 
