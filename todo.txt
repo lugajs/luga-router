@@ -22,8 +22,6 @@ DOCS:
 
 ROUTER:
 
-- Test options on RouteHandler constructor
-
 - Expose events notification (routeEnter, routeExit). Pass context
 
 - Enable test on Node.js
