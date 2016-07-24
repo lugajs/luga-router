@@ -13,12 +13,15 @@ describe("luga.router.RouteHandler", function(){
 			secondEnter: function(){
 			},
 			exit: function(){
+			},
+			secondExit: function(){
 			}
 		};
 
 		spyOn(callBacks, "enter");
 		spyOn(callBacks, "secondEnter");
 		spyOn(callBacks, "exit");
+		spyOn(callBacks, "secondExit");
 
 		baseHandler = new luga.router.RouteHandler({
 			path: path,
@@ -32,13 +35,110 @@ describe("luga.router.RouteHandler", function(){
 		expect(luga.router.RouteHandler).toBeDefined();
 	});
 
-	it("Throws an exception if a RegExp is passed to the constructor as path", function(){
-		expect(function(){
-			new luga.router.RouteHandler({
-				path: new RegExp("")
+	describe("Accepts an Options object as single argument", function(){
+
+		describe("options.path:", function(){
+
+			it("Is the path associated with the handler", function(){
+				expect(baseHandler.match(path)).toEqual(true);
 			});
-		}).toThrow();
+
+			it("Throws an exception if a RegExp is passed", function(){
+				expect(function(){
+					new luga.router.RouteHandler({
+						path: new RegExp("")
+					});
+				}).toThrow();
+			});
+
+		});
+
+		describe("options.enterCallBacks:", function(){
+
+			describe("Can be either:", function(){
+
+				it("A function", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						enterCallBacks: callBacks.enter
+					});
+					testHandler.enter();
+					expect(callBacks.enter).toHaveBeenCalled();
+				});
+
+				it("An empty array", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						enterCallBacks: []
+					});
+					testHandler.enter();
+					expect(callBacks.enter).not.toHaveBeenCalled();
+				});
+
+				it("An array of functions", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						enterCallBacks: [callBacks.enter, callBacks.secondEnter]
+					});
+					testHandler.enter();
+					expect(callBacks.enter).toHaveBeenCalled();
+					expect(callBacks.secondEnter).toHaveBeenCalled();
+				});
+
+			});
+
+		});
+
+		describe("options.exitCallBacks:", function(){
+
+			describe("Can be either:", function(){
+
+				it("A function", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						exitCallBacks: callBacks.exit
+					});
+					testHandler.exit();
+					expect(callBacks.exit).toHaveBeenCalled();
+				});
+
+				it("An empty array", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						exitCallBacks: []
+					});
+					testHandler.exit();
+					expect(callBacks.exit).not.toHaveBeenCalled();
+				});
+
+				it("An array of functions", function(){
+					var testHandler = new luga.router.RouteHandler({
+						path: path,
+						exitCallBacks: [callBacks.exit, callBacks.secondExit]
+					});
+					testHandler.exit();
+					expect(callBacks.exit).toHaveBeenCalled();
+					expect(callBacks.secondExit).toHaveBeenCalled();
+				});
+
+			});
+
+		});
+
+		describe("options.payload:", function(){
+
+			it("Is an object that will be associated with the routeHandler", function(){
+				var testHandler = new luga.router.RouteHandler({
+					path: path,
+					payload: {name: "test"}
+				});
+				expect(testHandler.getPayload()).toEqual({name: "test"});
+			});
+
+		});
+
 	});
+
 
 	describe(".enter()", function(){
 

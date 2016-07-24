@@ -35,6 +35,12 @@
 		};
 
 		luga.merge(config, options);
+		if(luga.type(config.enterCallBacks) === "function"){
+			config.enterCallBacks = [config.enterCallBacks];
+		}
+		if(luga.type(config.exitCallBacks) === "function"){
+			config.exitCallBacks = [config.exitCallBacks];
+		}
 
 		if(luga.type(config.path) === "regexp"){
 			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);

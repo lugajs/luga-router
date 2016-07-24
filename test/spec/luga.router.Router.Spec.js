@@ -144,6 +144,22 @@ describe("luga.router.Router", function(){
 					expect(callBacks.secondEnter).toHaveBeenCalled();
 				});
 
+				it("An empty array", function(){
+					emptyRouter.add(path, []);
+					var handler = emptyRouter.getByPath(path);
+					handler.enter();
+					expect(callBacks.enter).not.toHaveBeenCalled();
+					expect(callBacks.secondEnter).not.toHaveBeenCalled();
+				});
+
+				it("Undefined", function(){
+					emptyRouter.add(path, undefined);
+					var handler = emptyRouter.getByPath(path);
+					handler.enter();
+					expect(callBacks.enter).not.toHaveBeenCalled();
+					expect(callBacks.secondEnter).not.toHaveBeenCalled();
+				});
+
 			});
 
 			describe("The third argument, exitCallBacks, can be either:", function(){
@@ -163,6 +179,38 @@ describe("luga.router.Router", function(){
 					expect(callBacks.secondExit).toHaveBeenCalled();
 				});
 
+				it("An empty array", function(){
+					emptyRouter.add(path, callBacks.enter, []);
+					var handler = emptyRouter.getByPath(path);
+					handler.exit();
+					expect(callBacks.exit).not.toHaveBeenCalled();
+					expect(callBacks.secondExit).not.toHaveBeenCalled();
+				});
+
+				it("Undefined", function(){
+					emptyRouter.add(path, callBacks.enter, undefined);
+					var handler = emptyRouter.getByPath(path);
+					handler.exit();
+					expect(callBacks.exit).not.toHaveBeenCalled();
+					expect(callBacks.secondExit).not.toHaveBeenCalled();
+				});
+
+			});
+
+			describe("The fourth argument, payload, can be either:", function(){
+
+				it("An arbitrary object", function(){
+					emptyRouter.add(path, callBacks.enter, callBacks.exit, {name: "test"});
+					var handler = emptyRouter.getByPath(path);
+					expect(handler.getPayload()).toEqual({name: "test"});
+				});
+
+				it("Undefined", function(){
+					emptyRouter.add(path, callBacks.enter, callBacks.exit, undefined);
+					var handler = emptyRouter.getByPath(path);
+					expect(handler.getPayload()).toBeUndefined();
+				});
+
 			});
 
 		});
@@ -177,7 +225,7 @@ describe("luga.router.Router", function(){
 			expect(baseRouter.getAll()[1]).toEqual(secondHandler);
 		});
 
-		it("Return an empty array on a freshly create Router", function(){
+		it("Return an empty array if no routeHandler is registered", function(){
 			expect(emptyRouter.getAll().length).toEqual(0);
 		});
 
@@ -185,7 +233,7 @@ describe("luga.router.Router", function(){
 
 	describe(".getByPath()", function(){
 
-		it("Return a registered routeHandler object associated the given path", function(){
+		it("Return a registered routeHandler object associated with the given path", function(){
 			expect(baseRouter.getByPath("test/first")).toEqual(firstHandler);
 		});
 
@@ -214,7 +262,7 @@ describe("luga.router.Router", function(){
 
 		describe("If options.greedy = true", function(){
 
-			it("Return an array of registered routeHandler objects matching the given fragment if greedy is true", function(){
+			it("Return an array of registered routeHandler objects matching the given fragment", function(){
 				baseRouter.setup({greedy: true});
 				baseRouter.add(catchAllHandler);
 				expect(baseRouter.getMatch("test/first")).toEqual([firstHandler, catchAllHandler]);
@@ -228,12 +276,45 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".normalizeFragment()", function(){
+
+		it("Remove the basePath from the beginning of the given string", function(){
+			baseRouter.setup({
+				rootPath: "root/"
+			});
+			expect(baseRouter.normalizeFragment("root/test/path")).toEqual("test/path");
+			expect(baseRouter.normalizeFragment("/root/test/path")).toEqual("test/path");
+		});
+
+	});
+
+	describe(".normalizeHash()", function(){
+
+		describe("Given a string:", function(){
+
+			it("Remove any '#' and/or '!' in front of it", function(){
+				expect(baseRouter.normalizeHash("test/path")).toEqual("test/path");
+				expect(baseRouter.normalizeHash("#test/path")).toEqual("test/path");
+				expect(baseRouter.normalizeHash("#!test/path")).toEqual("test/path");
+			});
+
+			it("Remove the basePath from the beginning of the string", function(){
+				baseRouter.setup({
+					rootPath: "root/"
+				});
+				expect(baseRouter.normalizeHash("#root/test/path")).toEqual("test/path");
+			});
+
+		});
+
+	});
+
 	describe(".onHashChange()", function(){
 
-		it("When invoked, call .resolve() passing location.hash minus #", function(){
+		it("When invoked, call .resolve() passing normalized location.hash", function(){
 			spyOn(baseRouter, "resolve");
 			baseRouter.onHashChange();
-			expect(baseRouter.resolve).toHaveBeenCalledWith(location.hash.substring(1));
+			expect(baseRouter.resolve).toHaveBeenCalledWith(baseRouter.normalizeHash(location.hash));
 		});
 
 	});
@@ -253,7 +334,7 @@ describe("luga.router.Router", function(){
 
 			});
 
-			it("and an optional state object inside context.state", function(){
+			it("and an optional state object inside context.historyState", function(){
 				spyOn(firstHandler, "enter");
 				baseRouter.resolve("test/first", {historyState: {name: "test"}});
 				expect(firstHandler.enter).toHaveBeenCalledWith({
@@ -294,10 +375,23 @@ describe("luga.router.Router", function(){
 
 	describe(".resolve()", function(){
 
-		it("Fails silently if the given fragment does not match any routeHandler", function(){
-			spyOn(firstHandler, "enter");
-			baseRouter.resolve("no/match");
-			expect(firstHandler.enter).not.toHaveBeenCalled();
+
+		describe("Return:", function(){
+
+			it("True if at least one routeHandler was resolved", function(){
+				spyOn(firstHandler, "enter");
+				var ret = baseRouter.resolve("test/first");
+				expect(firstHandler.enter).toHaveBeenCalled();
+				expect(ret).toEqual(true);
+			});
+
+			it("False otherwise", function(){
+				spyOn(firstHandler, "enter");
+				var ret = baseRouter.resolve("no/match");
+				expect(firstHandler.enter).not.toHaveBeenCalled();
+				expect(ret).toEqual(false);
+			});
+
 		});
 
 		describe("If options.greedy = false", function(){
@@ -408,7 +502,7 @@ describe("luga.router.Router", function(){
 				expect(baseRouter.setup().rootPath).toEqual("");
 			});
 
-			it("greedy = greedy", function(){
+			it("greedy = false", function(){
 				expect(baseRouter.setup().greedy).toEqual(false);
 			});
 

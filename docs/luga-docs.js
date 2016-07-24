@@ -11,7 +11,7 @@ luga.namespace("luga.docs");
 			},
 			INCLUDES_PATH: "fragments/",
 			INCLUDES_SUFFIX: ".inc",
-			BASE_INCLUDE_ID: "index"
+			DEFAULT_INCLUDE_ID: "index"
 		};
 
 		/**
@@ -20,18 +20,11 @@ luga.namespace("luga.docs");
 		var router = new luga.router.Router();
 
 		var init = function(){
-
 			initRouter();
-
-			var currentHash = location.hash.substring(1);
-			// If the hash is a valid route, load it
-			if(router.getByPath(currentHash) !== undefined){
-				loadInclude(currentHash);
+			if(router.resolve(router.normalizeHash(location.hash)) === false){
+				// Current hash is not resolved, load default content
+				loadInclude(CONST.DEFAULT_INCLUDE_ID);
 			}
-			else{
-				loadInclude(CONST.BASE_INCLUDE_ID);
-			}
-
 		};
 
 		var initRouter = function(){
