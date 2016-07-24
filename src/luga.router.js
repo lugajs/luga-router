@@ -13,6 +13,15 @@ if(typeof(luga) === "undefined"){
  * @property {function} match
  */
 
+/**
+ * @typedef {object} luga.router.routeContext
+ *
+ * @property {string} fragment                Route fragment. Required
+ * @property {object|undefined} payload       Payload associated with the current iRouteHandler. Optional
+ * @property {object|undefined} historyState  Object associated with a popstate event. Optional
+ *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+ */
+
 (function(){
 	"use strict";
 

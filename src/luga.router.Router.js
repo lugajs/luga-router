@@ -4,13 +4,6 @@
  * @property {string} rootPath     Default to empty string
  * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
  */
-
-/**
- * @typedef {object} luga.router.routeContext
- *
- * @property {string} fragment   Route fragment
- */
-
 (function(){
 	"use strict";
 
@@ -208,16 +201,7 @@
 		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
-				/** @type {luga.router.routeContext} */
-				var context = {
-					fragment: fragment
-				}
-				if(element.getPayload() !== undefined){
-					context.payload = element.getPayload();
-				}
-				if(options !== undefined && (options.historyState !== undefined)){
-					context.historyState = options.historyState;
-				}
+				var context = assembleContext(element, fragment, options);
 				element.enter(context);
 			});
 		};
@@ -229,6 +213,25 @@
 			currentHandlers.forEach(function(element, i, collection){
 				element.exit();
 			});
+		};
+
+		/**
+		 * Assemble a route context
+		 * @param {luga.router.iRouteHandler} handler
+		 * @param {string} fragment
+		 * @param {object} options
+		 * @returns {luga.router.routeContext}
+		 */
+		var assembleContext = function(handler, fragment, options){
+			/** @type {luga.router.routeContext} */
+			var context = {
+				fragment: fragment
+			};
+			if(handler.getPayload() !== undefined){
+				context.payload = handler.getPayload();
+			}
+			luga.merge(context, options);
+			return context;
 		};
 
 		/**
@@ -266,7 +269,7 @@
 		};
 
 		/**
-		 * React to a hashchange event
+		 * Handle a hashchange event
 		 * https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
 		 */
 		this.onHashChange = function(){
@@ -274,7 +277,7 @@
 		};
 
 		/**
-		 * React to a popstate event
+		 * Handle a popstate event
 		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
 		 * @param {event} event
 		 */
