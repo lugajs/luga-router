@@ -75,7 +75,7 @@ describe("luga.router.RouteHandler", function(){
 					expect(callBacks.enter).not.toHaveBeenCalled();
 				});
 
-				it("An array of options", function(){
+				it("An array of functions", function(){
 					var testHandler = new luga.router.RouteHandler({
 						path: path,
 						enterCallBacks: [callBacks.enter, callBacks.secondEnter]
@@ -111,7 +111,7 @@ describe("luga.router.RouteHandler", function(){
 					expect(callBacks.exit).not.toHaveBeenCalled();
 				});
 
-				it("An array of options", function(){
+				it("An array of functions", function(){
 					var testHandler = new luga.router.RouteHandler({
 						path: path,
 						exitCallBacks: [callBacks.exit, callBacks.secondExit]
