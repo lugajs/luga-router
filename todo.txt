@@ -14,15 +14,12 @@ DOCS:
 - routeContext properties: fragment, payload
 
 - Integration with luga.history
-
+  1) hash: call .resolve() passing location.hash minus #
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+  Retrieve historyState object (if any, created by pushState) and pass it along the route context
 -------------
 
 ROUTER:
-
-- Router.onPopstate(): implement and test
-  document.location.pathname is the fragment
-  Modify luga.history to only modify the pathname, without touching the host?
-  Retrieve historyState object (if any, created by pushState) to be passed along the route context
 
 - Expose events notification (routeEnter, routeExit). Pass context
 
@@ -43,7 +40,5 @@ FUTURE:
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
   Should we provide a mechanism for Node.js?
-
-- Router.options.basePath?
 
 - Router.add() create instances of luga.RouteHandler by default, make this configurable?

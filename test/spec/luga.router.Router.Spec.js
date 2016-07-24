@@ -238,6 +238,34 @@ describe("luga.router.Router", function(){
 
 	});
 
+	describe(".onPopstate()", function(){
+
+		describe("When invoked, call .resolve() passing:", function(){
+
+			it("document.location.pathname minus options.rootPath", function(){
+				spyOn(baseRouter, "resolve");
+				baseRouter.setup({
+					rootPath: "luga-router"
+				});
+				var fragment = document.location.pathname.replace(/^\/luga-router/, "");
+				baseRouter.onPopstate({state: {name: "test"}});
+				expect(baseRouter.resolve).toHaveBeenCalledWith(fragment, {historyState: {name: "test"}});
+
+			});
+
+			it("and an optional state object inside context.state", function(){
+				spyOn(firstHandler, "enter");
+				baseRouter.resolve("test/first", {historyState: {name: "test"}});
+				expect(firstHandler.enter).toHaveBeenCalledWith({
+					fragment: "test/first",
+					historyState: {name: "test"}
+				});
+			});
+
+		});
+
+	});
+
 	describe(".remove()", function(){
 
 		it("Remove the routeHandler matching the given path", function(){

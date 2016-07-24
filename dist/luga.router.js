@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-23T20:41:33.332Z
+luga-router 0.1.0 2016-07-24T05:56:59.345Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -229,16 +229,17 @@ if(typeof(luga) === "undefined"){
 		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
 		 *
 		 * @param {string} fragment
+		 * @param {object} options.state
 		 */
-		this.resolve = function(fragment){
+		this.resolve = function(fragment, options){
 			var matches = self.getMatch(fragment);
 			if((luga.isArray(matches) === false) && (luga.type(matches) !== "undefined")){
 				exit();
-				enter([matches], fragment);
+				enter([matches], fragment, options);
 			}
 			if(luga.isArray(matches) === true){
 				exit();
-				enter(matches, fragment);
+				enter(matches, fragment, options);
 			}
 		};
 
@@ -247,8 +248,9 @@ if(typeof(luga) === "undefined"){
 		 * Then execute the enter() method on each of them
 		 * @param {array.<luga.router.iRouteHandler>} handlers
 		 * @param {string} fragment
+		 * @param {object} options.state
 		 */
-		var enter = function(handlers, fragment){
+		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
 			currentHandlers.forEach(function(element, i, collection){
 				/** @type {luga.router.routeContext} */
@@ -257,6 +259,9 @@ if(typeof(luga) === "undefined"){
 				}
 				if(element.getPayload() !== undefined){
 					context.payload = element.getPayload();
+				}
+				if(options !== undefined && (options.historyState !== undefined)){
+					context.historyState = options.historyState;
 				}
 				element.enter(context);
 			});
@@ -305,12 +310,23 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * React to a hashchange event
+		 * https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
+		 */
 		this.onHashChange = function(){
 			self.resolve(location.hash.substring(1));
 		};
 
-		this.onPopstate = function(){
-
+		/**
+		 * React to a popstate event
+		 * https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+		 * @param {event} event
+		 */
+		this.onPopstate = function(event){
+			var pattern = new RegExp("^\/" + config.rootPath);
+			var fragment = document.location.pathname.replace(pattern, "");
+			self.resolve(fragment, {historyState: event.state});
 		};
 
 	};
