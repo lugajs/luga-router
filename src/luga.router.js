@@ -4,7 +4,7 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.router.iRouteHandler
+ * @typedef {object} luga.router.IRouteHandler
  *
  * @property {string} path
  * @property {function} enter
@@ -17,7 +17,7 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.routeContext
  *
  * @property {string} fragment                Route fragment. Required
- * @property {object|undefined} payload       Payload associated with the current iRouteHandler. Optional
+ * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
@@ -29,7 +29,7 @@ if(typeof(luga) === "undefined"){
 	luga.router.version = "0.1.0";
 
 	/**
-	 * Return true if the given object implements the luga.router.iRouteHandler interface. False otherwise
+	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
 	 * @param {*} obj
 	 * @returns {boolean}
 	 */

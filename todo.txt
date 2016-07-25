@@ -22,7 +22,7 @@ DOCS:
 
 ROUTER:
 
-- Expose events notification (routeEnter, routeExit). Pass context
+- Expose events notification (routeEntered, routeExited). Pass context
 
 - Enable test on Node.js
 

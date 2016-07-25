@@ -12,8 +12,8 @@
 	 * @param options {luga.router.options}
 	 * @constructor
 	 * @extends luga.Notifier
-	 * @fires routeEnter
-	 * @fires routeExit
+	 * @fires routeEntered
+	 * @fires routeExited
 	 */
 	luga.router.Router = function(options){
 
@@ -39,19 +39,19 @@
 		/** @type {luga.router.Router} */
 		var self = this;
 
-		/** @type {array.<luga.router.iRouteHandler>} */
+		/** @type {array.<luga.router.IRouteHandler>} */
 		var routeHandlers = [];
 
-		/** @type {array.<luga.router.iRouteHandler>} */
+		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
 
 		/**
 		 * Add a Route. It can be invoked with two different sets of arguments:
 		 * 1) Only one single Route object:
-		 * ex: Router.add({luga.router.iRouteHandler})
+		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.iRouteHandler} path            Either a Route object or a path expressed as string. Required
+		 * @param {string|luga.router.IRouteHandler} path            Either a Route object or a path expressed as string. Required
 		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
@@ -90,7 +90,7 @@
 
 		/**
 		 *
-		 * @param {luga.router.iRouteHandler} route
+		 * @param {luga.router.IRouteHandler} route
 		 */
 		var addHandler = function(route){
 			if(self.getByPath(route.path) !== undefined){
@@ -101,7 +101,7 @@
 
 		/**
 		 * Return all the available route objects
-		 * @returns {array.<luga.router.iRouteHandler>}
+		 * @returns {array.<luga.router.IRouteHandler>}
 		 */
 		this.getAll = function(){
 			return routeHandlers;
@@ -111,7 +111,7 @@
 		 * Return a registered route object associated with the given path
 		 * Return undefined if none is fund
 		 * @param {string} path
-		 * @returns {luga.router.iRouteHandler|undefined}
+		 * @returns {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
 			for(var i = 0; i < routeHandlers.length; i++){
@@ -131,7 +131,7 @@
 		 * 2) Return an empty array if none is fund
 		 *
 		 * @param {string} fragment
-		 * @returns {luga.router.iRouteHandler|undefined|array.<luga.router.iRouteHandler>}
+		 * @returns {luga.router.IRouteHandler|undefined|array.<luga.router.IRouteHandler>}
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
@@ -222,7 +222,7 @@
 		/**
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
-		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 * @param {array.<luga.router.IRouteHandler>} handlers
 		 * @param {string} fragment
 		 * @param {object} options.state
 		 */
@@ -245,7 +245,7 @@
 
 		/**
 		 * Assemble a route context
-		 * @param {luga.router.iRouteHandler} handler
+		 * @param {luga.router.IRouteHandler} handler
 		 * @param {string} fragment
 		 * @param {object} options
 		 * @returns {luga.router.routeContext}

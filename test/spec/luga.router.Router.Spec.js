@@ -2,7 +2,7 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var emptyRouter, baseRouter, greedyRouter, firstHandler, secondHandler, catchAllHandler;
+	var emptyRouter, baseRouter, greedyRouter, firstHandler, secondHandler, catchAllHandler, testObserver;
 	beforeEach(function(){
 
 		emptyRouter = new luga.router.Router();
@@ -37,6 +37,16 @@ describe("luga.router.Router", function(){
 		greedyRouter.add(firstHandler);
 		greedyRouter.add(secondHandler);
 		greedyRouter.add(catchAllHandler);
+
+		testObserver = {
+			onRouteEnteredHandler: function(){
+			},
+			onRouteExitedHandler: function(){
+			}
+		};
+		baseRouter.addObserver(testObserver);
+		spyOn(testObserver, "onRouteEnteredHandler");
+		spyOn(testObserver, "onRouteExitedHandler");
 
 	});
 

@@ -14,7 +14,7 @@ describe("luga.router", function(){
 
 	describe(".isValidRoute()", function(){
 
-		it("Return true if the given object implements the luga.router.iRouteHandler interface", function(){
+		it("Return true if the given object implements the luga.router.IRouteHandler interface", function(){
 
 			var goodRute = new luga.router.RouteHandler({
 				path: "ciccio",

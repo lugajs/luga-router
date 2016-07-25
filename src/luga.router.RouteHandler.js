@@ -1,5 +1,5 @@
 /**
- * @typedef {object} luga.router.iRouteHandler.options
+ * @typedef {object} luga.router.IRouteHandler.options
  *
  * @property {string}           path              Path. Required
  * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
@@ -12,9 +12,9 @@
 
 	/**
 	 * Route class
-	 * @param options {luga.router.iRouteHandler.options}
+	 * @param options {luga.router.IRouteHandler.options}
 	 * @constructor
-	 * @extends luga.router.iRouteHandler
+	 * @extends luga.router.IRouteHandler
 	 */
 	luga.router.RouteHandler = function(options){
 
@@ -25,7 +25,7 @@
 		};
 
 		/**
-		 * @type {luga.router.iRouteHandler.options}
+		 * @type {luga.router.IRouteHandler.options}
 		 */
 		var config = {
 			path: "",
