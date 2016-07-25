@@ -20,6 +20,7 @@
 		var CONST = {
 			ERROR_MESSAGES: {
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
+				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
 				DUPLICATE_ROUTE: "luga.router.Router: Duplicate route, path {0} already specified"
 			}
 		};
@@ -57,12 +58,21 @@
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
-			/* istanbul ignore else */
-			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
-				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
-					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
+			if(arguments.length === 1){
+				/* istanbul ignore else */
+				if((luga.type(arguments[0]) !== "string") && (luga.type(arguments[0]) !== "object")){
+					throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 				}
-				addHandler(arguments[0]);
+				/* istanbul ignore else */
+				if(luga.type(arguments[0]) === "object"){
+					if(luga.router.isValidRouteHandler(arguments[0]) !== true){
+						throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
+					}
+					addHandler(arguments[0]);
+				}
+			}
+			if((arguments.length > 1) && (luga.router.isValidRouteHandler(arguments[0]) === true)){
+				throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 			}
 			if((arguments.length > 0) && (luga.type(arguments[0]) === "string")){
 				var options = {

@@ -106,18 +106,28 @@ describe("luga.router.Router", function(){
 
 		});
 
+		describe("Throws an exception if invoked with just an argument and the argument is neither:", function(){
+
+			it("A string", function(){
+				expect(function(){
+					emptyRouter.add(true);
+				}).toThrow();
+			});
+
+			it("A valid routeHandler", function(){
+				expect(function(){
+					emptyRouter.add({});
+				}).toThrow();
+			});
+
+		});
+
 		describe("If invoked passing just a routeHandler object as first and only argument:", function(){
 
 			it("Register the routeHandler", function(){
 				emptyRouter.add(firstHandler);
 				expect(emptyRouter.getAll().length).toEqual(1);
 				expect(emptyRouter.getAll()[0]).toEqual(firstHandler);
-			});
-
-			it("Throws an exception if the given object is not a valid routeHandler", function(){
-				expect(function(){
-					emptyRouter.add({});
-				}).toThrow();
 			});
 
 			it("Throws an exception if the given object path is associated with an already registered routeHandler", function(){
@@ -221,6 +231,12 @@ describe("luga.router.Router", function(){
 					expect(handler.getPayload()).toBeUndefined();
 				});
 
+			});
+
+			it("Throws an exception if the first argument is a routeHandler object, but it's not the only argument", function(){
+				expect(function(){
+					emptyRouter.add(firstHandler, "more");
+				}).toThrow();
 			});
 
 		});
