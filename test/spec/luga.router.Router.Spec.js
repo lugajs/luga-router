@@ -424,10 +424,10 @@ describe("luga.router.Router", function(){
 
 			describe("If the Router just started:", function(){
 
-				it("Call the enter() method of the first registered routeHandler matching the given fragment", function(){
-					spyOn(firstHandler, "enter");
+				it("Call the enter() method of the first registered routeHandler matching the given fragment. Passing the context as argument", function(){
+					spyOn(firstHandler, "enter").and.callThrough();
 					baseRouter.resolve("test/first");
-					expect(firstHandler.enter).toHaveBeenCalled();
+					expect(firstHandler.enter).toHaveBeenCalledWith({fragment: "test/first"});
 				});
 
 				describe("Passing the route's context. Containing the following keys:", function(){

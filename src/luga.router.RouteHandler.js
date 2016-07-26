@@ -55,7 +55,7 @@
 		 */
 		this.enter = function(context){
 			config.enterCallBacks.forEach(function(element, i, collection){
-				element.apply(context, []);
+				element.apply(null, [context]);
 			});
 		};
 

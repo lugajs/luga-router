@@ -22,8 +22,6 @@ DOCS:
 
 ROUTER:
 
-- Invoke callbacks with explicit argument, not implicit context
-
 - Expose events notification (routeEntered, routeExited). Pass context
 
 - Enable test on Node.js

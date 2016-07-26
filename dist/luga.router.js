@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-24T19:13:21.462Z
+luga-router 0.1.0 2016-07-26T18:14:10.751Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.router.iRouteHandler
+ * @typedef {object} luga.router.IRouteHandler
  *
  * @property {string} path
  * @property {function} enter
@@ -22,7 +22,7 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.routeContext
  *
  * @property {string} fragment                Route fragment. Required
- * @property {object|undefined} payload       Payload associated with the current iRouteHandler. Optional
+ * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	luga.router.version = "0.1.0";
 
 	/**
-	 * Return true if the given object implements the luga.router.iRouteHandler interface. False otherwise
+	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
 	 * @param {*} obj
 	 * @returns {boolean}
 	 */
@@ -66,14 +66,15 @@ if(typeof(luga) === "undefined"){
 	 * @param options {luga.router.options}
 	 * @constructor
 	 * @extends luga.Notifier
-	 * @fires routeEnter
-	 * @fires routeExit
+	 * @fires routeEntered
+	 * @fires routeExited
 	 */
 	luga.router.Router = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
+				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
 				DUPLICATE_ROUTE: "luga.router.Router: Duplicate route, path {0} already specified"
 			}
 		};
@@ -93,30 +94,39 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.router.Router} */
 		var self = this;
 
-		/** @type {array.<luga.router.iRouteHandler>} */
+		/** @type {array.<luga.router.IRouteHandler>} */
 		var routeHandlers = [];
 
-		/** @type {array.<luga.router.iRouteHandler>} */
+		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
 
 		/**
 		 * Add a Route. It can be invoked with two different sets of arguments:
 		 * 1) Only one single Route object:
-		 * ex: Router.add({luga.router.iRouteHandler})
+		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.iRouteHandler} path            Either a Route object or a path expressed as string. Required
+		 * @param {string|luga.router.IRouteHandler} path            Either a Route object or a path expressed as string. Required
 		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
-			/* istanbul ignore else */
-			if((arguments.length === 1) && (luga.type(arguments[0]) === "object")){
-				if(luga.router.isValidRouteHandler(arguments[0]) !== true){
-					throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
+			if(arguments.length === 1){
+				/* istanbul ignore else */
+				if((luga.type(arguments[0]) !== "string") && (luga.type(arguments[0]) !== "object")){
+					throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 				}
-				addHandler(arguments[0]);
+				/* istanbul ignore else */
+				if(luga.type(arguments[0]) === "object"){
+					if(luga.router.isValidRouteHandler(arguments[0]) !== true){
+						throw(CONST.ERROR_MESSAGES.INVALID_ROUTE);
+					}
+					addHandler(arguments[0]);
+				}
+			}
+			if((arguments.length > 1) && (luga.router.isValidRouteHandler(arguments[0]) === true)){
+				throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 			}
 			if((arguments.length > 0) && (luga.type(arguments[0]) === "string")){
 				var options = {
@@ -144,7 +154,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 *
-		 * @param {luga.router.iRouteHandler} route
+		 * @param {luga.router.IRouteHandler} route
 		 */
 		var addHandler = function(route){
 			if(self.getByPath(route.path) !== undefined){
@@ -155,7 +165,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return all the available route objects
-		 * @returns {array.<luga.router.iRouteHandler>}
+		 * @returns {array.<luga.router.IRouteHandler>}
 		 */
 		this.getAll = function(){
 			return routeHandlers;
@@ -165,7 +175,7 @@ if(typeof(luga) === "undefined"){
 		 * Return a registered route object associated with the given path
 		 * Return undefined if none is fund
 		 * @param {string} path
-		 * @returns {luga.router.iRouteHandler|undefined}
+		 * @returns {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
 			for(var i = 0; i < routeHandlers.length; i++){
@@ -185,7 +195,7 @@ if(typeof(luga) === "undefined"){
 		 * 2) Return an empty array if none is fund
 		 *
 		 * @param {string} fragment
-		 * @returns {luga.router.iRouteHandler|undefined|array.<luga.router.iRouteHandler>}
+		 * @returns {luga.router.IRouteHandler|undefined|array.<luga.router.IRouteHandler>}
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
@@ -276,7 +286,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
-		 * @param {array.<luga.router.iRouteHandler>} handlers
+		 * @param {array.<luga.router.IRouteHandler>} handlers
 		 * @param {string} fragment
 		 * @param {object} options.state
 		 */
@@ -299,7 +309,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Assemble a route context
-		 * @param {luga.router.iRouteHandler} handler
+		 * @param {luga.router.IRouteHandler} handler
 		 * @param {string} fragment
 		 * @param {object} options
 		 * @returns {luga.router.routeContext}
@@ -372,7 +382,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /**
- * @typedef {object} luga.router.iRouteHandler.options
+ * @typedef {object} luga.router.IRouteHandler.options
  *
  * @property {string}           path              Path. Required
  * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
@@ -385,9 +395,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Route class
-	 * @param options {luga.router.iRouteHandler.options}
+	 * @param options {luga.router.IRouteHandler.options}
 	 * @constructor
-	 * @extends luga.router.iRouteHandler
+	 * @extends luga.router.IRouteHandler
 	 */
 	luga.router.RouteHandler = function(options){
 
@@ -398,7 +408,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @type {luga.router.iRouteHandler.options}
+		 * @type {luga.router.IRouteHandler.options}
 		 */
 		var config = {
 			path: "",
@@ -408,6 +418,12 @@ if(typeof(luga) === "undefined"){
 		};
 
 		luga.merge(config, options);
+		if(luga.type(config.enterCallBacks) === "function"){
+			config.enterCallBacks = [config.enterCallBacks];
+		}
+		if(luga.type(config.exitCallBacks) === "function"){
+			config.exitCallBacks = [config.exitCallBacks];
+		}
 
 		if(luga.type(config.path) === "regexp"){
 			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
@@ -422,7 +438,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.enter = function(context){
 			config.enterCallBacks.forEach(function(element, i, collection){
-				element.apply(context, []);
+				element.apply(null, [context]);
 			});
 		};
 
