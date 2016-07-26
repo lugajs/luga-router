@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-26T18:14:10.751Z
+luga-router 0.1.0 2016-07-26T18:45:59.709Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -76,6 +76,10 @@ if(typeof(luga) === "undefined"){
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
 				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
 				DUPLICATE_ROUTE: "luga.router.Router: Duplicate route, path {0} already specified"
+			},
+			EVENTS: {
+				ENTER: "routeEntered",
+				EXIT: "routeExited"
 			}
 		};
 
@@ -286,6 +290,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
+		 * Finally: triggers a 'routeEntered' notification
 		 * @param {array.<luga.router.IRouteHandler>} handlers
 		 * @param {string} fragment
 		 * @param {object} options.state
@@ -295,6 +300,7 @@ if(typeof(luga) === "undefined"){
 			currentHandlers.forEach(function(element, i, collection){
 				var context = assembleContext(element, fragment, options);
 				element.enter(context);
+				self.notifyObservers(CONST.EVENTS.ENTER, context);
 			});
 		};
 
@@ -304,6 +310,7 @@ if(typeof(luga) === "undefined"){
 		var exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
 				element.exit();
+				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
 		};
 

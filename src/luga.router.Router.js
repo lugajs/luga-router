@@ -22,6 +22,10 @@
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
 				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
 				DUPLICATE_ROUTE: "luga.router.Router: Duplicate route, path {0} already specified"
+			},
+			EVENTS: {
+				ENTER: "routeEntered",
+				EXIT: "routeExited"
 			}
 		};
 
@@ -232,6 +236,7 @@
 		/**
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
+		 * Finally: triggers a 'routeEntered' notification
 		 * @param {array.<luga.router.IRouteHandler>} handlers
 		 * @param {string} fragment
 		 * @param {object} options.state
@@ -241,6 +246,7 @@
 			currentHandlers.forEach(function(element, i, collection){
 				var context = assembleContext(element, fragment, options);
 				element.enter(context);
+				self.notifyObservers(CONST.EVENTS.ENTER, context);
 			});
 		};
 
@@ -250,6 +256,7 @@
 		var exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
 				element.exit();
+				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
 		};
 

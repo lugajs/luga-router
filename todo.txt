@@ -18,11 +18,11 @@ DOCS:
 - Router.normalizeHash()
 - Router.normalizeFragment()
 
+- Events notification (routeEntered, routeExited)
+
 -------------
 
 ROUTER:
-
-- Expose events notification (routeEntered, routeExited). Pass context
 
 - Enable test on Node.js
 
