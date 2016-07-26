@@ -17,11 +17,11 @@ var pkg = require("./package.json");
 
 var CONST = {
 	SRC_ROUTER: "src/luga.router.js",
-	SRC_FILES: ["src/luga.router.js"],
+	SRC_FILES: ["src/luga.router.js", "src/luga.router.Router.js","src/luga.router.RouteHandler.js"],
 	DIST_FOLDER: "dist",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_FILE: "luga.router.js",
-	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-router.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d\\d?)?)\";")

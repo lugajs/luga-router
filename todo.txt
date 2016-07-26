@@ -1,33 +1,46 @@
 DOCS:
 
-- Start
+- Multiple router instances are possible (explain the implications)
+
+- Priority rely on order of registration. RouteHandlers are processed from top to bottom, the first match win.
+  If no match is found, nothing happens
+- Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
+
+- Router.add() is overloaded, explain signatures
+  Path can only be strings, RexExp aren't allowed
+
+- routeContext properties: fragment, payload, historyState
+
+- Integration with luga.history
+  1) hash: call .resolve() passing location.hash minus #
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+
+- Router.normalizeHash()
+- Router.normalizeFragment()
 
 -------------
 
 ROUTER:
 
-- Support route execution priority or rely on order of inclusion?
-  Sort routes alphanumerically to define priority?
+- Expose events notification (routeEntered, routeExited). Pass context
 
-- By default routes are locked. Global .setUp() or add() config may alter this
+- Enable test on Node.js
 
-- Expose event notification (luga.Notifier)
+- Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
+  https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
+  Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
 
-- Allows arbitrary payload to be passed by a route
-- Retrieve state object (if any, created by pushState) to be passed by a route
-- Parameters data to be passed by a route
-- Tokenized path to be passed by a route (nice to have)
+- Static utilities:
+  luga.router.compilePath(path) compiles route paths into RegExp
 
-- Router.start()
-- Router.stop()
-- Router.add(path, callbacks, config)
-- Router.remove()
-- Router.execute()
-- Router.clear() -> remove all routes
-- Router.setUp() -> set merge strategy
+- Parameters and as many useful data to be passed along the route context
 
+-------------
 
-- route definitions and matching syntax
-  Should we use Express's syntax? http://expressjs.com/en/guide/routing.html
-  Or more Crossroad? https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
-- Path can be only string or RegExp too?
+FUTURE:
+
+- In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
+  We can't handle HTTP headers too (other libraries don't either)
+  Should we provide a mechanism for Node.js?
+
+- Router.add() create instances of luga.RouteHandler by default, make this configurable?
