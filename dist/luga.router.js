@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-26T18:45:59.709Z
+luga-router 0.1.0 2016-07-27T06:59:02.847Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -22,6 +22,7 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.routeContext
  *
  * @property {string} fragment                Route fragment. Required
+ * @property {string} path                    Route path. Required
  * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
@@ -100,6 +101,9 @@ if(typeof(luga) === "undefined"){
 
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var routeHandlers = [];
+
+		/** @type {string|undefined} */
+		var currentFragment = undefined;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
@@ -282,7 +286,7 @@ if(typeof(luga) === "undefined"){
 			if(luga.isArray(matches) === false){
 				matches = [matches];
 			}
-			exit();
+			exit(options);
 			enter(matches, fragment, options);
 			return matches.length > 0;
 		};
@@ -297,6 +301,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
+			currentFragment = fragment;
 			currentHandlers.forEach(function(element, i, collection){
 				var context = assembleContext(element, fragment, options);
 				element.enter(context);
@@ -306,10 +311,12 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Execute the exit() method on all the current handlers
+		 * @param {object} options.state
 		 */
 		var exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
-				element.exit();
+				var context = assembleContext(element, currentFragment, options);
+				element.exit(context);
 				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
 		};
@@ -324,7 +331,8 @@ if(typeof(luga) === "undefined"){
 		var assembleContext = function(handler, fragment, options){
 			/** @type {luga.router.routeContext} */
 			var context = {
-				fragment: fragment
+				fragment: fragment,
+				path: handler.path
 			};
 			if(handler.getPayload() !== undefined){
 				context.payload = handler.getPayload();
