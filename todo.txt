@@ -18,13 +18,11 @@ DOCS:
 - Router.normalizeHash()
 - Router.normalizeFragment()
 
+- Events notification (routeEntered, routeExited)
+
 -------------
 
 ROUTER:
-
-- Invoke callbacks with explicit argument, not implicit context
-
-- Expose events notification (routeEntered, routeExited). Pass context
 
 - Enable test on Node.js
 

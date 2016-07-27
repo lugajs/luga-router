@@ -18,8 +18,8 @@ describe("luga.router.RouteHandler", function(){
 			}
 		};
 
-		spyOn(callBacks, "enter");
-		spyOn(callBacks, "secondEnter");
+		spyOn(callBacks, "enter").and.callThrough();
+		spyOn(callBacks, "secondEnter").and.callThrough();
 		spyOn(callBacks, "exit");
 		spyOn(callBacks, "secondExit");
 
@@ -142,10 +142,11 @@ describe("luga.router.RouteHandler", function(){
 
 	describe(".enter()", function(){
 
-		it("Execute enter callbacks", function(){
-			baseHandler.enter();
-			expect(callBacks.enter).toHaveBeenCalled();
-			expect(callBacks.secondEnter).toHaveBeenCalled();
+		it("Execute enter callbacks. Passing the given context as argument", function(){
+			var mockContext = {name: "test"};
+			baseHandler.enter(mockContext);
+			expect(callBacks.enter).toHaveBeenCalledWith(mockContext);
+			expect(callBacks.secondEnter).toHaveBeenCalledWith(mockContext);
 			expect(callBacks.exit).not.toHaveBeenCalled();
 		});
 

@@ -35,8 +35,12 @@ luga.namespace("luga.docs");
 			router.start();
 		};
 
-		var routeResolver = function(){
-			loadInclude(this.fragment);
+		/**
+		 * Execute registered enter callbacks, if any
+		 * @param {luga.router.routeContext} context
+		 */
+		var routeResolver = function(context){
+			loadInclude(context.fragment);
 		};
 
 		var loadInclude = function(id){

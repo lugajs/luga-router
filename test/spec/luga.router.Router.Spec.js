@@ -425,10 +425,13 @@ describe("luga.router.Router", function(){
 
 			describe("If the Router just started:", function(){
 
-				it("Call the enter() method of the first registered routeHandler matching the given fragment", function(){
-					spyOn(firstHandler, "enter");
+				it("Call the enter() method of the first registered routeHandler matching the given fragment. Passing the context as argument", function(){
+					spyOn(firstHandler, "enter").and.callThrough();
 					baseRouter.resolve("test/first");
-					expect(firstHandler.enter).toHaveBeenCalled();
+					expect(firstHandler.enter).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
 				});
 
 				describe("Passing the route's context. Containing the following keys:", function(){
@@ -470,6 +473,14 @@ describe("luga.router.Router", function(){
 
 				});
 
+				it("Then: triggers a 'routeEntered' notification. Sending the whole context along the way", function(){
+					baseRouter.resolve("test/first");
+					expect(testObserver.onRouteEnteredHandler).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
+				});
+
 			});
 
 			describe("If the Router already matched at least one route:", function(){
@@ -489,6 +500,12 @@ describe("luga.router.Router", function(){
 					spyOn(firstHandler, "enter");
 					baseRouter.resolve("test/first");
 					expect(firstHandler.enter).toHaveBeenCalled();
+				});
+
+				it("Finally: triggers a 'routeExited' notification. Sending the whole context along the way", function(){
+					baseRouter.resolve("test/first");
+					baseRouter.resolve("test/second");
+					expect(testObserver.onRouteExitedHandler).toHaveBeenCalled();
 				});
 
 			});
