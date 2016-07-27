@@ -47,6 +47,9 @@
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var routeHandlers = [];
 
+		/** @type {string|undefined} */
+		var currentFragment = undefined;
+
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
 
@@ -228,7 +231,7 @@
 			if(luga.isArray(matches) === false){
 				matches = [matches];
 			}
-			exit();
+			exit(options);
 			enter(matches, fragment, options);
 			return matches.length > 0;
 		};
@@ -243,6 +246,7 @@
 		 */
 		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
+			currentFragment = fragment;
 			currentHandlers.forEach(function(element, i, collection){
 				var context = assembleContext(element, fragment, options);
 				element.enter(context);
@@ -252,10 +256,12 @@
 
 		/**
 		 * Execute the exit() method on all the current handlers
+		 * @param {object} options.state
 		 */
 		var exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
-				element.exit();
+				var context = assembleContext(element, currentFragment, options);
+				element.exit(context);
 				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
 		};
@@ -270,7 +276,8 @@
 		var assembleContext = function(handler, fragment, options){
 			/** @type {luga.router.routeContext} */
 			var context = {
-				fragment: fragment
+				fragment: fragment,
+				path: handler.path
 			};
 			if(handler.getPayload() !== undefined){
 				context.payload = handler.getPayload();

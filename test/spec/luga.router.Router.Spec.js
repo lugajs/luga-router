@@ -365,6 +365,7 @@ describe("luga.router.Router", function(){
 				baseRouter.resolve("test/first", {historyState: {name: "test"}});
 				expect(firstHandler.enter).toHaveBeenCalledWith({
 					fragment: "test/first",
+					path: "test/first",
 					historyState: {name: "test"}
 				});
 			});
@@ -427,7 +428,10 @@ describe("luga.router.Router", function(){
 				it("Call the enter() method of the first registered routeHandler matching the given fragment. Passing the context as argument", function(){
 					spyOn(firstHandler, "enter").and.callThrough();
 					baseRouter.resolve("test/first");
-					expect(firstHandler.enter).toHaveBeenCalledWith({fragment: "test/first"});
+					expect(firstHandler.enter).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
 				});
 
 				describe("Passing the route's context. Containing the following keys:", function(){
@@ -436,7 +440,17 @@ describe("luga.router.Router", function(){
 						spyOn(firstHandler, "enter");
 						baseRouter.resolve("test/first");
 						expect(firstHandler.enter).toHaveBeenCalledWith({
-							fragment: "test/first"
+							fragment: "test/first",
+							path: "test/first"
+						});
+					});
+
+					it("context.path", function(){
+						spyOn(firstHandler, "enter");
+						baseRouter.resolve("test/first");
+						expect(firstHandler.enter).toHaveBeenCalledWith({
+							fragment: "test/first",
+							path: "test/first"
 						});
 					});
 
@@ -452,6 +466,7 @@ describe("luga.router.Router", function(){
 						emptyRouter.resolve("test/payload");
 						expect(payloadHandler.enter).toHaveBeenCalledWith({
 							fragment: "test/payload",
+							path: "test/payload",
 							payload: payloadObj
 						});
 					});
@@ -460,18 +475,24 @@ describe("luga.router.Router", function(){
 
 				it("Then: triggers a 'routeEntered' notification. Sending the whole context along the way", function(){
 					baseRouter.resolve("test/first");
-					expect(testObserver.onRouteEnteredHandler).toHaveBeenCalledWith({fragment: "test/first"});
+					expect(testObserver.onRouteEnteredHandler).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
 				});
 
 			});
 
 			describe("If the Router already matched at least one route:", function(){
 
-				it("First: call the exit() method of the previously matched routeHandler", function(){
-					baseRouter.resolve("test/second");
-					spyOn(secondHandler, "exit");
+				it("First: call the exit() method of the previously matched routeHandler. Passing the previous route's context", function(){
 					baseRouter.resolve("test/first");
-					expect(secondHandler.exit).toHaveBeenCalled();
+					spyOn(firstHandler, "exit");
+					baseRouter.resolve("test/second");
+					expect(firstHandler.exit).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
 				});
 
 				it("Then: call the enter() method of the first registered routeHandler matching the given fragment", function(){
