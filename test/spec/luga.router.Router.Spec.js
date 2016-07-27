@@ -365,6 +365,7 @@ describe("luga.router.Router", function(){
 				baseRouter.resolve("test/first", {historyState: {name: "test"}});
 				expect(firstHandler.enter).toHaveBeenCalledWith({
 					fragment: "test/first",
+					path: "test/first",
 					historyState: {name: "test"}
 				});
 			});
@@ -436,7 +437,17 @@ describe("luga.router.Router", function(){
 						spyOn(firstHandler, "enter");
 						baseRouter.resolve("test/first");
 						expect(firstHandler.enter).toHaveBeenCalledWith({
-							fragment: "test/first"
+							fragment: "test/first",
+							path: "test/first"
+						});
+					});
+
+					it("context.path", function(){
+						spyOn(firstHandler, "enter");
+						baseRouter.resolve("test/first");
+						expect(firstHandler.enter).toHaveBeenCalledWith({
+							fragment: "test/first",
+							path: "test/first"
 						});
 					});
 
@@ -452,6 +463,7 @@ describe("luga.router.Router", function(){
 						emptyRouter.resolve("test/payload");
 						expect(payloadHandler.enter).toHaveBeenCalledWith({
 							fragment: "test/payload",
+							path: "test/payload",
 							payload: payloadObj
 						});
 					});
@@ -462,11 +474,14 @@ describe("luga.router.Router", function(){
 
 			describe("If the Router already matched at least one route:", function(){
 
-				it("First: call the exit() method of the previously matched routeHandler", function(){
-					baseRouter.resolve("test/second");
-					spyOn(secondHandler, "exit");
+				it("First: call the exit() method of the previously matched routeHandler. Passing the previous route's context", function(){
 					baseRouter.resolve("test/first");
-					expect(secondHandler.exit).toHaveBeenCalled();
+					spyOn(firstHandler, "exit");
+					baseRouter.resolve("test/second");
+					expect(firstHandler.exit).toHaveBeenCalledWith({
+						fragment: "test/first",
+						path: "test/first"
+					});
 				});
 
 				it("Then: call the enter() method of the first registered routeHandler matching the given fragment", function(){
