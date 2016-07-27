@@ -71,6 +71,37 @@ describe("luga.router.Router", function(){
 
 		});
 
+		describe("options.handlerConstructor:", function(){
+
+			it("Default to luga.router.RouteHandler", function(){
+				expect(baseRouter.setup().handlerConstructor).toEqual(luga.router.RouteHandler);
+			});
+
+			it("Set the routeHandler constructor class invoked by the .add() method", function(){
+
+				var mockHandler = function(options){
+					this.path = options.path;
+					this.enter = function(){
+					};
+					this.exit = function(){
+					};
+					this.getPayload = function(){
+					};
+					this.match = function(){
+					};
+				};
+
+				emptyRouter.setup({
+					handlerConstructor: mockHandler
+				});
+				expect(emptyRouter.setup().handlerConstructor).toEqual(mockHandler);
+				emptyRouter.add("test/path");
+				var mockInstance = emptyRouter.getByPath("test/path");
+				expect(mockInstance instanceof mockHandler).toEqual(true);
+			});
+
+		});
+
 		describe("options.greedy:", function(){
 
 			it("Default to false", function(){

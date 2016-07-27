@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-27T06:59:02.847Z
+luga-router 0.1.0 2016-07-27T10:09:15.546Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -56,8 +56,9 @@ if(typeof(luga) === "undefined"){
 /**
  * @typedef {object} luga.router.options
  *
- * @property {string} rootPath     Default to empty string
- * @property {boolean} greedy      Set it to true to allow multiple routes matching. Default to false
+ * @property {string} rootPath                 Default to empty string
+ * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
+ * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
  */
 (function(){
 	"use strict";
@@ -91,6 +92,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		var config = {
 			rootPath: "",
+			handlerConstructor: luga.router.RouteHandler,
 			greedy: false
 		};
 
@@ -114,7 +116,7 @@ if(typeof(luga) === "undefined"){
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.IRouteHandler} path            Either a Route object or a path expressed as string. Required
+		 * @param {string|luga.router.IRouteHandler} path     Either a Route object or a path expressed as string. Required
 		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
@@ -155,7 +157,7 @@ if(typeof(luga) === "undefined"){
 				if(luga.type(exitCallBack) === "function"){
 					options.exitCallBacks = [exitCallBack];
 				}
-				var handler = new luga.router.RouteHandler(options);
+				var handler = new config.handlerConstructor(options);
 				addHandler(handler);
 			}
 		};

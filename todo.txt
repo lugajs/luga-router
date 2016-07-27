@@ -20,11 +20,11 @@ DOCS:
 
 - Events notification (routeEntered, routeExited)
 
+- Router.add() create instances of luga.RouteHandler by default. You can change this from options or setup()
+
 -------------
 
 ROUTER:
-
-Router.add() create instances of luga.RouteHandler by default, make this configurable
 
 - Enable test on Node.js
 
