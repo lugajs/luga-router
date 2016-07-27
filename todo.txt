@@ -20,6 +20,8 @@ DOCS:
 
 - Events notification (routeEntered, routeExited)
 
+- Router.add() create instances of luga.RouteHandler by default. You can change this from options or setup()
+
 -------------
 
 ROUTER:
@@ -42,5 +44,3 @@ FUTURE:
 - In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
   Should we provide a mechanism for Node.js?
-
-- Router.add() create instances of luga.RouteHandler by default, make this configurable?
