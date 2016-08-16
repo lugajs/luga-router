@@ -33,7 +33,7 @@ ROUTER:
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
 
 - Static utilities:
-  luga.router.compilePath(path) compiles route paths into RegExp
+  luga.router.utils.compilePath(path) compiles route paths into RegExp
 
 - Parameters and as many useful data to be passed along the route context
 
