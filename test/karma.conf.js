@@ -17,6 +17,7 @@ module.exports = function(config) {
 
 			// Source files
 			"src/luga.router.js",
+			"src/luga.router.utils.js",
 			"src/luga.router.RouteHandler.js",
 			"src/luga.router.Router.js",
 

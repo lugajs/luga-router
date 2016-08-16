@@ -32,8 +32,7 @@ ROUTER:
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
 
-- Static utilities:
-  luga.router.utils.compilePath(path) compiles route paths into RegExp
+- Use luga.router.utils.compilePath(path) to compile and match paths
 
 - Parameters and as many useful data to be passed along the route context
 
