@@ -2,12 +2,13 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var emptyRouter, baseRouter, greedyRouter, firstHandler, secondHandler, catchAllHandler, testObserver;
+	var emptyRouter, baseRouter, greedyRouter, pushStateRouter, firstHandler, secondHandler, catchAllHandler, testObserver;
 	beforeEach(function(){
 
 		emptyRouter = new luga.router.Router();
 		baseRouter = new luga.router.Router();
 		greedyRouter = new luga.router.Router({greedy: true});
+		pushStateRouter = new luga.router.Router({pushState: true});
 
 		firstHandler = new luga.router.RouteHandler({
 			path: "test/first",
@@ -106,6 +107,14 @@ describe("luga.router.Router", function(){
 
 			it("Default to false", function(){
 				expect(baseRouter.setup().greedy).toEqual(false);
+			});
+
+		});
+
+		describe("options.pushState:", function(){
+
+			it("Default to false", function(){
+				expect(baseRouter.setup().pushState).toEqual(false);
 			});
 
 		});
@@ -595,6 +604,10 @@ describe("luga.router.Router", function(){
 				expect(baseRouter.setup().greedy).toEqual(false);
 			});
 
+			it("pushState = false", function(){
+				expect(baseRouter.setup().pushState).toEqual(false);
+			});
+
 		});
 
 		describe("If a set of name/value pairs is passed as argument. Set the following configuration options:", function(){
@@ -607,40 +620,58 @@ describe("luga.router.Router", function(){
 				expect(baseRouter.setup({greedy: true}).greedy).toEqual(true);
 			});
 
+			it("pushState", function(){
+				expect(baseRouter.setup({pushState: true}).pushState).toEqual(true);
+			});
+
 		});
 
 	});
 
 	describe(".start()", function(){
 
-		it("Add .onHashChange() as listener to window.hashchange", function(){
-			spyOn(window, "addEventListener");
-			baseRouter.start();
-			expect(window.addEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+		describe("If options.pushState is false", function(){
+
+			it("Add .onHashChange() as listener to window.hashchange", function(){
+				spyOn(window, "addEventListener");
+				baseRouter.start();
+				expect(window.addEventListener.calls.count()).toEqual(1);
+				expect(window.addEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+			});
+
 		});
 
-		it("Add .onPopstate() as listener to window.popstate", function(){
-			spyOn(window, "addEventListener");
-			baseRouter.start();
-			expect(window.addEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
+		describe("If options.pushState is true", function(){
+
+			it("Add .onPopstate() as listener to window.popstate", function(){
+				spyOn(window, "addEventListener");
+				pushStateRouter.start();
+				expect(window.addEventListener.calls.count()).toEqual(1);
+				expect(window.addEventListener).toHaveBeenCalledWith("popstate", pushStateRouter.onPopstate, false);
+			});
+
 		});
 
 	});
 
 	describe(".stop()", function(){
 
-		it("Remove .onHashChange() as listener from window.hashchange", function(){
-			spyOn(window, "removeEventListener");
-			baseRouter.stop();
-			expect(window.removeEventListener.calls.count()).toEqual(2);
-			expect(window.removeEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+		describe("If options.pushState is false", function(){
+			it("Remove .onHashChange() as listener from window.hashchange", function(){
+				spyOn(window, "removeEventListener");
+				baseRouter.stop();
+				expect(window.removeEventListener.calls.count()).toEqual(1);
+				expect(window.removeEventListener).toHaveBeenCalledWith("hashchange", baseRouter.onHashChange, false);
+			});
 		});
 
-		it("Remove .onPopstate() as listener from window.popstate", function(){
-			spyOn(window, "removeEventListener");
-			baseRouter.stop();
-			expect(window.removeEventListener.calls.count()).toEqual(2);
-			expect(window.removeEventListener).toHaveBeenCalledWith("popstate", baseRouter.onPopstate, false);
+		describe("If options.pushState is true", function(){
+			it("Remove .onPopstate() as listener from window.popstate", function(){
+				spyOn(window, "removeEventListener");
+				pushStateRouter.stop();
+				expect(window.removeEventListener.calls.count()).toEqual(1);
+				expect(window.removeEventListener).toHaveBeenCalledWith("popstate", pushStateRouter.onPopstate, false);
+			});
 		});
 
 	});

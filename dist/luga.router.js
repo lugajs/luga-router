@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-08-17T10:57:08.263Z
+luga-router 0.1.0 2016-08-17T19:06:19.226Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -169,6 +169,7 @@ if(typeof(luga) === "undefined"){
  * @property {string} rootPath                 Default to empty string
  * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
  * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
+ * @property {boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
  */
 (function(){
 	"use strict";
@@ -203,7 +204,8 @@ if(typeof(luga) === "undefined"){
 		var config = {
 			rootPath: "",
 			handlerConstructor: luga.router.RouteHandler,
-			greedy: false
+			greedy: false,
+			pushState: false
 		};
 
 		luga.merge(config, options);
@@ -470,8 +472,12 @@ if(typeof(luga) === "undefined"){
 		this.start = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.addEventListener("hashchange", self.onHashChange, false);
-				window.addEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.addEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.addEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
@@ -482,8 +488,12 @@ if(typeof(luga) === "undefined"){
 		this.stop = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.removeEventListener("hashchange", self.onHashChange, false);
-				window.removeEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.removeEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.removeEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
