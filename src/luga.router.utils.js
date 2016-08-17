@@ -86,6 +86,11 @@
 		return pattern;
 	}
 
+	/**
+	 * Turn a path into a regular expression
+	 * @param {String} path
+	 * @returns {RegExp}
+	 */
 	luga.router.utils.compilePath = function(path){
 
 		// Remove leading and trailing slashes, if any

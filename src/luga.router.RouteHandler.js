@@ -46,8 +46,10 @@
 			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
 		}
 
-		// TODO: compile path
 		this.path = config.path;
+
+		/** @type {RegExp} */
+		var compiledPath = luga.router.utils.compilePath(config.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
@@ -83,8 +85,7 @@
 		 * @returns {boolean}
 		 */
 		this.match = function(fragment){
-			// TODO: implement pattern matching
-			return fragment === config.path;
+			return compiledPath.test(fragment);
 		};
 
 	};

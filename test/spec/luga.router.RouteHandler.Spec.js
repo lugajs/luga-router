@@ -182,10 +182,46 @@ describe("luga.router.RouteHandler", function(){
 
 	describe(".match()", function(){
 
-		describe("Return true if the given fragment:", function(){
+		describe("Return true if the given fragment matches:", function(){
 
-			it("Literally matches the path", function(){
-				expect(baseHandler.match(path)).toEqual(true);
+			it("The literal path", function(){
+				var handler = new luga.router.RouteHandler({
+					path: "literal"
+				});
+				expect(handler.match("literal")).toEqual(true);
+			});
+
+			it("Path with named variables: literal/{first}/{second}", function(){
+				var handler = new luga.router.RouteHandler({
+					path: "literal/{first}/{second}"
+				});
+				expect(handler.match("literal/ciccio/pasticcio")).toEqual(true);
+			});
+
+			it("Path with optional segments: {first}/:firstoption:", function(){
+				var handler = new luga.router.RouteHandler({
+					path: "{first}/:firstoption:"
+				});
+				expect(handler.match("ciccio")).toEqual(true);
+				expect(handler.match("ciccio/")).toEqual(true);
+				expect(handler.match("ciccio/pastccio")).toEqual(true);
+			});
+
+			it("Path with rest segments: {first}/:restoption*:/literal", function(){
+				var handler = new luga.router.RouteHandler({
+					path: "{first}/:restoption*:/literal"
+				});
+				expect(handler.match("literal/pasticcio/literal")).toEqual(true);
+				expect(handler.match("literal/literal")).toEqual(true);
+			});
+
+			it("Path with a mix of rest and optional segments: {first}/:option::restoption*:/literal", function(){
+				var handler = new luga.router.RouteHandler({
+					path: "{first}/:option::restoption*:/literal"
+				});
+				expect(handler.match("first/ciccio/pasticcio/literal")).toEqual(true);
+				expect(handler.match("first/ciccio/literal")).toEqual(true);
+				expect(handler.match("first/literal")).toEqual(true);
 			});
 
 		});
