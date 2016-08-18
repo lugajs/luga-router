@@ -71,13 +71,31 @@ describe("luga.router.utils", function(){
 
 		describe("Given a path:", function(){
 
-			it("Return an array of id contained inside the path", function(){
+			it("Return an array of ids contained inside the path", function(){
 				expect(luga.router.utils.getParamIds("{first}/:option::restoption*:/literal")).toEqual(["first", "option", "restoption*"]);
 				expect(luga.router.utils.getParamIds("literal/{first*}/:option:")).toEqual(["first*", "option"]);
 			});
 
 			it("Return an empty array if no id is found", function(){
 				expect(luga.router.utils.getParamIds("literal")).toEqual([]);
+			});
+
+		});
+
+	});
+
+	describe(".getParamValues()", function(){
+
+		describe("Given a path and a RegExp:", function(){
+
+			it("Return an array of values contained inside the path and captured by the RegExp", function(){
+				var regExp = luga.router.utils.compilePath("/{first}/{second}");
+				expect(luga.router.utils.getParamValues("/ciccio/pasticcio", regExp)).toEqual(["ciccio", "pasticcio"]);
+			});
+
+			it("Return an empty array if no value is captured", function(){
+				var regExp = luga.router.utils.compilePath("literal");
+				expect(luga.router.utils.getParamValues("literal", regExp)).toEqual([]);
 			});
 
 		});

@@ -133,4 +133,21 @@
 		return extractValues(PARAMS_REGEXP, path);
 	};
 
+	/**
+	 * Extract an array of values out of a given path using a RegExp
+	 * @param {String} path
+	 * @param {RegExp} regex
+	 * @returns {Array}
+	 */
+	luga.router.utils.getParamValues = function(path, regex){
+		var values = regex.exec(path);
+		if(values !== null){
+			// We want a plain vanilla array, normalize the result object
+			values.shift();
+			delete values.index;
+			delete values.input;
+		}
+		return values;
+	};
+
 }());
