@@ -67,4 +67,21 @@ describe("luga.router.utils", function(){
 
 	});
 
+	describe(".getParamIds()", function(){
+
+		describe("Given a path:", function(){
+
+			it("Return an array of id contained inside the path", function(){
+				expect(luga.router.utils.getParamIds("{first}/:option::restoption*:/literal")).toEqual(["first", "option", "restoption*"]);
+				expect(luga.router.utils.getParamIds("literal/{first*}/:option:")).toEqual(["first*", "option"]);
+			});
+
+			it("Return an empty array if no id is found", function(){
+				expect(luga.router.utils.getParamIds("literal")).toEqual([]);
+			});
+
+		});
+
+	});
+
 });

@@ -107,4 +107,30 @@
 		return new RegExp("^" + pattern + "$");
 	};
 
+	/**
+	 * Extract matching values out of a given path using a specified RegExp
+	 * @param {RegExp} regex
+	 * @param  {String} path
+	 * @returns {Array}
+	 */
+	function extractValues(regex, path){
+		var values = [];
+		var match;
+		// Reset lastIndex since RegExp can have "g" flag thus multiple runs might affect the result
+		regex.lastIndex = 0;
+		while((match = regex.exec(path)) !== null){
+			values.push(match[1]);
+		}
+		return values;
+	}
+
+	/**
+	 * Extract an array of id out of a given path
+	 * @param {String} path
+	 * @returns {Array}
+	 */
+	luga.router.utils.getParamIds = function(path){
+		return extractValues(PARAMS_REGEXP, path);
+	};
+
 }());
