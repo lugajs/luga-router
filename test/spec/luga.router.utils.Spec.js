@@ -93,6 +93,11 @@ describe("luga.router.utils", function(){
 				expect(luga.router.utils.getParamValues("/ciccio/pasticcio", regExp)).toEqual(["ciccio", "pasticcio"]);
 			});
 
+			it("Return an array containing undefined entries in case optional parameters are missing", function(){
+				var regExp = luga.router.utils.compilePath("/{first}/:option:");
+				expect(luga.router.utils.getParamValues("/ciccio/", regExp)).toEqual(["ciccio", undefined]);
+			});
+
 			it("Return an empty array if no value is captured", function(){
 				var regExp = luga.router.utils.compilePath("literal");
 				expect(luga.router.utils.getParamValues("literal", regExp)).toEqual([]);
