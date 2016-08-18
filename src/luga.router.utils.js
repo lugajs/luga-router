@@ -141,6 +141,7 @@
 	 */
 	luga.router.utils.getParamValues = function(path, regex){
 		var values = regex.exec(path);
+		/* istanbul ignore else */
 		if(values !== null){
 			// We want a plain vanilla array, normalize the result object
 			values.shift();
