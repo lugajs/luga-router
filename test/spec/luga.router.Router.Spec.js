@@ -181,7 +181,13 @@ describe("luga.router.Router", function(){
 
 		describe("If invoked passing multiple arguments:", function(){
 
-			it("The first argument, path is a string:", function(){
+			it("Throws an exception if the first argument is a routeHandler object, but it's not the only argument", function(){
+				expect(function(){
+					emptyRouter.add(firstHandler, "more");
+				}).toThrow();
+			});
+
+			it("The first argument, path must be a string:", function(){
 				expect(emptyRouter.getByPath(path)).toBeUndefined();
 				emptyRouter.add(path);
 				expect(emptyRouter.getByPath(path)).not.toBeUndefined();
@@ -271,12 +277,6 @@ describe("luga.router.Router", function(){
 					expect(handler.getPayload()).toBeUndefined();
 				});
 
-			});
-
-			it("Throws an exception if the first argument is a routeHandler object, but it's not the only argument", function(){
-				expect(function(){
-					emptyRouter.add(firstHandler, "more");
-				}).toThrow();
 			});
 
 		});
