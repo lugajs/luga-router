@@ -36,8 +36,6 @@ DOCS:
 
 ROUTER:
 
-- Extract queryString from fragment, turn it into an hash and attach to the context
-
 - Enable test on Node.js
 
 -------------
