@@ -48,8 +48,11 @@
 
 		this.path = config.path;
 
-		/** @type {RegExp} */
-		var compiledPath = luga.router.utils.compilePath(config.path);
+		/** @type {regExp} */
+		var compiledPath = luga.router.utils.compilePath(this.path);
+
+		/** @type {array} */
+		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
@@ -68,6 +71,21 @@
 			config.exitCallBacks.forEach(function(element, i, collection){
 				element.apply(null, []);
 			});
+		};
+
+		/**
+		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * @param {string} fragment
+		 * @returns {object}
+		 */
+		this.getParams = function(fragment){
+			var ret = {};
+			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			// Merge the two parallel arrays
+			paramsId.forEach(function(element, i, collection){
+				ret[element] = values[i];
+			});
+			return ret;
 		};
 
 		/**

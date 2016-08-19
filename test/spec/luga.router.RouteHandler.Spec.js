@@ -163,6 +163,41 @@ describe("luga.router.RouteHandler", function(){
 
 	});
 
+	describe(".getParams()", function(){
+
+		describe("Given a fragment:", function(){
+
+			it("Return an object containing an entry for each param and the relevant values extracted from the fragment", function(){
+				var testHandler = new luga.router.RouteHandler({
+					path: "{firstname}/{lastname}"
+				});
+				expect(testHandler.getParams("/ciccio/pasticcio")).toEqual({
+					firstname: "ciccio",
+					lastname: "pasticcio"
+				});
+			});
+
+			it("Return an object without any key if the path contains no params", function(){
+				var testHandler = new luga.router.RouteHandler({
+					path: "literal"
+				});
+				expect(testHandler.getParams("/ciccio/pasticcio")).toEqual({});
+			});
+
+			it("If the param is optional and it's not contained inside the fragment, the relevant key will contain undefined as value", function(){
+				var testHandler = new luga.router.RouteHandler({
+					path: "{firstname}/:lastname:"
+				});
+				expect(testHandler.getParams("/ciccio")).toEqual({
+					firstname: "ciccio",
+					lastname: undefined
+				});
+			});
+
+		});
+
+	});
+
 	describe(".getPayload()", function(){
 
 		it("Return the handler payload", function(){
