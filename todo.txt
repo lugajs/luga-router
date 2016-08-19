@@ -8,12 +8,14 @@ DOCS:
 
 - Router.add() is overloaded, explain signatures
   Path can only be strings, RexExp aren't allowed
+  
+- Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
+  https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
+  Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html 
 
-- routeContext properties: fragment, payload, historyState
+- Document optional parameters
 
-- Integration with luga.history
-  1) hash: call .resolve() passing location.hash minus #
-  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+- routeContext properties: path, fragment, payload, historyState, params
 
 - Router.normalizeHash()
 - Router.normalizeFragment()
@@ -22,20 +24,21 @@ DOCS:
 
 - Router.add() create instances of luga.RouteHandler by default. You can change this from options or setup()
 
+
+- Integration with luga.history
+  1) hash: call .resolve() passing location.hash minus #
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+
+- Document implication of using pushState regarding the server:
+  https://github.com/flatiron/director#history-api
+
 -------------
 
 ROUTER:
 
+- Extract queryString from fragment, turn it into an hash and attach to the context
+
 - Enable test on Node.js
-
-- Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
-  https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
-  Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html
-
-- Static utilities:
-  luga.router.compilePath(path) compiles route paths into RegExp
-
-- Parameters and as many useful data to be passed along the route context
 
 -------------
 

@@ -46,8 +46,13 @@
 			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
 		}
 
-		// TODO: compile path
 		this.path = config.path;
+
+		/** @type {regExp} */
+		var compiledPath = luga.router.utils.compilePath(this.path);
+
+		/** @type {array} */
+		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
@@ -69,6 +74,21 @@
 		};
 
 		/**
+		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * @param {string} fragment
+		 * @returns {object}
+		 */
+		this.getParams = function(fragment){
+			var ret = {};
+			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			// Merge the two parallel arrays
+			paramsId.forEach(function(element, i, collection){
+				ret[element] = values[i];
+			});
+			return ret;
+		};
+
+		/**
 		 * Return the handler payload, if any
 		 * Return undefined if no payload is associated with the handler
 		 * @returns {luga.router.routeContext|undefined}
@@ -83,8 +103,7 @@
 		 * @returns {boolean}
 		 */
 		this.match = function(fragment){
-			// TODO: implement pattern matching
-			return fragment === config.path;
+			return compiledPath.test(fragment);
 		};
 
 	};

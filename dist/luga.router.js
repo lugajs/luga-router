@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-07-27T10:09:15.546Z
+luga-router 0.1.0 2016-08-19T15:24:45.562Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -15,6 +15,7 @@ if(typeof(luga) === "undefined"){
  * @property {function} enter
  * @property {function} exit
  * @property {function} getPayload
+ * @property {function} getParams
  * @property {function} match
  */
 
@@ -23,6 +24,7 @@ if(typeof(luga) === "undefined"){
  *
  * @property {string} fragment                Route fragment. Required
  * @property {string} path                    Route path. Required
+ * @property {object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
  * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
@@ -45,11 +47,166 @@ if(typeof(luga) === "undefined"){
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
 				(luga.type(obj.getPayload) === "function") &&
+				(luga.type(obj.getParams) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}
 		}
 		return false;
+	};
+
+}());
+(function(){
+	"use strict";
+
+	luga.namespace("luga.router.utils");
+
+	/*
+	 Lovingly adapted from Crossroads.js
+	 https://millermedeiros.github.io/crossroads.js/
+	 */
+
+	// Leading and trailing slashes
+	var SLASHES_REGEXP = /^\/|\/$/g;
+
+	// Params:  everything between "{ }" or ": :"
+	var PARAMS_REGEXP = /(?:\{|:)([^}:]+)(?:\}|:)/g;
+
+	// Save params during compile (avoid escaping things that shouldn't be escaped)
+	var TOKENS = {
+		OS: {
+			// Optional slashes
+			// Slash between "::" or "}:" or "\w:" or ":{?" or "}{?" or "\w{?"
+			rgx: /([:}]|\w(?=\/))\/?(:|(?:\{\?))/g,
+			save: "$1{{id}}$2",
+			res: "\\/?"
+		},
+		RS: {
+			// Required slashes
+			// Used to insert slash between ":{" and "}{"
+			rgx: /([:}])\/?(\{)/g,
+			save: "$1{{id}}$2",
+			res: "\\/"
+		},
+		RQ: {
+			// Required query string: everything in between "{? }"
+			rgx: /\{\?([^}]+)\}/g,
+			// Everything from "?" till "#" or end of string
+			res: "\\?([^#]+)"
+		},
+		OQ: {
+			// Optional query string: everything in between ":? :"
+			rgx: /:\?([^:]+):/g,
+			// Everything from "?" till "#" or end of string
+			res: "(?:\\?([^#]*))?"
+		},
+		OR: {
+			// Optional rest: everything in between ": *:"
+			rgx: /:([^:]+)\*:/g,
+			res: "(.*)?" // Optional group to avoid passing empty string as captured
+		},
+		RR: {
+			// Rest param: everything in between "{ *}"
+			rgx: /\{([^}]+)\*\}/g,
+			res: "(.+)"
+		},
+		// Required/optional params should come after rest segments
+		RP: {
+			// Required params: everything between "{ }"
+			rgx: /\{([^}]+)\}/g,
+			res: "([^\\/?]+)"
+		},
+		OP: {
+			// Optional params: everything between ": :"
+			rgx: /:([^:]+):/g,
+			res: "([^\\/?]+)?\/?"
+		}
+	};
+
+	for(var key in TOKENS){
+		/* istanbul ignore else */
+		if(TOKENS.hasOwnProperty(key) === true){
+			var current = TOKENS[key];
+			current.id = "__CR_" + key + "__";
+			current.save = ("save" in current) ? current.save.replace("{{id}}", current.id) : current.id;
+			current.rRestore = new RegExp(current.id, "g");
+		}
+	}
+
+	function replaceTokens(pattern, regexpName, replaceName){
+		for(var key in TOKENS){
+			/* istanbul ignore else */
+			if(TOKENS.hasOwnProperty(key) === true){
+				var current = TOKENS[key];
+				pattern = pattern.replace(current[regexpName], current[replaceName]);
+			}
+		}
+		return pattern;
+	}
+
+	/**
+	 * Turn a path into a regular expression
+	 * @param {string} path
+	 * @returns {regExp}
+	 */
+	luga.router.utils.compilePath = function(path){
+
+		// Remove leading and trailing slashes, if any
+		var pattern = path.replace(SLASHES_REGEXP, "");
+
+		// Save tokens
+		pattern = replaceTokens(pattern, "rgx", "save");
+		// Restore tokens
+		pattern = replaceTokens(pattern, "rRestore", "res");
+
+		// Add optional leading and trailing slashes
+		pattern = "\\/?" + pattern + "\\/?";
+
+		return new RegExp("^" + pattern + "$");
+	};
+
+	/**
+	 * Extract matching values out of a given path using a specified RegExp
+	 * @param {regExp} regex
+	 * @param  {string} path
+	 * @returns {array}
+	 */
+	function extractValues(regex, path){
+		var values = [];
+		var match;
+		// Reset lastIndex since RegExp can have "g" flag thus multiple runs might affect the result
+		regex.lastIndex = 0;
+		while((match = regex.exec(path)) !== null){
+			values.push(match[1]);
+		}
+		return values;
+	}
+
+	/**
+	 * Extract an array of id out of a given path
+	 * @param {string} path
+	 * @returns {array}
+	 */
+	luga.router.utils.getParamIds = function(path){
+		return extractValues(PARAMS_REGEXP, path);
+	};
+
+	/**
+	 * Extract an array of values out of a given path using a RegExp
+	 * @param {string} path
+	 * @param {regExp} regex
+	 * @returns {array}
+	 */
+	luga.router.utils.getParamValues = function(path, regex){
+		var values = regex.exec(path);
+		/* istanbul ignore else */
+		if(values !== null){
+			// We want a plain vanilla array, normalize the result object
+			values.shift();
+			delete values.index;
+			delete values.input;
+		}
+		return values;
 	};
 
 }());
@@ -59,6 +216,7 @@ if(typeof(luga) === "undefined"){
  * @property {string} rootPath                 Default to empty string
  * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
  * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
+ * @property {boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
  */
 (function(){
 	"use strict";
@@ -93,7 +251,8 @@ if(typeof(luga) === "undefined"){
 		var config = {
 			rootPath: "",
 			handlerConstructor: luga.router.RouteHandler,
-			greedy: false
+			greedy: false,
+			pushState: false
 		};
 
 		luga.merge(config, options);
@@ -334,11 +493,12 @@ if(typeof(luga) === "undefined"){
 			/** @type {luga.router.routeContext} */
 			var context = {
 				fragment: fragment,
-				path: handler.path
+				path: handler.path,
+				payload: handler.getPayload(),
+				params: handler.getParams(fragment),
+				historyState: undefined
 			};
-			if(handler.getPayload() !== undefined){
-				context.payload = handler.getPayload();
-			}
+
 			luga.merge(context, options);
 			return context;
 		};
@@ -360,8 +520,12 @@ if(typeof(luga) === "undefined"){
 		this.start = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.addEventListener("hashchange", self.onHashChange, false);
-				window.addEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.addEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.addEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
@@ -372,8 +536,12 @@ if(typeof(luga) === "undefined"){
 		this.stop = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.removeEventListener("hashchange", self.onHashChange, false);
-				window.removeEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.removeEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.removeEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
@@ -446,8 +614,13 @@ if(typeof(luga) === "undefined"){
 			throw(CONST.ERROR_MESSAGES.INVALID_PATH_REGEXP);
 		}
 
-		// TODO: compile path
 		this.path = config.path;
+
+		/** @type {regExp} */
+		var compiledPath = luga.router.utils.compilePath(this.path);
+
+		/** @type {array} */
+		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
@@ -469,6 +642,21 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * @param {string} fragment
+		 * @returns {object}
+		 */
+		this.getParams = function(fragment){
+			var ret = {};
+			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			// Merge the two parallel arrays
+			paramsId.forEach(function(element, i, collection){
+				ret[element] = values[i];
+			});
+			return ret;
+		};
+
+		/**
 		 * Return the handler payload, if any
 		 * Return undefined if no payload is associated with the handler
 		 * @returns {luga.router.routeContext|undefined}
@@ -483,8 +671,7 @@ if(typeof(luga) === "undefined"){
 		 * @returns {boolean}
 		 */
 		this.match = function(fragment){
-			// TODO: implement pattern matching
-			return fragment === config.path;
+			return compiledPath.test(fragment);
 		};
 
 	};

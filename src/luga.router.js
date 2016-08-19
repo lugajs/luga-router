@@ -10,6 +10,7 @@ if(typeof(luga) === "undefined"){
  * @property {function} enter
  * @property {function} exit
  * @property {function} getPayload
+ * @property {function} getParams
  * @property {function} match
  */
 
@@ -18,6 +19,7 @@ if(typeof(luga) === "undefined"){
  *
  * @property {string} fragment                Route fragment. Required
  * @property {string} path                    Route path. Required
+ * @property {object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
  * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
@@ -40,6 +42,7 @@ if(typeof(luga) === "undefined"){
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
 				(luga.type(obj.getPayload) === "function") &&
+				(luga.type(obj.getParams) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}

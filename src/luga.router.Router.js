@@ -4,6 +4,7 @@
  * @property {string} rootPath                 Default to empty string
  * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
  * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
+ * @property {boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
  */
 (function(){
 	"use strict";
@@ -38,7 +39,8 @@
 		var config = {
 			rootPath: "",
 			handlerConstructor: luga.router.RouteHandler,
-			greedy: false
+			greedy: false,
+			pushState: false
 		};
 
 		luga.merge(config, options);
@@ -279,11 +281,12 @@
 			/** @type {luga.router.routeContext} */
 			var context = {
 				fragment: fragment,
-				path: handler.path
+				path: handler.path,
+				payload: handler.getPayload(),
+				params: handler.getParams(fragment),
+				historyState: undefined
 			};
-			if(handler.getPayload() !== undefined){
-				context.payload = handler.getPayload();
-			}
+
 			luga.merge(context, options);
 			return context;
 		};
@@ -305,8 +308,12 @@
 		this.start = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.addEventListener("hashchange", self.onHashChange, false);
-				window.addEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.addEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.addEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
@@ -317,8 +324,12 @@
 		this.stop = function(){
 			/* istanbul ignore else */
 			if(window !== undefined){
-				window.removeEventListener("hashchange", self.onHashChange, false);
-				window.removeEventListener("popstate", self.onPopstate, false);
+				if(config.pushState === false){
+					window.removeEventListener("hashchange", self.onHashChange, false);
+				}
+				else{
+					window.removeEventListener("popstate", self.onPopstate, false);
+				}
 			}
 		};
 
