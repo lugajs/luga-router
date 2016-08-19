@@ -88,8 +88,8 @@
 
 	/**
 	 * Turn a path into a regular expression
-	 * @param {String} path
-	 * @returns {RegExp}
+	 * @param {string} path
+	 * @returns {regExp}
 	 */
 	luga.router.utils.compilePath = function(path){
 
@@ -109,9 +109,9 @@
 
 	/**
 	 * Extract matching values out of a given path using a specified RegExp
-	 * @param {RegExp} regex
-	 * @param  {String} path
-	 * @returns {Array}
+	 * @param {regExp} regex
+	 * @param  {string} path
+	 * @returns {array}
 	 */
 	function extractValues(regex, path){
 		var values = [];
@@ -126,8 +126,8 @@
 
 	/**
 	 * Extract an array of id out of a given path
-	 * @param {String} path
-	 * @returns {Array}
+	 * @param {string} path
+	 * @returns {array}
 	 */
 	luga.router.utils.getParamIds = function(path){
 		return extractValues(PARAMS_REGEXP, path);
@@ -135,9 +135,9 @@
 
 	/**
 	 * Extract an array of values out of a given path using a RegExp
-	 * @param {String} path
-	 * @param {RegExp} regex
-	 * @returns {Array}
+	 * @param {string} path
+	 * @param {regExp} regex
+	 * @returns {array}
 	 */
 	luga.router.utils.getParamValues = function(path, regex){
 		var values = regex.exec(path);
