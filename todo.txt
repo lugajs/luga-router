@@ -34,7 +34,9 @@ ROUTER:
 
 - Enable test on Node.js
 
-- Parameters and as many useful data to be passed along the route context
+- Parameters and as many useful data to be passed along the route context (params = name/value pair)
+
+- Extract queryString from fragment, turn it into an hash and attach to the context
 
 -------------
 
