@@ -10,6 +10,7 @@ if(typeof(luga) === "undefined"){
  * @property {function} enter
  * @property {function} exit
  * @property {function} getPayload
+ * @property {function} getParams
  * @property {function} match
  */
 
@@ -41,6 +42,7 @@ if(typeof(luga) === "undefined"){
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
 				(luga.type(obj.getPayload) === "function") &&
+				(luga.type(obj.getParams) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}
