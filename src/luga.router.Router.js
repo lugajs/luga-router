@@ -170,11 +170,14 @@
 		};
 
 		/**
-		 * Remove the rootPath in front of the given string
+		 * Remove the rootPath in front of the given string and remove the querystring, if any
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
 		this.normalizeFragment = function(inputString){
+			if(inputString.indexOf("?") !== -1){
+				inputString = inputString.substring(0, inputString.indexOf("?"));
+			}
 			var pattern = new RegExp("^\/?" + config.rootPath);
 			return inputString.replace(pattern, "");
 		};

@@ -357,11 +357,12 @@ describe("luga.router.Router", function(){
 
 	describe(".normalizeFragment()", function(){
 
-		it("Remove the basePath from the beginning of the given string", function(){
+		it("Remove the basePath from the beginning of the given string and remove the querystring, if any", function(){
 			baseRouter.setup({
 				rootPath: "root/"
 			});
 			expect(baseRouter.normalizeFragment("root/test/path")).toEqual("test/path");
+			expect(baseRouter.normalizeFragment("root/test/path?id=1")).toEqual("test/path");
 			expect(baseRouter.normalizeFragment("/root/test/path")).toEqual("test/path");
 		});
 
