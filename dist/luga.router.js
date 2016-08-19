@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-08-17T19:06:19.226Z
+luga-router 0.1.0 2016-08-19T15:24:45.562Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -15,6 +15,7 @@ if(typeof(luga) === "undefined"){
  * @property {function} enter
  * @property {function} exit
  * @property {function} getPayload
+ * @property {function} getParams
  * @property {function} match
  */
 
@@ -23,6 +24,7 @@ if(typeof(luga) === "undefined"){
  *
  * @property {string} fragment                Route fragment. Required
  * @property {string} path                    Route path. Required
+ * @property {object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
  * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
@@ -45,6 +47,7 @@ if(typeof(luga) === "undefined"){
 				(luga.type(obj.enter) === "function") &&
 				(luga.type(obj.exit) === "function") &&
 				(luga.type(obj.getPayload) === "function") &&
+				(luga.type(obj.getParams) === "function") &&
 				(luga.type(obj.match) === "function")){
 				return true;
 			}
@@ -143,8 +146,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Turn a path into a regular expression
-	 * @param {String} path
-	 * @returns {RegExp}
+	 * @param {string} path
+	 * @returns {regExp}
 	 */
 	luga.router.utils.compilePath = function(path){
 
@@ -160,6 +163,50 @@ if(typeof(luga) === "undefined"){
 		pattern = "\\/?" + pattern + "\\/?";
 
 		return new RegExp("^" + pattern + "$");
+	};
+
+	/**
+	 * Extract matching values out of a given path using a specified RegExp
+	 * @param {regExp} regex
+	 * @param  {string} path
+	 * @returns {array}
+	 */
+	function extractValues(regex, path){
+		var values = [];
+		var match;
+		// Reset lastIndex since RegExp can have "g" flag thus multiple runs might affect the result
+		regex.lastIndex = 0;
+		while((match = regex.exec(path)) !== null){
+			values.push(match[1]);
+		}
+		return values;
+	}
+
+	/**
+	 * Extract an array of id out of a given path
+	 * @param {string} path
+	 * @returns {array}
+	 */
+	luga.router.utils.getParamIds = function(path){
+		return extractValues(PARAMS_REGEXP, path);
+	};
+
+	/**
+	 * Extract an array of values out of a given path using a RegExp
+	 * @param {string} path
+	 * @param {regExp} regex
+	 * @returns {array}
+	 */
+	luga.router.utils.getParamValues = function(path, regex){
+		var values = regex.exec(path);
+		/* istanbul ignore else */
+		if(values !== null){
+			// We want a plain vanilla array, normalize the result object
+			values.shift();
+			delete values.index;
+			delete values.input;
+		}
+		return values;
 	};
 
 }());
@@ -446,11 +493,12 @@ if(typeof(luga) === "undefined"){
 			/** @type {luga.router.routeContext} */
 			var context = {
 				fragment: fragment,
-				path: handler.path
+				path: handler.path,
+				payload: handler.getPayload(),
+				params: handler.getParams(fragment),
+				historyState: undefined
 			};
-			if(handler.getPayload() !== undefined){
-				context.payload = handler.getPayload();
-			}
+
 			luga.merge(context, options);
 			return context;
 		};
@@ -568,8 +616,11 @@ if(typeof(luga) === "undefined"){
 
 		this.path = config.path;
 
-		/** @type {RegExp} */
-		var compiledPath = luga.router.utils.compilePath(config.path);
+		/** @type {regExp} */
+		var compiledPath = luga.router.utils.compilePath(this.path);
+
+		/** @type {array} */
+		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
@@ -588,6 +639,21 @@ if(typeof(luga) === "undefined"){
 			config.exitCallBacks.forEach(function(element, i, collection){
 				element.apply(null, []);
 			});
+		};
+
+		/**
+		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * @param {string} fragment
+		 * @returns {object}
+		 */
+		this.getParams = function(fragment){
+			var ret = {};
+			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			// Merge the two parallel arrays
+			paramsId.forEach(function(element, i, collection){
+				ret[element] = values[i];
+			});
+			return ret;
 		};
 
 		/**
