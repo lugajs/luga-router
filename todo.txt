@@ -13,13 +13,9 @@ DOCS:
   https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
   Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html 
 
-- Document optional paramaters  
+- Document optional parameters
 
-- routeContext properties: fragment, payload, historyState
-
-- Integration with luga.history
-  1) hash: call .resolve() passing location.hash minus #
-  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+- routeContext properties: path, fragment, payload, historyState, params
 
 - Router.normalizeHash()
 - Router.normalizeFragment()
@@ -28,15 +24,21 @@ DOCS:
 
 - Router.add() create instances of luga.RouteHandler by default. You can change this from options or setup()
 
+
+- Integration with luga.history
+  1) hash: call .resolve() passing location.hash minus #
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+
+- Document implication of using pushState regarding the server:
+  https://github.com/flatiron/director#history-api
+
 -------------
 
 ROUTER:
 
-- Enable test on Node.js
-
-- Parameters and as many useful data to be passed along the route context (params = name/value pair)
-
 - Extract queryString from fragment, turn it into an hash and attach to the context
+
+- Enable test on Node.js
 
 -------------
 

@@ -281,11 +281,12 @@
 			/** @type {luga.router.routeContext} */
 			var context = {
 				fragment: fragment,
-				path: handler.path
+				path: handler.path,
+				payload: handler.getPayload(),
+				params: handler.getParams(fragment),
+				historyState: undefined
 			};
-			if(handler.getPayload() !== undefined){
-				context.payload = handler.getPayload();
-			}
+
 			luga.merge(context, options);
 			return context;
 		};

@@ -2,7 +2,7 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var emptyRouter, baseRouter, greedyRouter, pushStateRouter, firstHandler, secondHandler, catchAllHandler, testObserver;
+	var emptyRouter, baseRouter, greedyRouter, pushStateRouter, firstHandler, secondHandler, paramHandler, optionHandler, catchAllHandler, testObserver;
 	beforeEach(function(){
 
 		emptyRouter = new luga.router.Router();
@@ -18,6 +18,18 @@ describe("luga.router.Router", function(){
 
 		secondHandler = new luga.router.RouteHandler({
 			path: "test/second",
+			enterCallBacks: [],
+			exitCallBacks: []
+		});
+
+		paramHandler = new luga.router.RouteHandler({
+			path: "{firstname}/{lastname}",
+			enterCallBacks: [],
+			exitCallBacks: []
+		});
+
+		optionHandler = new luga.router.RouteHandler({
+			path: "{first}/:option:",
 			enterCallBacks: [],
 			exitCallBacks: []
 		});
@@ -388,7 +400,7 @@ describe("luga.router.Router", function(){
 
 	describe(".onPopstate()", function(){
 
-		describe("When invoked, call .resolve() passing:", function(){
+		describe("When invoked, call .resolve() passing the following arguments:", function(){
 
 			it("document.location.pathname minus options.rootPath", function(){
 				spyOn(baseRouter, "resolve");
@@ -401,13 +413,15 @@ describe("luga.router.Router", function(){
 
 			});
 
-			it("and an optional state object inside context.historyState", function(){
+			it("An optional state object inside context.historyState", function(){
 				spyOn(firstHandler, "enter");
 				baseRouter.resolve("test/first", {historyState: {name: "test"}});
 				expect(firstHandler.enter).toHaveBeenCalledWith({
 					fragment: "test/first",
 					path: "test/first",
-					historyState: {name: "test"}
+					historyState: {name: "test"},
+					payload: undefined,
+					params: {}
 				});
 			});
 
@@ -466,60 +480,134 @@ describe("luga.router.Router", function(){
 
 			describe("If the Router just started:", function(){
 
-				it("Call the enter() method of the first registered routeHandler matching the given fragment. Passing the context as argument", function(){
-					spyOn(firstHandler, "enter").and.callThrough();
-					baseRouter.resolve("test/first");
-					expect(firstHandler.enter).toHaveBeenCalledWith({
-						fragment: "test/first",
-						path: "test/first"
-					});
-				});
+				describe("First:", function(){
 
-				describe("Passing the route's context. Containing the following keys:", function(){
-
-					it("context.fragment", function(){
-						spyOn(firstHandler, "enter");
+					it("Call the enter() method of the first registered routeHandler matching the given fragment", function(){
+						spyOn(firstHandler, "enter").and.callThrough();
 						baseRouter.resolve("test/first");
 						expect(firstHandler.enter).toHaveBeenCalledWith({
 							fragment: "test/first",
-							path: "test/first"
+							path: "test/first",
+							payload: undefined,
+							historyState: undefined,
+							params: {}
 						});
 					});
 
-					it("context.path", function(){
-						spyOn(firstHandler, "enter");
-						baseRouter.resolve("test/first");
-						expect(firstHandler.enter).toHaveBeenCalledWith({
-							fragment: "test/first",
-							path: "test/first"
-						});
-					});
+					describe("Passing the route's context as argument. The context contains the following keys: fragment, path, payload, historyState and params", function(){
 
-					it("context.payload (if specified by the routeHandler)", function(){
-						var payloadObj = {name: "myPayload"};
-						var payloadHandler = new luga.router.RouteHandler({
-							path: "test/payload",
-							payload: payloadObj
+						it("context.fragment", function(){
+							spyOn(paramHandler, "enter");
+							emptyRouter.add(paramHandler);
+							emptyRouter.resolve("ciccio/pasticcio");
+							expect(paramHandler.enter).toHaveBeenCalledWith({
+								fragment: "ciccio/pasticcio",
+								path: "{firstname}/{lastname}",
+								payload: undefined,
+								historyState: undefined,
+								params: {
+									firstname: "ciccio",
+									lastname: "pasticcio"
+								}
+							});
 						});
-						spyOn(payloadHandler, "enter");
-						emptyRouter.add(payloadHandler);
 
-						emptyRouter.resolve("test/payload");
-						expect(payloadHandler.enter).toHaveBeenCalledWith({
-							fragment: "test/payload",
-							path: "test/payload",
-							payload: payloadObj
+						it("context.params contains a set of name/value pairs for each param", function(){
+							spyOn(paramHandler, "enter").and.callThrough();
+							emptyRouter.add(paramHandler);
+							emptyRouter.resolve("ciccio/pasticcio");
+							expect(paramHandler.enter).toHaveBeenCalledWith({
+								fragment: "ciccio/pasticcio",
+								path: "{firstname}/{lastname}",
+								payload: undefined,
+								historyState: undefined,
+								params: {
+									firstname: "ciccio",
+									lastname: "pasticcio"
+								}
+							});
 						});
+
+
+						it("context.params will contain 'undefined' as value for missing optional params", function(){
+							spyOn(optionHandler, "enter").and.callThrough();
+							emptyRouter.add(optionHandler);
+							emptyRouter.resolve("ciccio");
+							expect(optionHandler.enter).toHaveBeenCalledWith({
+								fragment: "ciccio",
+								path: "{first}/:option:",
+								payload: undefined,
+								historyState: undefined,
+								params: {
+									first: "ciccio",
+									option: undefined
+								}
+							});
+						});
+
+						it("context.params is an empty object if no param has been captured", function(){
+							spyOn(firstHandler, "enter").and.callThrough();
+							baseRouter.resolve("test/first");
+							expect(firstHandler.enter).toHaveBeenCalledWith({
+								fragment: "test/first",
+								path: "test/first",
+								payload: undefined,
+								historyState: undefined,
+								params: {}
+							});
+						});
+
+						it("context.payload is undefined if not specified by the routeHandler", function(){
+							var payloadObj = {name: "myPayload"};
+							var payloadHandler = new luga.router.RouteHandler({
+								path: "test/payload",
+								payload: payloadObj,
+								historyState: undefined,
+								params: {}
+							});
+							spyOn(payloadHandler, "enter");
+							emptyRouter.add(payloadHandler);
+
+							emptyRouter.resolve("test/payload");
+							expect(payloadHandler.enter).toHaveBeenCalledWith({
+								fragment: "test/payload",
+								path: "test/payload",
+								payload: payloadObj,
+								historyState: undefined,
+								params: {}
+							});
+						});
+
+						it("context.historyState is populated only if .resolve() has been called from .onPopstate()", function(){
+							// We have to mock what will happen onpostate
+							var contextHistory;
+							spyOn(catchAllHandler, "enter").and.callFake(function(context){
+								contextHistory = context.historyState;
+							});
+							emptyRouter.add(catchAllHandler);
+							emptyRouter.onPopstate({
+								state: {name: "ciccio"}
+							});
+							expect(contextHistory).toEqual({name: "ciccio"});
+						});
+
 					});
 
 				});
 
-				it("Then: triggers a 'routeEntered' notification. Sending the whole context along the way", function(){
-					baseRouter.resolve("test/first");
-					expect(testObserver.onRouteEnteredHandler).toHaveBeenCalledWith({
-						fragment: "test/first",
-						path: "test/first"
+				describe("Then:", function(){
+
+					it("Trigger a 'routeEntered' notification. Sending the whole context along the way", function(){
+						baseRouter.resolve("test/first");
+						expect(testObserver.onRouteEnteredHandler).toHaveBeenCalledWith({
+							fragment: "test/first",
+							path: "test/first",
+							payload: undefined,
+							historyState: undefined,
+							params: {}
+						});
 					});
+
 				});
 
 			});
@@ -532,7 +620,10 @@ describe("luga.router.Router", function(){
 					baseRouter.resolve("test/second");
 					expect(firstHandler.exit).toHaveBeenCalledWith({
 						fragment: "test/first",
-						path: "test/first"
+						path: "test/first",
+						payload: undefined,
+						historyState: undefined,
+						params: {}
 					});
 				});
 
