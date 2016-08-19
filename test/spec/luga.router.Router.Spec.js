@@ -22,6 +22,7 @@ describe("luga.router.Router", function(){
 			exitCallBacks: []
 		});
 
+		// A weird handler that matches everything
 		catchAllHandler = new luga.router.RouteHandler({
 			path: "xx",
 			enterCallBacks: [],
