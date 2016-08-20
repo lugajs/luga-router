@@ -78,6 +78,9 @@ luga.namespace("luga.docs");
 					.done(function(response, textStatus, jqXHR){
 						// Read include and inject content
 						jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
+
+						// Bootstrap libs
+						Prism.highlightAll();
 					})
 					.fail(function(){
 						// TODO: implement error handling
