@@ -43,3 +43,85 @@ luga.router.utils.compilePath("literal/{first*}"); // => /^\/?literal\/(.+)\/?$/
 </code></pre>
 
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.router.utils.getParamIds(path)</div>
+	<div class="panel-body">
+		Extract an array of id out of a given path
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				A path/pattern. Required
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Array}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.router.utils.getParamIds("{first}/:option::restoption*:/literal"); // => ["first", "option", "restoption*"]
+luga.router.utils.getParamIds("literal"); // => []
+luga.router.utils.getParamIds("literal/{first*}/:option:"); // => ["first*", "option"]
+</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.router.utils.getParamValues(path, , regex)</div>
+	<div class="panel-body">
+		Extract an array of values out of a given path using a RegExp
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>frament</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				A a route/url fragment. Required
+			</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>
+				{RegExp}
+			</td>
+			<td>
+				A regular expression, you can generated it using luga.router.utils.compilePath(). Required
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Array}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">var regExp = luga.router.utils.compilePath("/{first}/{second}");
+luga.router.utils.getParamValues("/ciccio/pasticcio", regExp); // => ["ciccio", "pasticcio"]
+
+var regExp = luga.router.utils.compilePath("/{first}/:option:");
+luga.router.utils.getParamValues("/ciccio/", regExp); // => ["ciccio", undefined]
+
+var regExp = luga.router.utils.compilePath("literal");
+luga.router.utils.getParamValues("literal", regExp); // => []
+</code></pre>
+
+</div>

@@ -135,12 +135,12 @@
 
 	/**
 	 * Extract an array of values out of a given path using a RegExp
-	 * @param {string} path
+	 * @param {string} fragment
 	 * @param {RegExp} regex
 	 * @returns {Array}
 	 */
-	luga.router.utils.getParamValues = function(path, regex){
-		var values = regex.exec(path);
+	luga.router.utils.getParamValues = function(fragment, regex){
+		var values = regex.exec(fragment);
 		/* istanbul ignore else */
 		if(values !== null){
 			// We want a plain vanilla array, normalize the result object
