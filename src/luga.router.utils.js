@@ -69,7 +69,7 @@
 		/* istanbul ignore else */
 		if(TOKENS.hasOwnProperty(key) === true){
 			var current = TOKENS[key];
-			current.id = "__CR_" + key + "__";
+			current.id = "__LUGA_" + key + "__";
 			current.save = ("save" in current) ? current.save.replace("{{id}}", current.id) : current.id;
 			current.rRestore = new RegExp(current.id, "g");
 		}
