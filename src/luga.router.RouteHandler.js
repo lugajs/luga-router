@@ -74,7 +74,7 @@
 		};
 
 		/**
-		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * Return an object containing an entry for each param and the relevant values extracted from the fragment
 		 * @param {string} fragment
 		 * @returns {object}
 		 */
