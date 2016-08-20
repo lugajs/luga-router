@@ -36,7 +36,6 @@
 	</table>
 
 <pre><code class="language-javascript">luga.router.utils.compilePath("literal"); // => /^\/?literal\/?$/
-luga.router.utils.compilePath("literal"); // => /^\/?literal\/?$/
 luga.router.utils.compilePath("literal/{first}/{second}"); // => /^\/?literal\/([^\/?]+)\/([^\/?]+)\/?$/
 luga.router.utils.compilePath("{first}/:firstoption:"); // => /^\/?([^\/?]+)\/?([^\/?]+)?\/?\/?$/
 luga.router.utils.compilePath("literal/{first*}"); // => /^\/?literal\/(.+)\/?$/
