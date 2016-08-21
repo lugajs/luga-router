@@ -4,5 +4,8 @@
 	<li class="list-group-item">
 		<a href="#extensibility/utils">API</a>
 	</li>
+	<li class="list-group-item">
+		<a href="#extensibility/iroutehandler">IRouteHandler</a>
+	</li>
 
 </ul>

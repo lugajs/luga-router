@@ -4,5 +4,8 @@
 	<li class="list-group-item">
 		<a href="#router/route-context">Route context</a>
 	</li>
+	<li class="list-group-item">
+		<a href="#router/api">API</a>
+	</li>
 
 </ul>
