@@ -8,12 +8,6 @@ DOCS:
 
 - Router.add() is overloaded, explain signatures
   Path can only be strings, RexExp aren't allowed
-  
-- Use Crossroad-like syntax for paths, closer to Spring MVC and .NET MVC
-  https://millermedeiros.github.io/crossroads.js/#crossroads-add_route
-  Express's syntax for patterns is too ambiguous, pretty much RegExp:  http://expressjs.com/en/guide/routing.html 
-
-- Document optional parameters
 
 - routeContext properties: path, fragment, payload, historyState, params
 
@@ -37,6 +31,9 @@ DOCS:
 ROUTER:
 
 - Enable test on Node.js
+
+- Trigger an event if Router.resolve() is called and no matching route is fund?
+  Allow a catchall callback?
 
 -------------
 
