@@ -1,0 +1,73 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Path/pattern</div>
+	<div class="panel-body">
+		<p>
+			Unlike many other JavaScript routers, Luga Router doesn't accept a regular expression as path.
+			There are many reasons behind this choice, regular expression are ambiguous, hard to read and expose the inner implementation of the router.
+			Luga Router instead takes an approach more in line with other, non-JavaScript frameworks, like Spring MVC or .NET MVC
+		</p>
+
+		<p>
+			In Luga Router a path is a string can contain named variables surrounded by "{}".
+			Eventually the values associated with those variables will be extracted and passed along the <a href="#router/route-context">route context</a>.
+		</p>
+		<p>
+			Each path segment is limited by the "/" char, so named variables will match anything until next "/" char or the next string token located after the variable is fund.
+		</p>
+		<p>
+			The path <strong>"{first}/{second}"</strong> will match both "ciccio/pasticcio" and "max/cipollino".
+			But it won't match "ciccio/pasticcio/ciao"
+		</p>
+		<p>
+			A path can also have optional segments, surrounded by "::".
+			This means <strong>"news/:section:/:id:"</strong> will match both "news", "news/sport" and "news/sport/123"
+		</p>
+		<p>
+			You can also include "rest" segments (ending with *) which can match multiple segments.
+			Rest segments can be optional and/or required and can be placed anywhere inside the path.
+			The path <strong>"{section}/:details*:"</strong> will match news "news/123", "news/sport/123", "news/sport/123/ciccio-pasticcio"
+		</p>
+		<p>
+			Trailing and leading slashes are ignored, <strong>/{first}/</strong> matches same requests as {first}, /{first} and {first}/
+		</p>
+	</div>
+</div>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">Debugging a path</div>
+	<div class="panel-body">
+		<p>
+			Sometimes you need to debug and troubleshoot a route, either to see if it matches an url fragment the way
+			you expect, or to verify what variables are extracted from it.
+			The easier/faster solution is to leverage <a href="#extensibility/utils">luga.router.utils static API</a>.
+			First use luga.router.utils.compilePath(path) to turn the path into a RegExp, then you can see if the RegExp
+			matches the fragment:
+		</p>
+
+<pre><code class="language-javascript">var firstPattern = luga.router.utils.compilePath("literal/{first}/{second}"); // => /^\/?literal\/([^\/?]+)\/([^\/?]+)\/?$/
+firstPattern.test("literal/ciccio/pasticcio"); // => true
+firstPattern.test("literal/ciccio/"); // => false
+
+var secondPattern = luga.router.utils.compilePath("{first}/:firstoption:"); // => /^\/?([^\/?]+)\/?([^\/?]+)?\/?\/?$/
+secondPattern.test("ciccio/pasticcio"); // => true
+secondPattern.test("ciccio/"); // => true
+</code></pre>
+
+		<p>
+			You can also test what values are extracted from a given path:
+		</p>
+
+<pre><code class="language-javascript">var firstPattern = luga.router.utils.compilePath("/{first}/{second}");
+luga.router.utils.getParamValues("/ciccio/pasticcio", firstPattern); // => ["ciccio", "pasticcio"]
+
+var secondPattern = luga.router.utils.compilePath("/{first}/:option:");
+luga.router.utils.getParamValues("/ciccio/", secondPattern); // => ["ciccio", undefined]
+</code></pre>
+
+		<p>
+			Running test like these from the console should help you debug and understand any situation
+		</p>
+
+	</div>
+</div>

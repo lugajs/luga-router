@@ -2,7 +2,7 @@
 
 	<li class="luga-docs-list-heading list-group-item">Section</li>
 	<li class="list-group-item">
-		<a href="#router/index">Page</a>
+		<a href="#router/route-context">Route context</a>
 	</li>
 
 </ul>

@@ -2,7 +2,7 @@
 
 	<li class="luga-docs-list-heading list-group-item">Section</li>
 	<li class="list-group-item">
-		<a href="#routehandler/index">Page</a>
+		<a href="#routehandler/path">Path/pattern</a>
 	</li>
 
 </ul>
