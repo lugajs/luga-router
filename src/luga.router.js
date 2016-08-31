@@ -4,7 +4,7 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.router.IRouteHandler
+ * @interface {object} luga.router.IRouteHandler
  *
  * @property {string} path
  * @property {function} enter
