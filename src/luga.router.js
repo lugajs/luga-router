@@ -4,14 +4,45 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @interface {object} luga.router.IRouteHandler
+ * @interface luga.router.IRouteHandler
  *
  * @property {string} path
- * @property {function} enter
- * @property {function} exit
- * @property {function} getPayload
- * @property {function} getParams
- * @property {function} match
+ *
+ * Execute registered enter callbacks, if any
+ * @function
+ * @name luga.router.IRouteHandler#enter
+ * @param {luga.router.routeContext} context
+ *
+ * Execute registered exit callbacks, if any
+ * @function
+ * @name luga.router.IRouteHandler#exit
+ *
+ * Return the handler payload, if any
+ * Return undefined if no payload is associated with the handler
+ * @function
+ * @name luga.router.IRouteHandler#getPayload
+ * @returns {luga.router.routeContext|undefined}
+ *
+ * Return an object containing an entry for each param and the relevant values extracted from the fragment
+ * @function
+ * @name luga.router.IRouteHandler#getParams
+ * @param {string} fragment
+ * @returns {object}
+ *
+ * Return true if the given fragment matches the Route. False otherwise
+ * @function
+ * @name luga.router.IRouteHandler#match
+ * @param {string}  fragment
+ * @returns {boolean}
+ */
+
+/**
+ * @typedef {object} luga.router.IRouteHandler.options
+ *
+ * @property {string}           path              Path. Required
+ * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+ * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+ * @property {object} payload
  */
 
 /**

@@ -1,12 +1,3 @@
-/**
- * @typedef {object} luga.router.IRouteHandler.options
- *
- * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
- * @property {object} payload
- */
-
 (function(){
 	"use strict";
 
@@ -14,7 +5,7 @@
 	 * Route class
 	 * @param options {luga.router.IRouteHandler.options}
 	 * @constructor
-	 * @extends luga.router.IRouteHandler
+	 * @implements luga.router.IRouteHandler
 	 */
 	luga.router.RouteHandler = function(options){
 
@@ -99,7 +90,7 @@
 
 		/**
 		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param fragment
+		 * @param {string}  fragment
 		 * @returns {boolean}
 		 */
 		this.match = function(fragment){
