@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.1.0 2016-08-19T15:24:45.562Z
+luga-router 0.1.0 2016-10-05T11:08:52.884Z
 Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -9,14 +9,45 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.router.IRouteHandler
+ * @interface luga.router.IRouteHandler
  *
  * @property {string} path
- * @property {function} enter
- * @property {function} exit
- * @property {function} getPayload
- * @property {function} getParams
- * @property {function} match
+ *
+ * Execute registered enter callbacks, if any
+ * @function
+ * @name luga.router.IRouteHandler#enter
+ * @param {luga.router.routeContext} context
+ *
+ * Execute registered exit callbacks, if any
+ * @function
+ * @name luga.router.IRouteHandler#exit
+ *
+ * Return the handler payload, if any
+ * Return undefined if no payload is associated with the handler
+ * @function
+ * @name luga.router.IRouteHandler#getPayload
+ * @returns {luga.router.routeContext|undefined}
+ *
+ * Return an object containing an entry for each param and the relevant values extracted from the fragment
+ * @function
+ * @name luga.router.IRouteHandler#getParams
+ * @param {string} fragment
+ * @returns {object}
+ *
+ * Return true if the given fragment matches the Route. False otherwise
+ * @function
+ * @name luga.router.IRouteHandler#match
+ * @param {string}  fragment
+ * @returns {boolean}
+ */
+
+/**
+ * @typedef {object} luga.router.IRouteHandler.options
+ *
+ * @property {string}           path              Path. Required
+ * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+ * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+ * @property {object} payload
  */
 
 /**
@@ -127,7 +158,7 @@ if(typeof(luga) === "undefined"){
 		/* istanbul ignore else */
 		if(TOKENS.hasOwnProperty(key) === true){
 			var current = TOKENS[key];
-			current.id = "__CR_" + key + "__";
+			current.id = "__LUGA_" + key + "__";
 			current.save = ("save" in current) ? current.save.replace("{{id}}", current.id) : current.id;
 			current.rRestore = new RegExp(current.id, "g");
 		}
@@ -147,7 +178,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Turn a path into a regular expression
 	 * @param {string} path
-	 * @returns {regExp}
+	 * @returns {RegExp}
 	 */
 	luga.router.utils.compilePath = function(path){
 
@@ -167,9 +198,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Extract matching values out of a given path using a specified RegExp
-	 * @param {regExp} regex
+	 * @param {RegExp} regex
 	 * @param  {string} path
-	 * @returns {array}
+	 * @returns {Array}
 	 */
 	function extractValues(regex, path){
 		var values = [];
@@ -185,7 +216,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Extract an array of id out of a given path
 	 * @param {string} path
-	 * @returns {array}
+	 * @returns {Array}
 	 */
 	luga.router.utils.getParamIds = function(path){
 		return extractValues(PARAMS_REGEXP, path);
@@ -193,12 +224,12 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Extract an array of values out of a given path using a RegExp
-	 * @param {string} path
-	 * @param {regExp} regex
-	 * @returns {array}
+	 * @param {string} fragment
+	 * @param {RegExp} regex
+	 * @returns {Array}
 	 */
-	luga.router.utils.getParamValues = function(path, regex){
-		var values = regex.exec(path);
+	luga.router.utils.getParamValues = function(fragment, regex){
+		var values = regex.exec(fragment);
 		/* istanbul ignore else */
 		if(values !== null){
 			// We want a plain vanilla array, normalize the result object
@@ -382,11 +413,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Remove the rootPath in front of the given string
+		 * Remove the rootPath in front of the given string and remove the querystring, if any
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
 		this.normalizeFragment = function(inputString){
+			if(inputString.indexOf("?") !== -1){
+				inputString = inputString.substring(0, inputString.indexOf("?"));
+			}
 			var pattern = new RegExp("^\/?" + config.rootPath);
 			return inputString.replace(pattern, "");
 		};
@@ -566,15 +600,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-/**
- * @typedef {object} luga.router.IRouteHandler.options
- *
- * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
- * @property {object} payload
- */
-
 (function(){
 	"use strict";
 
@@ -582,7 +607,7 @@ if(typeof(luga) === "undefined"){
 	 * Route class
 	 * @param options {luga.router.IRouteHandler.options}
 	 * @constructor
-	 * @extends luga.router.IRouteHandler
+	 * @implements luga.router.IRouteHandler
 	 */
 	luga.router.RouteHandler = function(options){
 
@@ -642,7 +667,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Return containing an entry for each param and the relevant values extracted from the fragment
+		 * Return an object containing an entry for each param and the relevant values extracted from the fragment
 		 * @param {string} fragment
 		 * @returns {object}
 		 */
@@ -667,7 +692,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param fragment
+		 * @param {string}  fragment
 		 * @returns {boolean}
 		 */
 		this.match = function(fragment){
