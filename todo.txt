@@ -37,6 +37,6 @@ ROUTER:
 
 FUTURE:
 
-- In order to stay isomorphic we can't read HTTP method (Like Spring or .MET MVC)
+- In order to stay isomorphic we can't read HTTP method (like Spring or .MET MVC)
   We can't handle HTTP headers too (other libraries don't either)
   Should we provide a mechanism for Node.js?

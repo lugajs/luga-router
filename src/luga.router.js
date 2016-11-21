@@ -40,8 +40,8 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.IRouteHandler.options
  *
  * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+ * @property {array.<function>} enterCallBacks    An array of functions that will be called on entering the route
+ * @property {array.<function>} exitCallBacks     An array of functions that will be called on exiting the route
  * @property {object} payload
  */
 
