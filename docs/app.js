@@ -32,14 +32,14 @@ luga.namespace("luga.docs");
 
 		var init = function(){
 			initRouter();
-			if(router.resolve(router.normalizeHash(location.hash)) === false){
-				// Current hash is not resolved, load default content
-				loadPage(CONST.DEFAULT_INCLUDE_ID);
-			}
+			router.resolve(router.normalizeHash(location.hash));
 		};
 
 		var initRouter = function(){
 			router.add("{lib}/:section::page:", routeResolver);
+			router.add(":catchall:", function(){
+				loadPage(CONST.DEFAULT_INCLUDE_ID);
+			});
 			router.start();
 		};
 
