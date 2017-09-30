@@ -1,3 +1,8 @@
+- Register Bower module
+- Move from luga.core to luga.common
+
+-------------
+
 DOCS:
 
 - Priority rely on order of registration. RouteHandlers are processed from top to bottom, the first match win.
@@ -28,15 +33,7 @@ DOCS:
 
 ROUTER:
 
-- Enable test on Node.js
-
 - Trigger an event if Router.resolve() is called and no matching route is fund?
-  Allow a catchall callback?
+  Allow a build-in catchall callback?
 
 -------------
-
-FUTURE:
-
-- In order to stay isomorphic we can't read HTTP method (like Spring or .MET MVC)
-  We can't handle HTTP headers too (other libraries don't either)
-  Should we provide a mechanism for Node.js?
