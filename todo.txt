@@ -1,6 +1,6 @@
 - Register Bower module
 - Move from luga.core to luga.common
-- Update jQuery to 3.x
+- Update Bootstrap to 4.x then update jQuery to 3.x
 
 -------------
 
