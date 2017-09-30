@@ -1,5 +1,6 @@
 - Register Bower module
 - Move from luga.core to luga.common
+- Update jQuery to 3.x
 
 -------------
 
