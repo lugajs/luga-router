@@ -13,7 +13,7 @@ module.exports = function(config) {
 		files: [
 			// Libs
 			"lib/jquery/jquery.min.js",
-			"lib/lugajs/luga.core.min.js",
+			"lib/lugajs/luga.common.min.js",
 
 			// Source files
 			"src/luga.router.js",
