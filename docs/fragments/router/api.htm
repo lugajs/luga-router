@@ -24,7 +24,7 @@
 				{boolean}
 			</td>
 			<td>
-				By default the Router execute the first RouteHandler that matches the url fragment.
+				By default the router execute the first routeHandler that matches the url fragment.
 				Set it to true to allow multiple routes matching. Default to false
 			</td>
 		</tr>
@@ -45,7 +45,8 @@
 				{function}
 			</td>
 			<td>
-				By default every time you call the .add() method, the Router create an instance of luga.router.RouteHandler.
+				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
+				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#router/route-context">route context</a>.
 				If you want to use a custom/different routeHandler class/constructor, use this setting.
 				The given function must implement <a href="#extensibility/iroutehandler">IRouteHandler</a>
 			</td>
@@ -67,14 +68,14 @@ myRouter.setup({
 <div class="panel panel-default">
 	<div class="panel-heading luga-docs-api-heading">luga.Router.start()</div>
 	<div class="panel-body">
-		Stop the Router. If used client-side start listening to either the "hashchange" and "popstate" events.
-		By default the Router listen to "hashchange", unless it's configured with pushState = true
+		The router starts listening to either the "hashchange" and "popstate" events.
+		By default the router listen to "hashchange", unless it's configured with pushState = true
 	</div>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-heading luga-docs-api-heading">luga.Router.stop()</div>
 	<div class="panel-body">
-		Stop the Router. If used client-side stop listening to the "hashchange" and "popstate" events
+		Stops the router from listening to the "hashchange" and "popstate" events
 	</div>
 </div>
