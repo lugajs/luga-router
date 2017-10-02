@@ -10,6 +10,22 @@
 </div>
 
 <div class="panel panel-default">
+	<div class="panel-heading">Our mission</div>
+	<div class="panel-body">
+
+		<p>
+			While developing Luga Router we had a few goals in mind:
+			<ul class="luga-docs-list">
+				<li>Do not mix routing and history handling inside the same library. Luga Router does not manipulate or navigate the history</li>
+				<li>Do not accept a regular expression as <a href="#routehandler/path">path</a></li>
+				<li>The router is not a singleton, you may run multiple instances of it</li>
+			</ul>
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
 	<div class="panel-heading">Unit tests</div>
 	<div class="panel-body">
 		<p>
@@ -33,7 +49,13 @@
 	<div class="panel-heading">Dependencies and compatibility</div>
 	<div class="panel-body">
 		<p>
-			TODO
+			Luga Router depends on <a href="https://github.com/lugajs/lugajs">Luga JS</a>.
+			While Luga Router itself does not depend on <a href="https://jquery.com/">jQuery</a>, Luga JS does.
+		</p>
+		<p>
+			Internally Luga Router only use a subset of Luga JS that do not depend on jQuery, but such a subset is not available standalone at the moment.
+			In the future we may extract this part of Luga JS, make it isomorphic and be able to run Luga Router on Node.js too.
+			While we would love to achieve this goal, we have to stay realistic and admit it requires time and efforts and it may not happen anytime soon, if ever.
 		</p>
 	</div>
 </div>
