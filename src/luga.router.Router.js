@@ -170,7 +170,8 @@
 		};
 
 		/**
-		 * Remove the rootPath in front of the given string and remove the querystring, if any
+		 * Remove the rootPath in front of the given string
+		 * Also remove the querystring, if any
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
@@ -184,6 +185,7 @@
 
 		/**
 		 * Remove any '#' and/or '!' in front of the given string
+		 * Then remove the rootPath too
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
