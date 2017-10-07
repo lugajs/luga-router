@@ -100,8 +100,40 @@
 <div class="panel panel-default">
 	<div class="panel-heading luga-docs-api-heading">.getMatch()</div>
 	<div class="panel-body">
-		Text here
+		<p>
+			If options.greedy is false:
+			<ul class="luga-docs-list">
+				<li>Return a registered routeHandler object matching the given fragment</li>
+				<li>Return undefined if there is no match</li>
+				<li>Return the first fund routeHandler object matching the given fragment, even if multiple routeHandlers match it</li>
+			</ul>
+		</p>
+		<p>
+			If options.greedy is true:
+			<ul class="luga-docs-list">
+				<li>Return an array of registered routeHandler objects matching the given fragment</li>
+				<li>Return an empty array if there is no match</li>
+			</ul>
+		</p>
 	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>fragment</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				The fragment we want to resolve
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>|undefined|array.&lt;<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
+		</tr>
+	</table>
 </div>
 
 <div class="panel panel-default">
@@ -340,6 +372,12 @@ myRouter.setup({
 	<div class="panel-body">
 		The router starts listening to either the "hashchange" and "popstate" events.
 		By default the router listen to "hashchange", unless it's configured with pushState = true
+	</div>
+	<div class="alert alert-info" role="alert">
+		<strong>Heads up!</strong>
+		<p>
+			You must invoke this method for your router to start working
+		</p>
 	</div>
 </div>
 

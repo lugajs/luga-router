@@ -148,7 +148,7 @@
 		 * 2) Return undefined if none is fund
 		 *
 		 * If options.greedy is true either:
-		 * 1) Return an array of matching routeHandler objects if options.greedy is true
+		 * 1) Return an array of matching routeHandler objects
 		 * 2) Return an empty array if none is fund
 		 *
 		 * @param {string} fragment
