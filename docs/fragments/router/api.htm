@@ -53,7 +53,6 @@
 	<table class="table table-bordered luga-docs-api">
 		<th>Examples</th>
 	</table>
-
 <pre><code class="language-javascript">var myRouter = new luga.router.Router({
 	rootPath: "",
 	handlerConstructor: customHandlerConstructor
@@ -167,6 +166,9 @@
 			<td>{string}</td>
 		</tr>
 	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.normalizeFragment("root/page") //=> "root/page"
 myRouter.normalizeFragment("root/page?id=3") //=> "root/page"
@@ -210,6 +212,9 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 			<td>{string}</td>
 		</tr>
 	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.normalizeHash("#root/page") //=> "root/page"
 myRouter.normalizeHash("#!root/page") //=> "root/page"
@@ -243,7 +248,6 @@ routerWithRootPath.normalizeHash("#root/page") //=> "page"
 	<table class="table table-bordered luga-docs-api">
 		<th>Examples</th>
 	</table>
-
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.add("{section}/:page:");
 myRouter.add("/:page:");
@@ -292,6 +296,9 @@ myRouter.remove("/missing"); //=> Nothing happens
 		<tr>
 			<td>{boolean} True if at least one routeHandler was resolved, false otherwise</td>
 		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
 	</table>
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.add("{section}/:page:", function(context){
@@ -357,7 +364,6 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 	<table class="table table-bordered luga-docs-api">
 		<th>Examples</th>
 	</table>
-
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.setup({
 	rootPath: "",
