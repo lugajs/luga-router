@@ -8,13 +8,14 @@
 DOCS:
 
 - Router: Add page explaining rootPath
-
-- routeContext properties: path, fragment, payload, historyState, params
+- Router: routeContext properties: path, fragment, payload, historyState, params
 
 - Events notification (routeEntered, routeExited)
 
 - #extensibility/iroutehandler
   Router.add() create instances of luga.RouteHandler by default. You can change this from options
+
+- Extensibility: Extend/customize luga.router.Router
 
 
 - Integration with luga.history
