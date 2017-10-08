@@ -52,7 +52,7 @@
 		var routeHandlers = [];
 
 		/** @type {string|undefined} */
-		var currentFragment = undefined;
+		var currentFragment;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
