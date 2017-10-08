@@ -436,12 +436,18 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		</tr>
 	</table>
 	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{luga.router.options}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
 		<th>Examples</th>
 	</table>
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
 myRouter.setup({
 	rootPath: "",
-	handlerConstructor: customHandlerConstructor
+	greedy: true
 });
 </code></pre>
 
