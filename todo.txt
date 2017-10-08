@@ -7,8 +7,6 @@
 
 DOCS:
 
-- Priority rely on order of registration. RouteHandlers are processed from top to bottom, the first match win.
-  If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
 - routeContext properties: path, fragment, payload, historyState, params
