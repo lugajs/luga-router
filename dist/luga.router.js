@@ -1,6 +1,6 @@
 /*! 
-luga-router 0.1.0 2016-10-05T11:08:52.884Z
-Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
+luga-router 0.1.0 2017-10-08T14:56:04.612Z
+Copyright 2015-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
@@ -45,9 +45,9 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.IRouteHandler.options
  *
  * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
- * @property {object} payload
+ * @property {array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
+ * @property {array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
+ * @property {object} payload                     An arbitrary object to be passed to callBacks everytime they are invoked. Optional
  */
 
 /**
@@ -295,18 +295,20 @@ if(typeof(luga) === "undefined"){
 		var routeHandlers = [];
 
 		/** @type {string|undefined} */
-		var currentFragment = undefined;
+		var currentFragment;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
 
 		/**
-		 * Add a Route. It can be invoked with two different sets of arguments:
-		 * 1) Only one single Route object:
+		 * Add a route. It can be invoked with two different sets of arguments:
+		 * 1) A path expressed as a string, plus additional optional arguments
+		 *
+		 * 2) One routeHandler object:
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.IRouteHandler} path     Either a Route object or a path expressed as string. Required
+		 * @param {string|luga.router.IRouteHandler} path     Either a routeHandler object or a path expressed as string. Required
 		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
@@ -391,7 +393,7 @@ if(typeof(luga) === "undefined"){
 		 * 2) Return undefined if none is fund
 		 *
 		 * If options.greedy is true either:
-		 * 1) Return an array of matching routeHandler objects if options.greedy is true
+		 * 1) Return an array of matching routeHandler objects
 		 * 2) Return an empty array if none is fund
 		 *
 		 * @param {string} fragment
@@ -413,7 +415,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Remove the rootPath in front of the given string and remove the querystring, if any
+		 * Remove the rootPath in front of the given string
+		 * Also remove the querystring, if any
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
@@ -427,6 +430,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Remove any '#' and/or '!' in front of the given string
+		 * Then remove the rootPath too
 		 * @param {string} inputString
 		 * @returns {string}
 		 */
