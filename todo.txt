@@ -7,8 +7,6 @@
 
 DOCS:
 
-- Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
-
 - routeContext properties: path, fragment, payload, historyState, params
 
 - Events notification (routeEntered, routeExited)

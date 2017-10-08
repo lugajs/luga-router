@@ -1,1 +1,36 @@
-Greedy router
+<div class="panel panel-default">
+	<div class="panel-heading">Greedy router</div>
+	<div class="panel-body">
+		<p>
+			By default a router only execute the first route matching the given fragment.
+			If you want every possible matching route to be resolved, you can configure your router to be greedy, passing the relevant options to its constructor.
+		</p>
+<pre><code class="language-javascript">// Configure the router to be greedy
+var myRouter = new luga.router.Router({greedy: true});
+
+// This function will be invoked whenever the associated path will be matched
+var myRouteHandler = function(context){
+	console.log(context.path);
+};
+
+// Add some routes
+myRouter.add("{section}/:page:", myRouteHandler);
+myRouter.add("{section}", myRouteHandler);
+
+// Tell the router to start listening to hashChange events
+myRouter.start();
+
+// Programmatically trigger an hash change to test the router
+// This fragment matches both routes
+location.hash = "first/"; // = > first log "{section}/:page:" then "{section}" inside the console
+</code></pre>
+	</div>
+	<div class="alert alert-info" role="alert">
+		<strong>Heads up!</strong>
+		<p>
+			Be careful about the implications of having a greedy router.
+			You may trigger more actions that originally intended.
+			In case of very large amount of routes performances may also degrade a bit
+		</p>
+	</div>
+</div>

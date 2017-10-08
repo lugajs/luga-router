@@ -18,7 +18,6 @@ var myRouteHandler = function(context){
 };
 
 // Add some routes
-var myRouter = new luga.router.Router();
 myRouter.add("{section}/:page:", myRouteHandler);
 myRouter.add("{section}/", myRouteHandler);
 
