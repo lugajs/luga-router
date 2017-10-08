@@ -58,12 +58,14 @@
 		var currentHandlers = [];
 
 		/**
-		 * Add a Route. It can be invoked with two different sets of arguments:
-		 * 1) Only one single Route object:
+		 * Add a route. It can be invoked with two different sets of arguments:
+		 * 1) A path expressed as a string, plus additional optional arguments
+		 *
+		 * 2) One routeHandler object:
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.IRouteHandler} path     Either a Route object or a path expressed as string. Required
+		 * @param {string|luga.router.IRouteHandler} path     Either a routeHandler object or a path expressed as string. Required
 		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
 		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
