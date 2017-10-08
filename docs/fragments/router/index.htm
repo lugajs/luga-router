@@ -3,7 +3,7 @@
 	<div class="panel-body">
 		<p>
 			Include the JavaScript files. First jQuery, then <a href="../lib/lugajs/luga.common.min.js">Luga Common</a>,
-			then <a href="../dist/luga.router.min.js">Luga Router</a>(in this order)
+			then <a href="../dist/luga.router.min.js">Luga Router</a> (in this order)
 		</p>
 
 <pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
@@ -11,11 +11,10 @@
 &lt;script src="js/luga.router.min.js"&gt;&lt;/script&gt;
 </code></pre>
 <pre><code class="language-javascript">var myRouter = new luga.router.Router();
-/**
-* @param {luga.router.routeContext} context
-*/
+
+// This function will be invoked whenever the associated path will be matched
 var myRouteHandler = function(context){
-console.log(context.params.section);
+	console.log(context.params.section);
 };
 
 // Add some routes
@@ -40,7 +39,7 @@ location.hash = "first/test"; // => log "first" inside the console
 		This means that, potentially, more than one router may react to the same url/fragment.
 	</p>
 	<p>
-		We consider this a very powerful feature that allow plenty of extra flexibility, especially if you work on the back-end.
+		We consider this a very powerful feature that allow plenty of extra flexibility, you can, for example, split you application in multiple modules and each of them can handle its routing needs.
 		Yet it require extra care because it gives you additional ways to hurt yourself.
 	</p>
 </div>
