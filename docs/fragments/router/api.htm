@@ -48,7 +48,7 @@
 			</td>
 			<td>
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
-				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#routehandler/route-context">route context</a>.
+				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#router/route-context">route context</a>.
 				If you want to use a custom/different routeHandler class/constructor, use this setting.
 				The given function must implement <a href="#extensibility/iroutehandler">IRouteHandler</a>
 			</td>
@@ -72,7 +72,7 @@ var myRouter = new luga.router.Router({
 	<div class="panel-body">
 		Add a route. It can be invoked with two different sets of arguments:
 		<ol class="luga-docs-list">
-			<li>A path expressed as a string, plus additional optional arguments</li>
+			<li>A <a href="#router/path">path</a> expressed as a string, plus additional optional arguments</li>
 			<li>One routeHandler object</li>
 		</ol>
 	</div>
@@ -91,7 +91,7 @@ var myRouter = new luga.router.Router({
 				{string|<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>}
 			</td>
 			<td>
-				Either a routeHandler object or a path expressed as string. <a href="#routehandler/path">Paths</a> can only be strings, RexExp aren't allowed. Required
+				Either a routeHandler object or a path expressed as string. <a href="#router/path">Paths</a> can only be strings, RexExp aren't allowed. Required
 			</td>
 		</tr>
 		<tr>
@@ -129,13 +129,12 @@ var myRouter = new luga.router.Router({
 /**
 * @param {luga.router.routeContext} context
 */
-var myRouteHandler = function(context){
+var myCallback= function(context){
 	console.log(context.params.section);
 };
 // Add some routes
-var myRouter = new luga.router.Router();
-myRouter.add("{section}/:page:", myRouteHandler);
-myRouter.add("{section}/", myRouteHandler);
+myRouter.add("{section}/:page:", myCallback);
+myRouter.add("{section}/", myCallback);
 myRouter.start();
 // Programmatically test the router
 location.hash = "first/test"; // => log "first" inside the console
@@ -187,6 +186,12 @@ location.hash = "first/test"; // => log "first" inside the console
 				<li>Return an array of registered routeHandler objects matching the given fragment</li>
 				<li>Return an empty array if there is no match</li>
 			</ul>
+		</p>
+	</div>
+	<div class="alert alert-info" role="alert">
+		<strong>Heads up!</strong>
+		<p>
+			This method can be useful also for troubleshooting/debugging a router
 		</p>
 	</div>
 	<table class="table table-bordered luga-docs-api">
@@ -342,7 +347,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 	<div class="panel-heading luga-docs-api-heading">.resolve()</div>
 	<div class="panel-body">
 		Programmatically force the router to resolve/execute the routeHandler matching the given fragment.
-		If the router is configured as greedy, multiple handlers may be executed
+		If the router is configured as greedy, multiple routes may be resolved
 	</div>
 	<table class="table table-bordered luga-docs-api">
 		<th colspan="3">Arguments</th>
@@ -361,7 +366,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 				{object}
 			</td>
 			<td>
-				Optional set of options that will be added to the <a href="#routehandler/route-context">route context</a>.
+				Optional set of options that will be added to the <a href="#router/route-context">route context</a>.
 			</td>
 		</tr>
 	</table>
@@ -429,7 +434,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 			</td>
 			<td>
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
-				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#routehandler/route-context">route context</a>.
+				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#router/route-context">route context</a>.
 				If you want to use a custom/different routeHandler class/constructor, use this setting.
 				The given function must implement <a href="#extensibility/iroutehandler">IRouteHandler</a>
 			</td>
