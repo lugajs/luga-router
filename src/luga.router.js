@@ -40,9 +40,9 @@ if(typeof(luga) === "undefined"){
  * @typedef {object} luga.router.IRouteHandler.options
  *
  * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    An array of functions that will be called on entering the route
- * @property {array.<function>} exitCallBacks     An array of functions that will be called on exiting the route
- * @property {object} payload
+ * @property {array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
+ * @property {array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
+ * @property {object} payload                     An arbitrary object to be passed to callBacks everytime they are invoked. Optional
  */
 
 /**
