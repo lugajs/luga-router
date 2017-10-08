@@ -37,9 +37,10 @@ location.hash = "first/test"; // => log "first" inside the console
 		<p>
 			The router search for routes matching the given fragment based on their priority.
 			Priority rely on order of registration, routes are processed from top to bottom, the first match win.
-			In the example above both routes match the "first/test" fragment, yet only the one registered first is resolved.
-			<br>
-			If you want every possible matching route to be resolved, you can configure your router to be <a href="#router/greedy">greedy router</a>
+			In the example above both routes match the "first/test" fragment, yet only the one registered first is resolved
+		</p>
+		<p>
+			If you want every possible matching route to be resolved, you can configure your router to be <a href="#router/greedy">greedy</a>
 		</p>
 		<p>
 			If no match is found among the currently registered routes, nothing happens.
