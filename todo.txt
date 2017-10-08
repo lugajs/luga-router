@@ -8,6 +8,7 @@
 DOCS:
 
 - Router: Add page explaining rootPath
+- Router: Add page explaining how to pass a routeHandler to .add()
 
 - Events notification (routeEntered, routeExited)
 
