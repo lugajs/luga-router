@@ -11,17 +11,12 @@ DOCS:
   If no match is found, nothing happens
 - Greedy mode allows multiple routeHandlers matching (false by default). Less efficient
 
-- Router.add() is overloaded, explain signatures
-  Path can only be strings, RexExp aren't allowed
-
 - routeContext properties: path, fragment, payload, historyState, params
-
-- Router.normalizeHash()
-- Router.normalizeFragment()
 
 - Events notification (routeEntered, routeExited)
 
-- Router.add() create instances of luga.RouteHandler by default. You can change this from options or setup()
+- #extensibility/iroutehandler
+  Router.add() create instances of luga.RouteHandler by default. You can change this from options
 
 
 - Integration with luga.history
