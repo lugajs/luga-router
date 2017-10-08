@@ -9,13 +9,13 @@
 var myRouter = new luga.router.Router({greedy: true});
 
 // This function will be invoked whenever the associated path will be matched
-var myRouteHandler = function(context){
+var myCallback= function(context){
 	console.log(context.path);
 };
 
 // Add some routes
-myRouter.add("{section}/:page:", myRouteHandler);
-myRouter.add("{section}", myRouteHandler);
+myRouter.add("{section}/:page:", myCallback);
+myRouter.add("{section}", myCallback);
 
 // Tell the router to start listening to hashChange events
 myRouter.start();
@@ -24,13 +24,13 @@ myRouter.start();
 // This fragment matches both routes
 location.hash = "first/"; // = > first log "{section}/:page:" then "{section}" inside the console
 </code></pre>
-	</div>
-	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong>
-		<p>
-			Be careful about the implications of having a greedy router.
-			You may trigger more actions that originally intended.
-			In case of very large amount of routes performances may also degrade a bit
-		</p>
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				Be careful about the implications of having a greedy router.
+				You may trigger more actions that originally intended.
+				In case of very large amount of routes performances may also degrade a bit
+			</p>
+		</div>
 	</div>
 </div>

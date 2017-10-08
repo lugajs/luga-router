@@ -129,13 +129,12 @@ var myRouter = new luga.router.Router({
 /**
 * @param {luga.router.routeContext} context
 */
-var myRouteHandler = function(context){
+var myCallback= function(context){
 	console.log(context.params.section);
 };
 // Add some routes
-var myRouter = new luga.router.Router();
-myRouter.add("{section}/:page:", myRouteHandler);
-myRouter.add("{section}/", myRouteHandler);
+myRouter.add("{section}/:page:", myCallback);
+myRouter.add("{section}/", myCallback);
 myRouter.start();
 // Programmatically test the router
 location.hash = "first/test"; // => log "first" inside the console
@@ -187,6 +186,12 @@ location.hash = "first/test"; // => log "first" inside the console
 				<li>Return an array of registered routeHandler objects matching the given fragment</li>
 				<li>Return an empty array if there is no match</li>
 			</ul>
+		</p>
+	</div>
+	<div class="alert alert-info" role="alert">
+		<strong>Heads up!</strong>
+		<p>
+			This method can be useful also for troubleshooting/debugging a router
 		</p>
 	</div>
 	<table class="table table-bordered luga-docs-api">
