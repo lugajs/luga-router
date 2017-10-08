@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Route context</div>
+	<div class="panel-body">
+		<p>
+			Every time a callback is invoked a routeContext object is passed as its first and unique argument.
+			The routeContext is defined this way:
+		</p>
+<pre><code class="language-javascript">/**
+* @typedef {object} luga.router.routeContext
+*
+* @property {string} fragment                Route fragment. Required
+* @property {string} path                    Route path. Required
+* @property {object} params                  Object containing an entry for each param
+	                                         and the relevant values extracted from the fragment
+* @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
+* @property {object|undefined} historyState  Object associated with a popstate event. Optional
+*                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+*/
+</code></pre>
+
+		<p>
+			Let's see an example in action:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+
+// This function will be invoked whenever the associated path will be matched
+var myCallback= function(context){
+	console.log("fragment: " + context.fragment);
+	console.log("path: " + context.path);
+	console.log("params.section: " + context.params.section);
+	console.log("params.page: " + context.params.page);
+};
+
+// Add some routes
+myRouter.add("{section}/:page:", myCallback);
+myRouter.add("{section}/", myCallback);
+
+// Programmatically resolve the fragment to test the router
+myRouter.resolve("first/test"); // => The following messages will be logged inside the console
+// fragment: first/test
+// path: {section}/:page:
+// params.section: first
+// params.page: test
+</code></pre>
+	</div>
+</div>
