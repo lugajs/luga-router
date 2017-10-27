@@ -39,10 +39,10 @@
 
 		this.path = config.path;
 
-		/** @type {regExp} */
+		/** @type {RegExp} */
 		var compiledPath = luga.router.utils.compilePath(this.path);
 
-		/** @type {array} */
+		/** @type {Array} */
 		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
@@ -66,8 +66,8 @@
 
 		/**
 		 * Return an object containing an entry for each param and the relevant values extracted from the fragment
-		 * @param {string} fragment
-		 * @returns {object}
+		 * @param {String} fragment
+		 * @return {Object}
 		 */
 		this.getParams = function(fragment){
 			var ret = {};
@@ -82,7 +82,7 @@
 		/**
 		 * Return the handler payload, if any
 		 * Return undefined if no payload is associated with the handler
-		 * @returns {luga.router.routeContext|undefined}
+		 * @return {luga.router.routeContext|undefined}
 		 */
 		this.getPayload = function(){
 			return config.payload;
@@ -90,8 +90,8 @@
 
 		/**
 		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param {string}  fragment
-		 * @returns {boolean}
+		 * @param {String}  fragment
+		 * @return {Boolean}
 		 */
 		this.match = function(fragment){
 			return compiledPath.test(fragment);

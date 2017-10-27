@@ -1,6 +1,6 @@
 /*! 
-luga-router 0.1.0 2016-10-05T11:08:52.884Z
-Copyright 2015-2016 Massimo Foti (massimo@massimocorner.com)
+luga-router 0.1.0 2017-10-27T19:21:45.570Z
+Copyright 2015-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
@@ -11,7 +11,7 @@ if(typeof(luga) === "undefined"){
 /**
  * @interface luga.router.IRouteHandler
  *
- * @property {string} path
+ * @property {String} path
  *
  * Execute registered enter callbacks, if any
  * @function
@@ -26,36 +26,36 @@ if(typeof(luga) === "undefined"){
  * Return undefined if no payload is associated with the handler
  * @function
  * @name luga.router.IRouteHandler#getPayload
- * @returns {luga.router.routeContext|undefined}
+ * @return {luga.router.routeContext|undefined}
  *
  * Return an object containing an entry for each param and the relevant values extracted from the fragment
  * @function
  * @name luga.router.IRouteHandler#getParams
- * @param {string} fragment
- * @returns {object}
+ * @param {String} fragment
+ * @return {Object}
  *
  * Return true if the given fragment matches the Route. False otherwise
  * @function
  * @name luga.router.IRouteHandler#match
- * @param {string}  fragment
- * @returns {boolean}
+ * @param {String}  fragment
+ * @return {Boolean}
  */
 
 /**
- * @typedef {object} luga.router.IRouteHandler.options
+ * @typedef {Object} luga.router.IRouteHandler.options
  *
- * @property {string}           path              Path. Required
- * @property {array.<function>} enterCallBacks    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
- * @property {array.<function>} exitCallBacks     formatter  A formatting functions to be called once for each row in the dataSet. Default to null
- * @property {object} payload
+ * @property {String}           path              Path. Required
+ * @property {Array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
+ * @property {Array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
+ * @property {Object} payload                     An arbitrary object to be passed to callBacks everytime they are invoked. Optional
  */
 
 /**
- * @typedef {object} luga.router.routeContext
+ * @typedef {Object} luga.router.routeContext
  *
- * @property {string} fragment                Route fragment. Required
- * @property {string} path                    Route path. Required
- * @property {object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
+ * @property {String} fragment                Route fragment. Required
+ * @property {String} path                    Route path. Required
+ * @property {Object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
  * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
  * @property {object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
@@ -70,7 +70,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
 	 * @param {*} obj
-	 * @returns {boolean}
+	 * @return {Boolean}
 	 */
 	luga.router.isValidRouteHandler = function(obj){
 		if(luga.type(obj) === "object"){
@@ -177,8 +177,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Turn a path into a regular expression
-	 * @param {string} path
-	 * @returns {RegExp}
+	 * @param {String} path
+	 * @return {RegExp}
 	 */
 	luga.router.utils.compilePath = function(path){
 
@@ -199,8 +199,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Extract matching values out of a given path using a specified RegExp
 	 * @param {RegExp} regex
-	 * @param  {string} path
-	 * @returns {Array}
+	 * @param  {String} path
+	 * @return {Array}
 	 */
 	function extractValues(regex, path){
 		var values = [];
@@ -215,8 +215,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Extract an array of id out of a given path
-	 * @param {string} path
-	 * @returns {Array}
+	 * @param {String} path
+	 * @return {Array}
 	 */
 	luga.router.utils.getParamIds = function(path){
 		return extractValues(PARAMS_REGEXP, path);
@@ -224,9 +224,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Extract an array of values out of a given path using a RegExp
-	 * @param {string} fragment
+	 * @param {String} fragment
 	 * @param {RegExp} regex
-	 * @returns {Array}
+	 * @return {Array}
 	 */
 	luga.router.utils.getParamValues = function(fragment, regex){
 		var values = regex.exec(fragment);
@@ -242,19 +242,19 @@ if(typeof(luga) === "undefined"){
 
 }());
 /**
- * @typedef {object} luga.router.options
+ * @typedef {Object} luga.router.options
  *
- * @property {string} rootPath                 Default to empty string
+ * @property {String} rootPath                 Default to empty string
  * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
- * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
- * @property {boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
+ * @property {Boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
+ * @property {Boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
  */
 (function(){
 	"use strict";
 
 	/**
 	 * Router class
-	 * @param options {luga.router.options}
+	 * @param options {luga.router.options|undefined}
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires routeEntered
@@ -295,21 +295,23 @@ if(typeof(luga) === "undefined"){
 		var routeHandlers = [];
 
 		/** @type {string|undefined} */
-		var currentFragment = undefined;
+		var currentFragment;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
 		var currentHandlers = [];
 
 		/**
-		 * Add a Route. It can be invoked with two different sets of arguments:
-		 * 1) Only one single Route object:
+		 * Add a route. It can be invoked with two different sets of arguments:
+		 * 1) A path expressed as a string, plus additional optional arguments
+		 *
+		 * 2) One routeHandler object:
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.IRouteHandler} path     Either a Route object or a path expressed as string. Required
-		 * @param {function|array.<function>} enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
-		 * @param {function|array.<function>} exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
-		 * @param {object} payload                            A payload object to be passed to the callBacks. Optional
+		 * @param {string|luga.router.IRouteHandler} path     Either a routeHandler object or a path expressed as string. Required
+		 * @param {function|array.<function>} [undefined] enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
+		 * @param {function|array.<function>} [undefined] exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
+		 * @param {Object} [undefined] payload                            A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
 			if(arguments.length === 1){
@@ -365,7 +367,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return all the available route objects
-		 * @returns {array.<luga.router.IRouteHandler>}
+		 * @return {array.<luga.router.IRouteHandler>}
 		 */
 		this.getAll = function(){
 			return routeHandlers;
@@ -374,8 +376,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Return a registered route object associated with the given path
 		 * Return undefined if none is fund
-		 * @param {string} path
-		 * @returns {luga.router.IRouteHandler|undefined}
+		 * @param {String} path
+		 * @return {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
 			for(var i = 0; i < routeHandlers.length; i++){
@@ -391,11 +393,11 @@ if(typeof(luga) === "undefined"){
 		 * 2) Return undefined if none is fund
 		 *
 		 * If options.greedy is true either:
-		 * 1) Return an array of matching routeHandler objects if options.greedy is true
+		 * 1) Return an array of matching routeHandler objects
 		 * 2) Return an empty array if none is fund
 		 *
-		 * @param {string} fragment
-		 * @returns {luga.router.IRouteHandler|undefined|array.<luga.router.IRouteHandler>}
+		 * @param {String} fragment
+		 * @return {luga.router.IRouteHandler|undefined|array.<luga.router.IRouteHandler>}
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
@@ -413,9 +415,10 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Remove the rootPath in front of the given string and remove the querystring, if any
-		 * @param {string} inputString
-		 * @returns {string}
+		 * Remove the rootPath in front of the given string
+		 * Also remove the querystring, if any
+		 * @param {String} inputString
+		 * @return {String}
 		 */
 		this.normalizeFragment = function(inputString){
 			if(inputString.indexOf("?") !== -1){
@@ -427,8 +430,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Remove any '#' and/or '!' in front of the given string
-		 * @param {string} inputString
-		 * @returns {string}
+		 * Then remove the rootPath too
+		 * @param {String} inputString
+		 * @return {String}
 		 */
 		this.normalizeHash = function(inputString){
 			if(inputString[0] === "#"){
@@ -443,7 +447,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Remove the routeHandler matching the given path
 		 * Fails silently if the given path does not match any routeHandler
-		 * @param {string} path
+		 * @param {String} path
 		 */
 		this.remove = function(path){
 			var index = routeHandlers.indexOf(self.getByPath(path));
@@ -468,9 +472,9 @@ if(typeof(luga) === "undefined"){
 		 * 1) Call the exit() method of the previously matched routeHandlers
 		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
 		 *
-		 * @param {string} fragment
-		 * @param {object} options.state
-		 * @returns {boolean} True if at least one routeHandler was resolved, false otherwise
+		 * @param {String} fragment
+		 * @param {object|undefined} options.state
+		 * @return {Boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
 		this.resolve = function(fragment, options){
 			var matches = self.getMatch(fragment);
@@ -491,8 +495,8 @@ if(typeof(luga) === "undefined"){
 		 * Then execute the enter() method on each of them
 		 * Finally: triggers a 'routeEntered' notification
 		 * @param {array.<luga.router.IRouteHandler>} handlers
-		 * @param {string} fragment
-		 * @param {object} options.state
+		 * @param {String} fragment
+		 * @param {Object} options.state
 		 */
 		var enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
@@ -506,7 +510,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Execute the exit() method on all the current handlers
-		 * @param {object} options.state
+		 * @param {Object} options.state
 		 */
 		var exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
@@ -519,9 +523,9 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Assemble a route context
 		 * @param {luga.router.IRouteHandler} handler
-		 * @param {string} fragment
-		 * @param {object} options
-		 * @returns {luga.router.routeContext}
+		 * @param {String} fragment
+		 * @param {Object} options
+		 * @return {luga.router.routeContext}
 		 */
 		var assembleContext = function(handler, fragment, options){
 			/** @type {luga.router.routeContext} */
@@ -540,7 +544,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Change current configuration
 		 * @param {luga.router.options} options
-		 * @returns {luga.router.options}
+		 * @return {luga.router.options}
 		 */
 		this.setup = function(options){
 			luga.merge(config, options);
@@ -641,10 +645,10 @@ if(typeof(luga) === "undefined"){
 
 		this.path = config.path;
 
-		/** @type {regExp} */
+		/** @type {RegExp} */
 		var compiledPath = luga.router.utils.compilePath(this.path);
 
-		/** @type {array} */
+		/** @type {Array} */
 		var paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
@@ -668,8 +672,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return an object containing an entry for each param and the relevant values extracted from the fragment
-		 * @param {string} fragment
-		 * @returns {object}
+		 * @param {String} fragment
+		 * @return {Object}
 		 */
 		this.getParams = function(fragment){
 			var ret = {};
@@ -684,7 +688,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Return the handler payload, if any
 		 * Return undefined if no payload is associated with the handler
-		 * @returns {luga.router.routeContext|undefined}
+		 * @return {luga.router.routeContext|undefined}
 		 */
 		this.getPayload = function(){
 			return config.payload;
@@ -692,8 +696,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param {string}  fragment
-		 * @returns {boolean}
+		 * @param {String}  fragment
+		 * @return {Boolean}
 		 */
 		this.match = function(fragment){
 			return compiledPath.test(fragment);
