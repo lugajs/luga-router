@@ -1,4 +1,7 @@
-/* globals console, __dirname, require */
+/* eslint no-implicit-globals: "off" */
+/* eslint strict: "off" */
+/* global require, __dirname */
+
 "use strict";
 
 var gulp = require("gulp");
@@ -17,7 +20,7 @@ var pkg = require("./package.json");
 
 var CONST = {
 	SRC_ROUTER: "src/luga.router.js",
-	SRC_FILES: ["src/luga.router.js", "src/luga.router.utils.js", "src/luga.router.Router.js","src/luga.router.RouteHandler.js"],
+	SRC_FILES: ["src/luga.router.js", "src/luga.router.utils.js", "src/luga.router.Router.js", "src/luga.router.RouteHandler.js"],
 	DIST_FOLDER: "dist",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_FILE: "luga.router.js",
@@ -51,18 +54,18 @@ function getVersionNumber(filePath){
 function concatAndMinify(src, fileName, name, version){
 	return gulp.src(src)
 		.pipe(sourcemaps.init())
-			.pipe(concat(fileName))
-			// The "changed" task needs to know the destination directory upfront
-			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(header(assembleBanner(name, version))) // Banner for copy
-			.pipe(gulp.dest(CONST.DIST_FOLDER))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(header(assembleBanner(name, version)))// Banner for minified
+		.pipe(concat(fileName))
+		// The "changed" task needs to know the destination directory upfront
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(header(assembleBanner(name, version))) // Banner for copy
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(header(assembleBanner(name, version)))// Banner for minified
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."
@@ -72,7 +75,7 @@ function concatAndMinify(src, fileName, name, version){
 
 /* Tasks */
 
-gulp.task("coverage", function (done) {
+gulp.task("coverage", function(done){
 	// Use Karma only for the sake of producing a code coverage report
 	new karmaServer({
 		configFile: __dirname + "/test/karma.conf.js"
