@@ -33,3 +33,14 @@ ROUTER:
   Allow a build-in catchall callback?
 
 -------------
+
+HISTORY:
+
+- Write documentation:
+  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
+  Explain how to use pushState on top of SEO <a> links
+  Explain the need to encode fragment before using .navigate()
+
+- Add to distro
+
+-------------
