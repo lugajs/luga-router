@@ -14,7 +14,7 @@
 		<tr>
 			<td>options.rootPath</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				A base path that must be removed from the beginning of every url fragment.
@@ -24,7 +24,7 @@
 		<tr>
 			<td>options.greedy</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				By default the router execute the first routeHandler that matches the url fragment.
@@ -34,7 +34,7 @@
 		<tr>
 			<td>options.pushState</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				Set it to true if you want to list to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">window.popstate</a>.
@@ -44,7 +44,7 @@
 		<tr>
 			<td>options.handlerConstructor</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
@@ -88,7 +88,7 @@ var myRouter = new luga.router.Router({
 		<tr>
 			<td>path</td>
 			<td>
-				{string|<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>}
+				{String|<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>}
 			</td>
 			<td>
 				Either a routeHandler object or a path expressed as string. <a href="#router/path">Paths</a> can only be strings, RexExp aren't allowed. Required
@@ -97,7 +97,7 @@ var myRouter = new luga.router.Router({
 		<tr>
 			<td>enterCallBack</td>
 			<td>
-				{function|array.&lt;function&gt;}
+				{Function|Array.&lt;Function&gt;}
 			</td>
 			<td>
 				Either a single callBack function or an array of functions to be invoked before entering the route. Optional
@@ -106,7 +106,7 @@ var myRouter = new luga.router.Router({
 		<tr>
 			<td>exitCallBack</td>
 			<td>
-				{function|array.&lt;function&gt;}
+				{Function|Array.&lt;Function&gt;}
 			</td>
 			<td>
 				Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
@@ -115,7 +115,7 @@ var myRouter = new luga.router.Router({
 		<tr>
 			<td>payload</td>
 			<td>
-				{object}
+				{=bject}
 			</td>
 			<td>
 				A payload object to be passed to the callBacks. Optional
@@ -150,7 +150,7 @@ location.hash = "first/test"; // => log "first" inside the console
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{array.&lt;<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
+			<td>{Array.&lt;<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
 		</tr>
 	</table>
 </div>
@@ -199,7 +199,7 @@ location.hash = "first/test"; // => log "first" inside the console
 		<tr>
 			<td>fragment</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				The fragment we want to resolve
@@ -232,7 +232,7 @@ location.hash = "first/test"; // => log "first" inside the console
 		<tr>
 			<td>inputString</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				The string we want to normalize
@@ -242,7 +242,7 @@ location.hash = "first/test"; // => log "first" inside the console
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 	<table class="table table-bordered luga-docs-api">
@@ -278,7 +278,7 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 		<tr>
 			<td>inputString</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				The string we want to normalize
@@ -288,7 +288,7 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 	<table class="table table-bordered luga-docs-api">
@@ -317,7 +317,7 @@ routerWithRootPath.normalizeHash("#root/page") //=> "page"
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				The path we want to remove from the router
@@ -354,7 +354,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 		<tr>
 			<td>fragment</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				The fragment we want to resolve
@@ -363,7 +363,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 		<tr>
 			<td>options</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				Optional set of options that will be added to the <a href="#router/route-context">route context</a>.
@@ -373,7 +373,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{boolean} True if at least one routeHandler was resolved, false otherwise</td>
+			<td>{Boolean} True if at least one routeHandler was resolved, false otherwise</td>
 		</tr>
 	</table>
 	<table class="table table-bordered luga-docs-api">
@@ -400,7 +400,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.rootPath</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				A base path that must be removed from the beginning of every url fragment.
@@ -410,7 +410,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.greedy</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				By default the router execute the first routeHandler that matches the url fragment.
@@ -420,7 +420,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.pushState</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				Set it to true if you want to list to window.popstate.
@@ -430,7 +430,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.handlerConstructor</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.

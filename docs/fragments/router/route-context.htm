@@ -7,11 +7,11 @@
 			The routeContext is defined this way:
 		</p>
 <pre><code class="language-javascript">/**
-* @typedef {object} luga.router.routeContext
+* @typedef {Object} luga.router.routeContext
 *
-* @property {string} fragment                Route fragment. Required
-* @property {string} path                    Route path. Required
-* @property {object} params                  Object containing an entry for each param
+* @property {String} fragment                Route fragment. Required
+* @property {String} path                    Route path. Required
+* @property {Object} params                  Object containing an entry for each param
 	                                         and the relevant values extracted from the fragment
 * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
 * @property {object|undefined} historyState  Object associated with a popstate event. Optional
@@ -44,5 +44,14 @@ myRouter.resolve("first/test"); // => The following messages will be logged insi
 // params.section: first
 // params.page: test
 </code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				historyState is available only if the browser is navigating using pushState.
+				You can use <a href="#history/index">luga.history</a> for doing it in a simple way
+			</p>
+		</div>
+
 	</div>
 </div>
