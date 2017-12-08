@@ -37,7 +37,7 @@
 	};
 
 	/**
-	 * Return true if we should pushState, false otherwise
+	 * Return true if are using pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
 	 * @return {Boolean}
 	 */
@@ -50,7 +50,7 @@
 	 *
 	 * @property {Boolean} replace  Determine if we add a new history entry or replace the current one
 	 * @property {String}  title    Title to be passed to pushState. Default to empty string. Some browser don't support this yet
-	 * @property {Object}  state    A JavaScript object which is associated with the new history entry. DEfault to an empty object. See:
+	 * @property {Object}  state    A JavaScript object which is associated with the new history entry. Default to an empty object. See:
 	 *                              https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_pushState()_method
 	 */
 
