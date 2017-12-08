@@ -12,8 +12,6 @@ DOCS:
 
 - Events notification (routeEntered, routeExited)
 
-- #extensibility/iroutehandler
-  Router.add() create instances of luga.RouteHandler by default. You can change this from options
 
 - Extensibility: Extend/customize luga.router.Router
 
