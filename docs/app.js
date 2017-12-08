@@ -11,7 +11,7 @@ luga.namespace("luga.docs");
 
 		var CONST = {
 			TITLE_ROOT: "Luga Router",
-			TITLE_SEPARATOR : " :: ",
+			TITLE_SEPARATOR: " :: ",
 			CSS_CLASSES: {
 				CURRENT: "current"
 			},
@@ -75,32 +75,32 @@ luga.namespace("luga.docs");
 			var fragmentUrl = CONST.INCLUDES_PATH + id + CONST.INCLUDES_SUFFIX;
 
 			jQuery.ajax(fragmentUrl)
-					.done(function(response, textStatus, jqXHR){
-						// Read include and inject content
-						jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
+				.done(function(response, textStatus, jqXHR){
+					// Read include and inject content
+					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 
-						// Bootstrap libs
-						Prism.highlightAll();
-					})
-					.fail(function(){
-						// TODO: implement error handling
-						console.log("Error loading documentation fragment");
-					});
+					// Bootstrap libs
+					Prism.highlightAll();
+				})
+				.fail(function(){
+					// TODO: implement error handling
+					console.log("Error loading documentation fragment");
+				});
 
 		};
 
 		var loadNavigation = function(id, fragment){
 			var fragmentUrl = CONST.INCLUDES_PATH + id + "/" + CONST.LOCAL_NAV_ID;
 			jQuery.ajax(fragmentUrl)
-					.done(function(response, textStatus, jqXHR){
-						// Read include and inject content
-						jQuery(CONST.SELECTORS.NAVIGATION).html(jqXHR.responseText);
-						highlightNav(fragment);
-					})
-					.fail(function(){
-						// TODO: implement error handling
-						console.log("Error loading navigation");
-					});
+				.done(function(response, textStatus, jqXHR){
+					// Read include and inject content
+					jQuery(CONST.SELECTORS.NAVIGATION).html(jqXHR.responseText);
+					highlightNav(fragment);
+				})
+				.fail(function(){
+					// TODO: implement error handling
+					console.log("Error loading navigation");
+				});
 
 		};
 
@@ -114,7 +114,7 @@ luga.namespace("luga.docs");
 
 		var isCurrentFragment = function(href){
 			var tokens = href.split("/");
-			var destination = tokens[tokens.length -2] + "/" + tokens[tokens.length -1];
+			var destination = tokens[tokens.length - 2] + "/" + tokens[tokens.length - 1];
 			return location.href.indexOf(destination) > 0;
 		};
 
