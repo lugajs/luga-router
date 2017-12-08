@@ -23,9 +23,7 @@ DOCS:
 
 
 - luga.history:
-  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
-  Explain how to use pushState on top of SEO <a> links
-  Explain the need to encode fragment before using .navigate()
+  API specs
 
 -------------
 
