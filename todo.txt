@@ -25,20 +25,17 @@ DOCS:
 - Document implication of using pushState regarding the server:
   https://github.com/flatiron/director#history-api
 
+
+- luga.history:
+  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
+  Explain how to use pushState on top of SEO <a> links
+  Explain the need to encode fragment before using .navigate()
+
 -------------
 
 ROUTER:
 
 - Trigger an event if Router.resolve() is called and no matching route is fund?
   Allow a build-in catchall callback?
-
--------------
-
-HISTORY:
-
-- Write documentation:
-  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
-  Explain how to use pushState on top of SEO <a> links
-  Explain the need to encode fragment before using .navigate()
 
 -------------
