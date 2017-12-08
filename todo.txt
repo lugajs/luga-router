@@ -41,6 +41,4 @@ HISTORY:
   Explain how to use pushState on top of SEO <a> links
   Explain the need to encode fragment before using .navigate()
 
-- Add to distro
-
 -------------
