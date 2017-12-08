@@ -138,6 +138,17 @@ myRouter.add("{section}/", myCallback);
 myRouter.start();
 // Programmatically test the router
 location.hash = "first/test"; // => log "first" inside the console
+location.hash = "second/test/page";  // => nothing happens, there is no matching route
+
+// Instead of passing a path, we can pass a whole handler:
+var myHandler = new luga.router.RouteHandler({
+	path: "{section}/{subsection}/{page}",
+	enterCallBacks: [myCallback],
+	exitCallBacks: [],
+	payload: {msg: "Ciao Mamma"}
+});
+myRouter.add(myHandler);
+location.hash = "second/test/page";  // => log "second" inside the console
 </code></pre>
 </div>
 

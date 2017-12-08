@@ -9,7 +9,6 @@ DOCS:
 
 - Router:
   Add page explaining rootPath
-  Add page explaining how to pass a routeHandler to .add()
   Add page on events notification (routeEntered, routeExited)
   Extend/customize luga.router.Router
 
