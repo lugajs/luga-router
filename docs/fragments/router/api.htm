@@ -50,7 +50,7 @@
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
 				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#router/route-context">route context</a>.
 				If you want to use a custom/different routeHandler class/constructor, use this setting.
-				The given function must implement <a href="#extensibility/iroutehandler">IRouteHandler</a>
+				The given function must implement <a href="#router/iroutehandler">IRouteHandler</a>
 			</td>
 		</tr>
 	</table>
@@ -88,7 +88,7 @@ var myRouter = new luga.router.Router({
 		<tr>
 			<td>path</td>
 			<td>
-				{String|<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>}
+				{String|<a href="#router/iroutehandler">luga.router.IRouteHandler</a>}
 			</td>
 			<td>
 				Either a routeHandler object or a path expressed as string. <a href="#router/path">Paths</a> can only be strings, RexExp aren't allowed. Required
@@ -150,7 +150,7 @@ location.hash = "first/test"; // => log "first" inside the console
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{Array.&lt;<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
+			<td>{Array.&lt;<a href="#router/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
 		</tr>
 	</table>
 </div>
@@ -164,7 +164,7 @@ location.hash = "first/test"; // => log "first" inside the console
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>|undefined}</td>
+			<td>{<a href="#router/iroutehandler">luga.router.IRouteHandler</a>|undefined}</td>
 		</tr>
 	</table>
 </div>
@@ -209,7 +209,7 @@ location.hash = "first/test"; // => log "first" inside the console
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>|undefined|Array.&lt;<a href="#extensibility/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
+			<td>{<a href="#router/iroutehandler">luga.router.IRouteHandler</a>|undefined|Array.&lt;<a href="#router/iroutehandler">luga.router.IRouteHandler</a>&gt;}</td>
 		</tr>
 	</table>
 </div>
@@ -436,7 +436,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 				By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
 				The job of the routeHandler is to decide if the current fragment matches the route and, if it does, create a <a href="#router/route-context">route context</a>.
 				If you want to use a custom/different routeHandler class/constructor, use this setting.
-				The given function must implement <a href="#extensibility/iroutehandler">IRouteHandler</a>
+				The given function must implement <a href="#router/iroutehandler">IRouteHandler</a>
 			</td>
 		</tr>
 	</table>
