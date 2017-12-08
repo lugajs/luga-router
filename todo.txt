@@ -18,8 +18,8 @@ DOCS:
 
 
 - Integration with luga.history
-  1) hash: call .resolve() passing location.hash minus #
-  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
+  1) hash: call .resolve() passing location.hash minus # (you can use router.normalizeHash(location.hash))
+  2) popState: call .resolve() passing document.location.pathname minus options.rootPath (you can use router.normalizeFragment(document.location.pathname))
 
 -------------
 
