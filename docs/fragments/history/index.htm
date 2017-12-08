@@ -48,7 +48,7 @@ luga.history.navigate("test/route", {replace: true, title: "Test Title"});
 	<div class="panel-body">
 
 		<p>
-			Using hash fragments for navigation is simple, enables back button navigation and bookmarking inside a single page application.
+			Using hash fragments for navigation is simple, it enables back button navigation and bookmarking inside a single page application.
 			It is so simple that most of the time you don't even need luga.history to use it.
 			Yet this approach generates somewhat ugly-looking URIs (just like the ones used by these docs)
 		</p>
@@ -56,7 +56,7 @@ luga.history.navigate("test/route", {replace: true, title: "Test Title"});
 			Pushstate gives you cleaner URIs but they come with a cost.
 			Unlike with hash fragments, your route URIs must exist.
 			When the browser enters a page like http://mydomain.com/test/route, the web server must respond with something meaningful.
-			Usually this means that your web server checks the URI and then serves the JavaScript application
+			Usually this requires that your web server checks the URI and then serves the JavaScript application
 		</p>
 		<p>
 			Bottom line, if you want to use pushState, your back-end needs to properly handle all the URIs generated using JavaScript,
