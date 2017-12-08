@@ -42,7 +42,7 @@ if(typeof(luga) === "undefined"){
  * @property {String}           path              Path. Required
  * @property {Array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
  * @property {Array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
- * @property {Object} payload                     An arbitrary object to be passed to callBacks everytime they are invoked. Optional
+ * @property {Object} payload                     An arbitrary object to be passed to callBacks every time they are invoked. Optional
  */
 
 /**

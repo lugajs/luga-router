@@ -1,9 +1,10 @@
 <div class="panel panel-default">
 	<div class="panel-heading">luga.router.IRouteHandler</div>
 	<div class="panel-body">
+
 		<p>
 			By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
-			Yet Luga philosophy is to keep things as open and customizable as possible.
+			Luga philosophy is to keep things as open and customizable as possible.
 			This means you can implement your own routehandler that fits your particular needs/tastes.
 			You just have to respect the following interface:
 		</p>
@@ -43,6 +44,20 @@
 </code></pre>
 
 		<p>
+			The constructor of your custom routehandler will be invoked passing the following options object as single argument:
+		</p>
+
+<pre><code class="language-javascript">/**
+	* @typedef {Object} luga.router.IRouteHandler.options
+	*
+	* @property {String} path              Path. Required
+	* @property {Array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to []
+	* @property {Array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to []
+	* @property {Object} payload           An object to be passed to callBacks every time they are invoked. Optional
+*/
+</code></pre>
+
+		<p>
 			Once you custom handler is implemented, you can instantiate luga.router.Router this way:
 		</p>
 
@@ -54,16 +69,17 @@ var myCallback= function(context){
 	console.log(context.params.section);
 };
 // Add some routes
-myRouter.add("{section}/:page:", myCallback);
-myRouter.add("{section}/", myCallback);
+myRouter.add("{section}/:page:", myCallback); // => An instance of customHandlerConstructor is created and stored internally
+myRouter.add("{section}/", myCallback); // => Another instance of customHandlerConstructor
+
 myRouter.start();
 
 // Programmatically test the router
 location.hash = "first/test";
-// => myRouter will first: invoke customHandlerConstructor.match("first/test") to see if it matches
+// => myRouter will first: invoke customHandler.match("first/test") to see if it matches
 // => If customHandlerConstructor returns true:
-// => myRouter will first: invoke customHandlerConstructor.getPayload()
-// => Then: invoke	customHandlerConstructor.getParams("first/test")
+// => myRouter will first: invoke customHandler.getPayload()
+// => Then: invoke	customHandler.getParams("first/test")
 </code></pre>
 
 
