@@ -21,9 +21,6 @@ DOCS:
   1) hash: call .resolve() passing location.hash minus #
   2) popState: call .resolve() passing document.location.pathname minus options.rootPath
 
-- Document implication of using pushState regarding the server:
-  https://github.com/flatiron/director#history-api
-
 
 - luga.history:
   Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
