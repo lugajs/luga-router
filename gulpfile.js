@@ -27,7 +27,7 @@ var CONST = {
 	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-router.zip",
 	ARCHIVE_FOLDER: "archive",
-	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d\\d?)?)\";")
+	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d\\d?(dev)?)?)\";")
 };
 
 /* Utilities */
