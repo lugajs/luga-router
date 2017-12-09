@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+	<div class="panel-heading">How to add a catch-all route</div>
+	<div class="panel-body">
+
+		<p>
+			Very often you want to have a special kind of rule, one that get executed in case every other rule fail.
+			This is easily done in Luga Router:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+myRouter.add(":catchall:", function(){
+	console.log("Catch-all route");
+});
+myRouter.start();
+// Programmatically test the router
+location.hash = "whatever"; // => log "Catch-all route" inside the console
+</code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				Routes are executed from top to bottom and, unless you are using a <a href="#router/greedy">greedy router</a>,
+				only the first matching route is executed. This means that the most specific routes must be added first,
+				and the catch-all route as the very last one
+			</p>
+		</div>
+
+	</div>
+</div>
