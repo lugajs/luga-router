@@ -35,8 +35,8 @@ location.hash = "first/test"; // => log "first - test" inside the console
 <pre><code class="language-javascript">router.resolve(router.normalizeHash(location.hash));
 </code></pre>
 
-		<div class="alert alert-info" role="alert">
-			<strong>Heads up!</strong>
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong>
 			<p>
 				The router expect the fragment to not contain any "#".
 				Calling .normalizeHash() ensure any unsafe character is removed

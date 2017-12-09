@@ -231,8 +231,8 @@ location.hash = "second/test/page";  // => log "second" inside the console
 		Remove the rootPath in front of the given string.
 		Also remove the querystring, if any
 	</div>
-	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong>
+	<div class="alert alert-warning" role="alert">
+		<strong>Warning!</strong>
 		<p>
 			This method is not available as static utility. You can only call it on a router object.
 			This is required since the result is influenced by the way the rootPath is configured inside the router
@@ -277,8 +277,8 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 		Remove any '#' and/or '!' in front of the given string.
 		Then remove the rootPath too
 	</div>
-	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong>
+	<div class="alert alert-warning" role="alert">
+		<strong>Warning!</strong>
 		<p>
 			This method is not available as static utility. You can only call it on a router object.
 			This is required since the result is influenced by the way the rootPath is configured inside the router
@@ -475,8 +475,8 @@ myRouter.setup({
 		The router starts listening to either the <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onhashchange">window.hashchange</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">window.popstate</a> events.
 		By default the router listen to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onhashchange">window.hashchange</a>, unless it's configured with pushState = true
 	</div>
-	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong>
+	<div class="alert alert-warning" role="alert">
+		<strong>Warning!</strong>
 		<p>
 			You must invoke this method for your router to start working
 		</p>

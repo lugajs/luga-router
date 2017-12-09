@@ -23,8 +23,8 @@ myRouter.add("{section}/", sectionCallback);
 myRouter.start();
 </code></pre>
 
-		<div class="alert alert-info" role="alert">
-			<strong>Heads up!</strong>
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong>
 			<p>
 				It's important to remember that a call to luga.history.navigate() won't trigger a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">popstate event</a>.
 				This means the route change is only triggered by performing a browser action, such as clicking on the back button or a call to  history.back()
