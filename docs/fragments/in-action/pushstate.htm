@@ -47,7 +47,7 @@ window.history.back();
 
 		<p>
 			We can also programmatically tell a router to resolve an arbitrary fragment or the current location.pathname.
-			In this case we better call .normalizeFragment() to normalize our fragment, this way the router may "substract" the <a href="#router/rootpath">rootPath</a> as needed:
+			In this case we better call <a href="#router/api">.normalizeFragment()</a> to normalize our fragment, this way the router may "substract" the <a href="#router/rootpath">rootPath</a> as needed:
 		</p>
 
 <pre><code class="language-javascript">myRouter.resolve(myRouter.normalizeFragment(location.pathname));</code></pre>
