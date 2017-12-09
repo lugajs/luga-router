@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Using events notification</div>
+	<div class="panel-body">
+
+		<p>
+			Luga Router offers you two ways to monitor route changes <a href="#router/index">callbacks</a> or events.
+			In order to leverage events notification we have to create an object with a <strong>.onRouteEnteredHandler()</strong> method.
+			Additionally, we may add a <strong>.onRouteExitedHandler()</strong> method too
+		</p>
+
+		<p>
+			Using events may lead to cleaner and less-coupled code:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+
+// Pay attention to naming convention
+var myObserver = {
+	onRouteEnteredHandler: function(context){
+		console.log("Enter: " + context.params.section);
+	},
+	onRouteExitedHandler: function(context){
+		console.log("Exit: " + context.params.section);
+	}
+};
+
+// Add some routes
+myRouter.add("{section}/:page:");
+myRouter.add("{section}/");
+
+// Register the observer
+myRouter.addObserver(myObserver);
+
+// Tell the router to start listening to hashChange events
+myRouter.start();
+
+// Programmatically trigger an hash change to test the router
+location.hash = "first/test"; // => log "Enter: first" inside the console
+</code></pre>
+
+	</div>
+</div>
