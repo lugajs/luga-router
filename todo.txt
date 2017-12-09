@@ -12,6 +12,5 @@ DOCS:
 ROUTER:
 
 - Trigger an event if Router.resolve() is called and no matching route is fund?
-- Allow a build-in catchall callback?
 
 -------------
