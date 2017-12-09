@@ -97,6 +97,7 @@ gulp.task("default", function(callback){
 	runSequence(
 		"dist",
 		"zip",
+		"coverage",
 		function(error){
 			if(error){
 				console.log(error.message);
