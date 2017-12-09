@@ -1,1 +1,35 @@
-RootPath
+<div class="panel panel-default">
+	<div class="panel-heading">When and how to use rootPath</div>
+	<div class="panel-body">
+
+		<p>
+			Whenever you use <a href="#in-action/hash">hash fragments</a> is quite easy to control your fragments;
+			if you decided to use <a href="#in-action/pushstate">pushState</a> instead, the router checks location.pathname and try to resolve it
+		</p>
+
+		<p>
+			The place where your application is deployed affects location.pathname. If your app lives inside the server root like: <br>
+			http://localhost/myapp/ => location.pathname = "/myapp/"
+		</p>
+
+		<p>
+			If instead the application lives deeper inside the server hierarchy, things change:  <br>
+			http://localhost/root/sub-root/myapp/ => location.pathname = "/root/sub-root/myapp/"
+		</p>
+
+		<p>
+			We can deal with this scenario by setting a rootPath:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router({
+	pushState: true,
+	rootPath: "/root/sub-root/myapp/"
+});
+</code></pre>
+
+		<p>
+			Once a rootPath is set, the router will "substract" it from the current location.pathname and propery resolve the appropiated route
+		</p>
+
+	</div>
+</div>

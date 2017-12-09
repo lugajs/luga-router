@@ -5,7 +5,6 @@
 DOCS:
 
 - Router:
-  Fill page explaining rootPath!!!
   Add page on events notification (routeEntered, routeExited)!!!
   Extend/customize luga.router.Router
 
