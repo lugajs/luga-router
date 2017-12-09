@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Client-side routing using hash fragments</div>
+	<div class="panel-body">
+
+		<p>
+			Let's put everything together with a basic example.
+			Just one router and two routes with default settings, monitoring changes to location.hash:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+var sectionCallback = function(context){
+	console.log(context.params.section);
+};
+var pageCallback = function(context){
+	console.log(context.params.section + " - " + context.params.page);
+};
+// Add some routes
+myRouter.add("{section}/:page:", pageCallback);
+myRouter.add("{section}/", sectionCallback);
+myRouter.start();
+// Programmatically test the router
+location.hash = "first/test"; // => log "first - test" inside the console
+</code></pre>
+
+		<p>
+			Everything seems fine here, right? Well... No, we still have a problem.
+			The router start listening to hash changes only <strong>after</strong> the code above is executed.
+			This means that if the browser landed on the current page with something contained inside location.hash,
+			our app is not dealing with that potentially critical information.
+		</p>
+		<p>
+			The solution is simple, just programmatically tell the router to resolve that fragment:
+		</p>
+
+<pre><code class="language-javascript">router.resolve(router.normalizeHash(location.hash));
+</code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				The router expect the fragment to not contain any "#".
+				Calling .normalizeHash() ensure any unsafe character is removed
+			</p>
+		</div>
+
+	</div>
+</div>

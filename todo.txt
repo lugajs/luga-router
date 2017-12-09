@@ -8,14 +8,9 @@
 DOCS:
 
 - Router:
-  Add page explaining rootPath
-  Add page on events notification (routeEntered, routeExited)
+  Fill page explaining rootPath!!!
+  Add page on events notification (routeEntered, routeExited)!!!
   Extend/customize luga.router.Router
-
-
-- Integration with luga.history
-  1) hash: call .resolve() passing location.hash minus # (you can use router.normalizeHash(location.hash))
-  2) popState: call .resolve() passing document.location.pathname minus options.rootPath (you can use router.normalizeFragment(document.location.pathname))
 
 -------------
 
