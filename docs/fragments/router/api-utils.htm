@@ -1,8 +1,19 @@
 <div class="panel panel-default">
-	<div class="panel-heading">luga.router.utils API Syntax reference</div>
+	<div class="panel-heading">luga.router.utils</div>
 	<div class="panel-body">
 		<p>
-			luga.router.utils exposes static API that can be used to write your own routeHandler implementation.
+			Luga Router was written with extensibility in mind.
+			The common, essential features are available out of the box, for anything else, you can extend and
+			customize.
+		</p>
+
+		<p>
+			The most notable extensibility feature is that you can write <a href="#router/iroutehandler">your own
+			routeHandler implementation</a>
+		</p>
+
+		<p>
+			If you plan to do so, you can benefit from luga.router.utils API.
 			These are heavily based on <a href="https://millermedeiros.github.io/crossroads.js/">Crossroads.js</a>
 		</p>
 	</div>
@@ -18,7 +29,7 @@
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				A path/pattern to be converted into a RegExp. Required
@@ -53,7 +64,7 @@ luga.router.utils.compilePath("literal/{first*}"); // => /^\/?literal\/(.+)\/?$/
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				A path/pattern. Required
@@ -78,7 +89,7 @@ luga.router.utils.getParamIds("literal/{first*}/:option:"); // => ["first*", "op
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">luga.router.utils.getParamValues(path, , regex)</div>
+	<div class="panel-heading luga-docs-api-heading">luga.router.utils.getParamValues(path, regex)</div>
 	<div class="panel-body">
 		Extract an array of values out of a given path using a RegExp
 	</div>
@@ -87,10 +98,10 @@ luga.router.utils.getParamIds("literal/{first*}/:option:"); // => ["first*", "op
 		<tr>
 			<td>frament</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
-				A a route/url fragment. Required
+				A route/url fragment. Required
 			</td>
 		</tr>
 		<tr>

@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Client-side routing using pushState</div>
+	<div class="panel-body">
+
+		<p>
+			If we want to use pushstate instead of hash fragments, we must configure our router accordingly.
+			Most likely a <a href="#router/rootpath">rootPath</a> is required too:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router({
+	pushState: true,
+	rootPath: "/luga-router/docs/" // We assume the docs live inside this folder
+});
+var sectionCallback = function(context){
+	console.log(context.params.section);
+};
+var pageCallback = function(context){
+	console.log(context.params.section + " - " + context.params.page);
+};
+// Add some routes
+myRouter.add("{section}/:page:", pageCallback);
+myRouter.add("{section}/", sectionCallback);
+myRouter.start();
+</code></pre>
+
+		<p>
+			Using pushState means we have additional features and cleaner URIs,
+			yet it is a bit more complicated than just manually or programmatically change location.hash.
+			luga.history abstracts away some details and can be useful for testing too:
+		</p>
+
+<pre><code class="language-javascript">luga.history.setup({pushState: true});
+luga.history.navigate("first/page"); // => URIs is changed. New entry is added to the history
+luga.history.navigate("second/page"); // => URIs is changed. New entry is added to the history
+window.history.back();
+// => URIs, goes back to: /luga-router/docs/first/page
+// => "first - page" is logged inside the console
+</code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				It's important to remember that a call to luga.history.navigate() won't trigger a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">popstate event</a>.
+				This means the route change is only triggered by performing a browser action, such as clicking on the back button or a call to  history.back()
+			</p>
+		</div>
+
+		<p>
+			We can also programmatically tell a router to resolve an arbitrary fragment or the current location.pathname.
+			In this case we better call <a href="#router/api">.normalizeFragment()</a> to normalize our fragment, this way the router may "substract" the <a href="#router/rootpath">rootPath</a> as needed:
+		</p>
+
+<pre><code class="language-javascript">myRouter.resolve(myRouter.normalizeFragment(location.pathname));</code></pre>
+
+	</div>
+</div>

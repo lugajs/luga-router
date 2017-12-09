@@ -7,29 +7,16 @@
 
 DOCS:
 
-- Router: Add page explaining rootPath
-- Router: Add page explaining how to pass a routeHandler to .add()
-
-- Events notification (routeEntered, routeExited)
-
-- #extensibility/iroutehandler
-  Router.add() create instances of luga.RouteHandler by default. You can change this from options
-
-- Extensibility: Extend/customize luga.router.Router
-
-
-- Integration with luga.history
-  1) hash: call .resolve() passing location.hash minus #
-  2) popState: call .resolve() passing document.location.pathname minus options.rootPath
-
-- Document implication of using pushState regarding the server:
-  https://github.com/flatiron/director#history-api
+- Router:
+  Fill page explaining rootPath!!!
+  Add page on events notification (routeEntered, routeExited)!!!
+  Extend/customize luga.router.Router
 
 -------------
 
 ROUTER:
 
 - Trigger an event if Router.resolve() is called and no matching route is fund?
-  Allow a build-in catchall callback?
+- Allow a build-in catchall callback?
 
 -------------

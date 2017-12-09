@@ -1,0 +1,103 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Browser history</div>
+	<div class="panel-body">
+
+		<p>
+			luga.history offers a small set of <a href="#history/api">API</a> to manipulate browser history.
+			Each time we call luga.history.navigate() the browser adds an entry in the history,
+			enabling the user to use the back button without reloading the page
+		</p>
+		<p>
+			Out of the box you can simply use it to programmatically set the location.hash in the browser:
+		</p>
+
+<pre><code class="language-javascript">// Let's assume we are on http://mydomain.com/index.htm
+luga.history.navigate("test/route"); // => http://mydomain.com/index.htm#test/route
+</code></pre>
+
+		<p>
+			Things gets more interesting if we use pushState instead.
+			We can change the current url without reloading the page:
+		</p>
+
+<pre><code class="language-javascript">luga.history.setup({pushState: true}); // => From now on pushState will be used
+luga.history.navigate("test/route"); // => http://mydomain.com/test/route
+
+// Most modern browsers also allow to change the page title along the way:
+luga.history.navigate("test/route", {title: "Test Title"});
+
+// We can also pass an arbitrary payload to be retrieved later on by the router:
+luga.history.navigate("test/route", {title: "Test Title", state: {name: "Ciccio"}});
+</code></pre>
+
+		<p>
+			If you want to navigate without adding an entry inside the browser history, you can use the "replace" option:
+		</p>
+
+<pre><code class="language-javascript">luga.history.setup({pushState: true});
+luga.history.navigate("test/route", {replace: true}); // => http://mydomain.com/test/route but no history entry
+// Same as above, but change the title:
+luga.history.navigate("test/route", {replace: true, title: "Test Title"});
+</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">location.hash vs pushState</div>
+	<div class="panel-body">
+
+		<p>
+			Using hash fragments for navigation is simple, it enables back button navigation and bookmarking inside a single page application.
+			It is so simple that most of the time you don't even need luga.history to use it.
+			Yet this approach generates somewhat ugly-looking URIs (just like the ones used by these docs)
+		</p>
+		<p>
+			Pushstate gives you cleaner URIs but they come with a cost.
+			Unlike with hash fragments, your route URIs must exist.
+			When the browser enters a page like http://mydomain.com/test/route, the web server must respond with something meaningful.
+			Usually this requires that your web server checks the URI and then serves the JavaScript application
+		</p>
+		<p>
+			Bottom line, if you want to use pushState, your back-end needs to properly handle all the URIs generated using JavaScript,
+			since your users may bookmark, copy, save or send them to somebody.
+			If you stick with plain hash fragments, client-side JavaScript can do all the work
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">URI encoding</div>
+	<div class="panel-body">
+
+		<p>
+			luga.history.navigate() expects the path we give as first argument to be safely used in a URI.
+			If that's not the case, we can use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI">encodeURI()</a>
+			to make it safe before passing it to .navigate()
+		</p>
+
+	</div>
+</div>
+
+<div class="alert alert-info" role="alert">
+	<strong>Heads up!</strong>
+	<p>
+		IE9 does not supports pushState.
+		If you are not sure if the current browse supports pushState, you can call luga.history.isPushStateSupported().
+		It will return a boolean.
+	</p>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Additional resources on MDN:</div>
+	<div class="panel-body">
+
+		<ul class="luga-docs-list">
+			<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API">Manipulating the browser history</a></li>
+			<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onhashchange">WindowEventHandlers.onhashchange</a></li>
+			<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">WindowEventHandlers.onpopstate</a></li>
+		</ul>
+
+	</div>
+</div>

@@ -1,0 +1,40 @@
+{
+  "name": "luga-router",
+  "description": "A feature-rich JavaScript library for client-side routing",
+  "license": "Apache-2.0",
+  "homepage": "http://lugajs.org",
+  "authors": [
+    "Massimo Foti <massimo@massimocorner.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lugajs/luga-router"
+  },
+  "main": [
+    "dist/luga.router.js"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "dependencies": {
+    "lugajs": ">=0.9.5"
+  },
+  "keywords": [
+    "luga-router",
+    "luga",
+    "router"
+  ],
+  "ignore": [
+    "**/.*",
+    "gulpfile.js",
+    "Root.iml",
+    "todo.txt",
+    ".idea",
+    "archive",
+    "docs",
+    "lib",
+    "node_modules",
+    "src",
+    "test"
+  ]
+}

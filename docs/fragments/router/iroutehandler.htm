@@ -1,0 +1,86 @@
+<div class="panel panel-default">
+	<div class="panel-heading">luga.router.IRouteHandler</div>
+	<div class="panel-body">
+
+		<p>
+			By default every time you call the .add() method, the router create an instance of luga.router.RouteHandler.
+			Luga philosophy is to keep things as open and customizable as possible.
+			This means you can implement your own routehandler that fits your particular needs/tastes.
+			You just have to respect the following interface:
+		</p>
+
+<pre><code class="language-javascript">/**
+	* @interface luga.router.IRouteHandler
+	*
+	* @property {String} path
+	*
+	* Execute registered enter callbacks, if any
+	* @function
+	* @name luga.router.IRouteHandler#enter
+	* @param {luga.router.routeContext} context
+	*
+	* Execute registered exit callbacks, if any
+	* @function
+	* @name luga.router.IRouteHandler#exit
+	*
+	* Return the handler payload, if any
+	* Return undefined if no payload is associated with the handler
+	* @function
+	* @name luga.router.IRouteHandler#getPayload
+	* @return {luga.router.routeContext|undefined}
+	*
+	* Return an object containing an entry for each param and the relevant values extracted from the fragment
+	* @function
+	* @name luga.router.IRouteHandler#getParams
+	* @param {String} fragment
+	* @return {Object}
+	*
+	* Return true if the given fragment matches the Route. False otherwise
+	* @function
+	* @name luga.router.IRouteHandler#match
+	* @param {String}  fragment
+	* @return {Boolean}
+*/
+</code></pre>
+
+		<p>
+			The constructor of your custom routehandler will be invoked passing the following options object as single argument:
+		</p>
+
+<pre><code class="language-javascript">/**
+	* @typedef {Object} luga.router.IRouteHandler.options
+	*
+	* @property {String} path              Path. Required
+	* @property {Array.&lt;function&gt;} enterCallBacks Array of functions that will be called on entering the route. Default to []
+	* @property {Array.&lt;function&gt;} exitCallBacks  Array of functions that will be called on exiting the route. Default to []
+	* @property {Object} payload           An object to be passed to callBacks every time they are invoked. Optional
+*/
+</code></pre>
+
+		<p>
+			Once you custom handler is implemented, you can instantiate luga.router.Router this way:
+		</p>
+
+<pre><code class="language-javascript">var myRouter = new luga.router.Router({
+	handlerConstructor: customHandlerConstructor
+});
+
+var myCallback = function(context){
+	console.log(context.params.section);
+};
+// Add some routes
+myRouter.add("{section}/:page:", myCallback); // => An instance of customHandlerConstructor is created and stored internally
+myRouter.add("{section}/", myCallback); // => Another instance of customHandlerConstructor
+
+myRouter.start();
+
+// Programmatically test the router
+location.hash = "first/test";
+// => myRouter will first: invoke customHandler.match("first/test") to see if it matches
+// => If customHandlerConstructor returns true:
+// => myRouter will first: invoke customHandler.getPayload()
+// => Then: invoke	customHandler.getParams("first/test")
+</code></pre>
+
+	</div>
+</div>

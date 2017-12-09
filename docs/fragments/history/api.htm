@@ -1,0 +1,137 @@
+<div class="panel panel-default">
+	<div class="panel-heading">luga.history Syntax reference</div>
+	<div class="panel-body">
+		<p>
+			luga.router.utils exposes a simple set of API
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.history.navigate(fragment, options)</div>
+	<div class="panel-body">
+		Add an entry to the browser's history or modify the current entry
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>fragment</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				The URIs fragment we want to navigate to.
+				The string needs to be safely used in a URI.
+				If that's not the case, encode it first.
+				Required
+			</td>
+		</tr>
+		<tr>
+			<td>options</td>
+			<td>
+				{Object}
+			</td>
+			<td>
+				An options object that contains additional information in value/pair format. Optional.
+				The object is defined as follow:
+
+<pre><code class="language-javascript">/**
+	* @typedef {Object} luga.history.navigate.options
+	*
+	* @property {Boolean} replace  Determine if we add a new history entry or replace the current one
+	* @property {String}  title    Title to be passed to pushState. Default to empty string
+	* @property {Object}  state    A JavaScript object which is associated with the new history entry
+*/
+</code></pre>
+
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">// Let's assume we are on http://mydomain.com/index.htm
+luga.history.navigate("test/route"); // => http://mydomain.com/index.htm#test/route
+
+luga.history.setup({pushState: true}); // => From now on pushState will be used
+luga.history.navigate("test/route"); // => http://mydomain.com/test/route
+
+// Same as above, but change the title:
+luga.history.navigate("test/route", {replace: true, title: "Test Title"});
+
+// We can also pass an arbitrary payload to be retrieved later on by the router:
+luga.history.navigate("test/route", {title: "Test Title", state: {name: "Ciccio"}})
+</code></pre>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.router.utils.setup(options)</div>
+	<div class="panel-body">
+		Change or retrieve current configuration
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options</td>
+			<td>
+				{Object}
+			</td>
+			<td>
+				An options object that contains additional information in value/pair format
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Object}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">// If no argument is passed, returns the current configuration
+luga.history.setup(); // => {pushState: false}
+luga.history.setup({pushState: true}); // => From now on pushState will be used each time luga.history.navigate() is called
+luga.history.setup(); // => {pushState: true}
+</code></pre>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.history.isPushStateSupported()</div>
+	<div class="panel-body">
+		Return true if the current browser supports pushState, false otherwise.
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Boolean}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.history.usePushState()</div>
+	<div class="panel-body">
+		Return true if are using pushState, false otherwise.
+		The result depend on a combination of browser capabilities and current configuration,
+		if the current browser doesn'r support pushState, this will return false, no matter the current configuration
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Boolean}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">// PushState is turned off by default
+luga.history.usePushState(); // => false
+luga.history.setup({pushState: true});
+luga.history.usePushState(); // => true
+</code></pre>
+</div>
