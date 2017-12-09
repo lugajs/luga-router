@@ -23,6 +23,14 @@ myRouter.add("{section}/", sectionCallback);
 myRouter.start();
 </code></pre>
 
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				It's important to remember that a call to luga.history.navigate() won't trigger a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">popstate event</a>.
+				This means the route change is only triggered by performing a browser action, such as clicking on the back button or a call to  history.back()
+			</p>
+		</div>
+
 		<p>
 			Using pushState means we have additional features and cleaner URIs,
 			yet it is a bit more complicated than just manually or programmatically change location.hash.
@@ -37,20 +45,22 @@ window.history.back();
 // => "first - page" is logged inside the console
 </code></pre>
 
-		<div class="alert alert-info" role="alert">
-			<strong>Heads up!</strong>
-			<p>
-				It's important to remember that a call to luga.history.navigate() won't trigger a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">popstate event</a>.
-				This means the route change is only triggered by performing a browser action, such as clicking on the back button or a call to  history.back()
-			</p>
-		</div>
-
 		<p>
 			We can also programmatically tell a router to resolve an arbitrary fragment or the current location.pathname.
 			In this case we better call <a href="#router/api">.normalizeFragment()</a> to normalize our fragment, this way the router may "substract" the <a href="#router/rootpath">rootPath</a> as needed:
 		</p>
 
 <pre><code class="language-javascript">myRouter.resolve(myRouter.normalizeFragment(location.pathname));</code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong>
+			<p>
+				Pushstate gives you cleaner URIs but they come with a cost.
+				Unlike with hash fragments, your route URIs must exist.
+				When the browser enters a page like http://mydomain.com/test/route, the web server must respond with something meaningful.
+				Usually this requires that your web server checks the URI and then serves the JavaScript application
+			</p>
+		</div>
 
 	</div>
 </div>
