@@ -14,3 +14,8 @@ ROUTER:
 - Trigger an event if Router.resolve() is called and no matching route is fund?
 
 -------------
+
+Version 2.0
+
+- Drop support for IE 9/10
+- Start using const/let and Map
