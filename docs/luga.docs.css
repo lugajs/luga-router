@@ -36,9 +36,9 @@ dl, dt, dd, ol, ul, li {
 .luga-docs .navbar {
 	background-color: #FFFFFF;
 	border: 0.15em solid #7C93BA;
+	border-radius: 0.3em;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25);
-	margin-left: 1em;
-	margin-right: 1em;
+	margin-bottom: 1em;
 	margin-top: 1em;
 }
 
@@ -67,11 +67,8 @@ dl, dt, dd, ol, ul, li {
 
 .luga-docs .luga-nav-local .list-group {
 	border: 0.15em solid #7C93BA;
-	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
-}
-
-.luga-docs .luga-nav-local .list-group {
 	border-radius: 0.3em;
+	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
 .luga-docs .luga-nav-local .list-group .list-group-item {
