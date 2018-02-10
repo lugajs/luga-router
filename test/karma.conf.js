@@ -15,14 +15,15 @@ module.exports = function(config) {
 			"lib/jquery/jquery.min.js",
 			"lib/lugajs/luga.common.min.js",
 
+			// Jasmine libs
+			"test/lib/jasmine/jasmineMatchers.min.js",
+
 			// Source files
+			"src/luga.history.js",
 			"src/luga.router.js",
 			"src/luga.router.utils.js",
 			"src/luga.router.RouteHandler.js",
 			"src/luga.router.Router.js",
-
-			// Jasmine custom matcher. Requires Luga
-			"test/lib/jasmine/jasmine-ducktype.js",
 
 			// Test specs
 			"test/spec/*.Spec.js"

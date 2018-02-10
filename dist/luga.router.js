@@ -1,6 +1,6 @@
 /*! 
-luga-router 0.5.0 2017-12-09T14:12:58.553Z
-Copyright 2015-2017 Massimo Foti (massimo@massimocorner.com)
+luga-router 0.5.1 2018-02-10T14:11:34.924Z
+Copyright 2015-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
@@ -65,7 +65,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.router");
-	luga.router.version = "0.5.0";
+	luga.router.version = "0.5.1";
 
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
