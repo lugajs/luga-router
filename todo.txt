@@ -1,5 +1,3 @@
-- Update Bootstrap to 4.x then update jQuery to 3.x
-
 -------------
 
 DOCS:
@@ -18,5 +16,5 @@ ROUTER:
 Version 2.0
 
 - Drop support for IE 9/10
-- Start using const/let and Map
+- Start using const/let and Map/Set
 - Remove self = this. Use .bind() instead
