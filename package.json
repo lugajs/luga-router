@@ -25,7 +25,6 @@
 		"karma": "~2.0.0",
 		"karma-chrome-launcher": "~2.2.0",
 		"karma-coverage": "~1.1.1",
-		"karma-html-reporter": "~0.2.7",
 		"karma-jasmine": "~1.1.0",
 		"run-sequence": "~2.1.0"
 	}
