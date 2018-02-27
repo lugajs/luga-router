@@ -17,6 +17,7 @@ module.exports = function(config) {
 
 			// Jasmine libs
 			"test/lib/jasmine/jasmineMatchers.min.js",
+			"test/jasmine.config.js",
 
 			// Source files
 			"src/luga.history.js",
