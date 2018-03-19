@@ -60,7 +60,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.router");
-	luga.router.version = "0.5.1";
+	luga.router.version = "0.5.2";
 
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise

@@ -94,13 +94,13 @@
 					exitCallBacks: [],
 					payload: payload
 				};
-				if(luga.isArray(enterCallBack) === true){
+				if(luga.type(enterCallBack) === "array"){
 					options.enterCallBacks = enterCallBack;
 				}
 				if(luga.type(enterCallBack) === "function"){
 					options.enterCallBacks = [enterCallBack];
 				}
-				if(luga.isArray(exitCallBack) === true){
+				if(luga.type(exitCallBack) === "array"){
 					options.exitCallBacks = exitCallBack;
 				}
 				if(luga.type(exitCallBack) === "function"){
@@ -239,7 +239,7 @@
 				return false;
 			}
 			// Single match
-			if(luga.isArray(matches) === false){
+			if(luga.type(matches) !== "array"){
 				matches = [matches];
 			}
 			exit(options);

@@ -17,6 +17,7 @@ module.exports = function(config) {
 
 			// Jasmine libs
 			"test/lib/jasmine/jasmineMatchers.min.js",
+			"test/jasmine.config.js",
 
 			// Source files
 			"src/luga.history.js",
@@ -43,7 +44,7 @@ module.exports = function(config) {
 			]
 		},
 
-		reporters: ["progress", "html", "coverage"],
+		reporters: ["progress", "coverage"],
 
 		// web server port
 		port: 9876,
