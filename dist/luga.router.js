@@ -1,5 +1,5 @@
 /*! 
-luga-router 0.5.1 2018-02-10T14:11:34.924Z
+luga-router 0.5.2 2018-03-19T10:33:12.455Z
 Copyright 2015-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -65,7 +65,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.router");
-	luga.router.version = "0.5.1";
+	luga.router.version = "0.5.2";
 
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
@@ -337,13 +337,13 @@ if(typeof(luga) === "undefined"){
 					exitCallBacks: [],
 					payload: payload
 				};
-				if(luga.isArray(enterCallBack) === true){
+				if(luga.type(enterCallBack) === "array"){
 					options.enterCallBacks = enterCallBack;
 				}
 				if(luga.type(enterCallBack) === "function"){
 					options.enterCallBacks = [enterCallBack];
 				}
-				if(luga.isArray(exitCallBack) === true){
+				if(luga.type(exitCallBack) === "array"){
 					options.exitCallBacks = exitCallBack;
 				}
 				if(luga.type(exitCallBack) === "function"){
@@ -482,7 +482,7 @@ if(typeof(luga) === "undefined"){
 				return false;
 			}
 			// Single match
-			if(luga.isArray(matches) === false){
+			if(luga.type(matches) !== "array"){
 				matches = [matches];
 			}
 			exit(options);
