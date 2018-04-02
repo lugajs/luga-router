@@ -1,4 +1,5 @@
 - Add link to Github to the header
+- Use luga.dom.ready() for docs
 
 -------------
 
