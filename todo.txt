@@ -1,5 +1,3 @@
-- Use luga.dom.ready() for docs
-
 - Update Luga JS
 - Remove dependency from jQuery
   Update docs
