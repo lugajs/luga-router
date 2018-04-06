@@ -27,22 +27,12 @@
 	};
 
 	/**
-	 * Return true if the browser supports pushState, false otherwise
-	 * @return {Boolean}
-	 */
-	/* istanbul ignore next */
-	luga.history.isPushStateSupported = function(){
-		// Only IE9 should return false
-		return (history.pushState !== undefined);
-	};
-
-	/**
 	 * Return true if are using pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
 	 * @return {Boolean}
 	 */
 	luga.history.usePushState = function(){
-		return ((settings.pushState === true) && (luga.history.isPushStateSupported() === true));
+		return settings.pushState === true;
 	};
 
 	/**

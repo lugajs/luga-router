@@ -2,9 +2,6 @@
 - Use luga.dom.ready() for docs
   Remove jQuery from samples
 
-- Drop support for IE 9/10
-- Remove luga.history.isPushStateSupported()
-
 - Use const/let
 
 - Update Luga JS
