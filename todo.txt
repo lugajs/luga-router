@@ -3,7 +3,8 @@
   Remove jQuery from samples
 
 - Drop support for IE 9/10
-- Update gulp and ESLint for ES6
+- Remove luga.history.isPushStateSupported()
+
 - Use const/let
 
 - Update Luga JS
