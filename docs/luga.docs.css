@@ -132,6 +132,8 @@ dl, dt, dd, ol, ul, li {
 .luga-docs .panel-heading {
 	background-color: #FFFFFF;
 	border-bottom: 0.1em solid #7C93BA;
+	border-top-left-radius: 0.3em;
+	border-top-right-radius: 0.3em;
 	color: #3362B4;
 	font-weight: 700;
 }
@@ -236,6 +238,20 @@ ol.luga-docs-list li {
 .luga-docs label {
 	color: #333333;
 	font-weight: normal;
+}
+
+.checkbox label input,
+.radio label input {
+	margin-right: 6px;
+}
+
+button.btn,
+.form-control + .form-control {
+	margin-left: 6px;
+}
+
+div.alert + p {
+	margin-top: 12px;
 }
 
 /* Table with attributes/api syntax */
