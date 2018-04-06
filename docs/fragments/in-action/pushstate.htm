@@ -7,14 +7,14 @@
 			Most likely a <a href="#router/rootpath">rootPath</a> is required too:
 		</p>
 
-<pre><code class="language-javascript">var myRouter = new luga.router.Router({
+<pre><code class="language-javascript">const myRouter = new luga.router.Router({
 	pushState: true,
 	rootPath: "/luga-router/docs/" // We assume the docs live inside this folder
 });
-var sectionCallback = function(context){
+const sectionCallback = function(context){
 	console.log(context.params.section);
 };
-var pageCallback = function(context){
+const pageCallback = function(context){
 	console.log(context.params.section + " - " + context.params.page);
 };
 // Add some routes

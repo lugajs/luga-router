@@ -57,9 +57,9 @@
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var plainRouter = new luga.router.Router();
+<pre><code class="language-javascript">const plainRouter = new luga.router.Router();
 // Some custom config
-var myRouter = new luga.router.Router({
+const myRouter = new luga.router.Router({
 	rootPath: "",
 	handlerConstructor: customHandlerConstructor
 });
@@ -125,11 +125,11 @@ var myRouter = new luga.router.Router({
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 /**
 * @param {luga.router.routeContext} context
 */
-var myCallback = function(context){
+const myCallback = function(context){
 	console.log(context.params.section);
 };
 // Add some routes
@@ -141,7 +141,7 @@ location.hash = "first/test"; // => log "first" inside the console
 location.hash = "second/test/page";  // => nothing happens, there is no matching route
 
 // Instead of passing a path, we can pass a whole handler:
-var myHandler = new luga.router.RouteHandler({
+const myHandler = new luga.router.RouteHandler({
 	path: "{section}/{subsection}/{page}",
 	enterCallBacks: [myCallback],
 	exitCallBacks: [],
@@ -259,12 +259,12 @@ location.hash = "second/test/page";  // => log "second" inside the console
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 myRouter.normalizeFragment("root/page") //=> "root/page"
 myRouter.normalizeFragment("root/page?id=3") //=> "root/page"
 
 // Configure a rootPath
-var routerWithRootPath = new luga.router.Router({
+const routerWithRootPath = new luga.router.Router({
 	rootPath: "root/"
 });
 routerWithRootPath.normalizeFragment("root/page") //=> "page"
@@ -305,12 +305,12 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 myRouter.normalizeHash("#root/page") //=> "root/page"
 myRouter.normalizeHash("#!root/page") //=> "root/page"
 
 // Configure a rootPath
-var routerWithRootPath = new luga.router.Router({
+const routerWithRootPath = new luga.router.Router({
 	rootPath: "root/"
 });
 routerWithRootPath.normalizeHash("#root/page") //=> "page"
@@ -338,7 +338,7 @@ routerWithRootPath.normalizeHash("#root/page") //=> "page"
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 myRouter.add("{section}/:page:");
 myRouter.add("/:page:");
 
@@ -390,7 +390,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 myRouter.add("{section}/:page:", function(context){
 	console.debug(context.params.section); // => "mysection"
 });
@@ -460,7 +460,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 	<table class="table luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 myRouter.setup({
 	rootPath: "",
 	greedy: true

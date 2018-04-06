@@ -7,11 +7,11 @@
 			Just one router and two routes with default settings, monitoring changes to location.hash:
 		</p>
 
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
-var sectionCallback = function(context){
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
+const sectionCallback = function(context){
 	console.log(context.params.section);
 };
-var pageCallback = function(context){
+const pageCallback = function(context){
 	console.log(context.params.section + " - " + context.params.page);
 };
 // Add some routes

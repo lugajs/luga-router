@@ -61,11 +61,11 @@
 			Once you custom handler is implemented, you can instantiate luga.router.Router this way:
 		</p>
 
-<pre><code class="language-javascript">var myRouter = new luga.router.Router({
+<pre><code class="language-javascript">const myRouter = new luga.router.Router({
 	handlerConstructor: customHandlerConstructor
 });
 
-var myCallback = function(context){
+const myCallback = function(context){
 	console.log(context.params.section);
 };
 // Add some routes

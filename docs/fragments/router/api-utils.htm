@@ -124,13 +124,13 @@ luga.router.utils.getParamIds("literal/{first*}/:option:"); // => ["first*", "op
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var regExp = luga.router.utils.compilePath("/{first}/{second}");
+<pre><code class="language-javascript">const regExp = luga.router.utils.compilePath("/{first}/{second}");
 luga.router.utils.getParamValues("/ciccio/pasticcio", regExp); // => ["ciccio", "pasticcio"]
 
-var regExp = luga.router.utils.compilePath("/{first}/:option:");
+const regExp = luga.router.utils.compilePath("/{first}/:option:");
 luga.router.utils.getParamValues("/ciccio/", regExp); // => ["ciccio", undefined]
 
-var regExp = luga.router.utils.compilePath("literal");
+const regExp = luga.router.utils.compilePath("literal");
 luga.router.utils.getParamValues("literal", regExp); // => []
 </code></pre>
 
