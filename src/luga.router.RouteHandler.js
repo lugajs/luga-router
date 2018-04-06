@@ -50,7 +50,7 @@
 		 * @param {luga.router.routeContext} context
 		 */
 		this.enter = function(context){
-			config.enterCallBacks.forEach(function(element, i, collection){
+			config.enterCallBacks.forEach(function(element){
 				element.apply(null, [context]);
 			});
 		};
@@ -59,7 +59,7 @@
 		 * Execute registered exit callbacks, if any
 		 */
 		this.exit = function(){
-			config.exitCallBacks.forEach(function(element, i, collection){
+			config.exitCallBacks.forEach(function(element){
 				element.apply(null, []);
 			});
 		};
@@ -73,7 +73,7 @@
 			const ret = {};
 			const values = luga.router.utils.getParamValues(fragment, compiledPath);
 			// Merge the two parallel arrays
-			paramsId.forEach(function(element, i, collection){
+			paramsId.forEach(function(element, i){
 				ret[element] = values[i];
 			});
 			return ret;
