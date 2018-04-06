@@ -48,13 +48,13 @@
 		/** @type {luga.router.Router} */
 		const self = this;
 
-		/** @type {array.<luga.router.IRouteHandler>} */
+		/** @type {Array.<luga.router.IRouteHandler>} */
 		let routeHandlers = [];
 
-		/** @type {string|undefined} */
+		/** @type {String|undefined} */
 		let currentFragment;
 
-		/** @type {array.<luga.router.IRouteHandler>} */
+		/** @type {Array.<luga.router.IRouteHandler>} */
 		let currentHandlers = [];
 
 		/**

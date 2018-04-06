@@ -1,5 +1,6 @@
 /*! 
-luga-router 0.5.2 2018-03-19T10:33:12.455Z
+luga-router 0.6.0 2018-04-06T13:29:05.954Z
+https://github.com/lugajs/luga-router
 Copyright 2015-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -56,8 +57,8 @@ if(typeof(luga) === "undefined"){
  * @property {String} fragment                Route fragment. Required
  * @property {String} path                    Route path. Required
  * @property {Object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
- * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
- * @property {object|undefined} historyState  Object associated with a popstate event. Optional
+ * @property {0bject|undefined} payload       Payload associated with the current IRouteHandler. Optional
+ * @property {0bject|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
 
@@ -65,7 +66,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.router");
-	luga.router.version = "0.5.2";
+	luga.router.version = "0.6.0";
 
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
@@ -98,13 +99,13 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	// Leading and trailing slashes
-	var SLASHES_REGEXP = /^\/|\/$/g;
+	const SLASHES_REGEXP = /^\/|\/$/g;
 
 	// Params:  everything between "{ }" or ": :"
-	var PARAMS_REGEXP = /(?:\{|:)([^}:]+)(?:\}|:)/g;
+	const PARAMS_REGEXP = /(?:\{|:)([^}:]+)(?:\}|:)/g;
 
 	// Save params during compile (avoid escaping things that shouldn't be escaped)
-	var TOKENS = {
+	const TOKENS = {
 		OS: {
 			// Optional slashes
 			// Slash between "::" or "}:" or "\w:" or ":{?" or "}{?" or "\w{?"
@@ -154,26 +155,26 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	for(var key in TOKENS){
+	for(let key in TOKENS){
 		/* istanbul ignore else */
 		if(TOKENS.hasOwnProperty(key) === true){
-			var current = TOKENS[key];
+			const current = TOKENS[key];
 			current.id = "__LUGA_" + key + "__";
 			current.save = ("save" in current) ? current.save.replace("{{id}}", current.id) : current.id;
 			current.rRestore = new RegExp(current.id, "g");
 		}
 	}
 
-	function replaceTokens(pattern, regexpName, replaceName){
-		for(var key in TOKENS){
+	const replaceTokens = function(pattern, regexpName, replaceName){
+		for(let key in TOKENS){
 			/* istanbul ignore else */
 			if(TOKENS.hasOwnProperty(key) === true){
-				var current = TOKENS[key];
+				const current = TOKENS[key];
 				pattern = pattern.replace(current[regexpName], current[replaceName]);
 			}
 		}
 		return pattern;
-	}
+	};
 
 	/**
 	 * Turn a path into a regular expression
@@ -183,7 +184,7 @@ if(typeof(luga) === "undefined"){
 	luga.router.utils.compilePath = function(path){
 
 		// Remove leading and trailing slashes, if any
-		var pattern = path.replace(SLASHES_REGEXP, "");
+		let pattern = path.replace(SLASHES_REGEXP, "");
 
 		// Save tokens
 		pattern = replaceTokens(pattern, "rgx", "save");
@@ -202,16 +203,16 @@ if(typeof(luga) === "undefined"){
 	 * @param  {String} path
 	 * @return {Array}
 	 */
-	function extractValues(regex, path){
-		var values = [];
-		var match;
+	const extractValues = function(regex, path){
+		const values = [];
+		let match;
 		// Reset lastIndex since RegExp can have "g" flag thus multiple runs might affect the result
 		regex.lastIndex = 0;
 		while((match = regex.exec(path)) !== null){
 			values.push(match[1]);
 		}
 		return values;
-	}
+	};
 
 	/**
 	 * Extract an array of id out of a given path
@@ -229,13 +230,14 @@ if(typeof(luga) === "undefined"){
 	 * @return {Array}
 	 */
 	luga.router.utils.getParamValues = function(fragment, regex){
-		var values = regex.exec(fragment);
+		const values = regex.exec(fragment);
 		/* istanbul ignore else */
 		if(values !== null){
 			// We want a plain vanilla array, normalize the result object
 			values.shift();
 			delete values.index;
 			delete values.input;
+			delete values.groups;
 		}
 		return values;
 	};
@@ -254,7 +256,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Router class
-	 * @param options {luga.router.options|undefined}
+	 * @param {luga.router.options|undefined} options
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires routeEntered
@@ -262,7 +264,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.router.Router = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
 				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
@@ -279,7 +281,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * @type {luga.router.options}
 		 */
-		var config = {
+		const config = {
 			rootPath: "",
 			handlerConstructor: luga.router.RouteHandler,
 			greedy: false,
@@ -289,16 +291,16 @@ if(typeof(luga) === "undefined"){
 		luga.merge(config, options);
 
 		/** @type {luga.router.Router} */
-		var self = this;
+		const self = this;
 
-		/** @type {array.<luga.router.IRouteHandler>} */
-		var routeHandlers = [];
+		/** @type {Array.<luga.router.IRouteHandler>} */
+		let routeHandlers = [];
 
-		/** @type {string|undefined} */
-		var currentFragment;
+		/** @type {String|undefined} */
+		let currentFragment;
 
-		/** @type {array.<luga.router.IRouteHandler>} */
-		var currentHandlers = [];
+		/** @type {Array.<luga.router.IRouteHandler>} */
+		let currentHandlers = [];
 
 		/**
 		 * Add a route. It can be invoked with two different sets of arguments:
@@ -308,10 +310,10 @@ if(typeof(luga) === "undefined"){
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {string|luga.router.IRouteHandler} path     Either a routeHandler object or a path expressed as string. Required
-		 * @param {function|array.<function>} [undefined] enterCallBack   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
-		 * @param {function|array.<function>} [undefined] exitCallBack    Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
-		 * @param {Object} [undefined] payload                            A payload object to be passed to the callBacks. Optional
+		 * @param {String|luga.router.IRouteHandler} path        Either a routeHandler object or a path expressed as string. Required
+		 * @param {Function|array.<function>} [enterCallBack]   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
+		 * @param {Function|array.<function>} [exitCallBack]     Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
+		 * @param {Object} [payload]                             A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
 			if(arguments.length === 1){
@@ -331,25 +333,25 @@ if(typeof(luga) === "undefined"){
 				throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 			}
 			if((arguments.length > 0) && (luga.type(arguments[0]) === "string")){
-				var options = {
+				const handlerOptions = {
 					path: path,
 					enterCallBacks: [],
 					exitCallBacks: [],
 					payload: payload
 				};
 				if(luga.type(enterCallBack) === "array"){
-					options.enterCallBacks = enterCallBack;
+					handlerOptions.enterCallBacks = enterCallBack;
 				}
 				if(luga.type(enterCallBack) === "function"){
-					options.enterCallBacks = [enterCallBack];
+					handlerOptions.enterCallBacks = [enterCallBack];
 				}
 				if(luga.type(exitCallBack) === "array"){
-					options.exitCallBacks = exitCallBack;
+					handlerOptions.exitCallBacks = exitCallBack;
 				}
 				if(luga.type(exitCallBack) === "function"){
-					options.exitCallBacks = [exitCallBack];
+					handlerOptions.exitCallBacks = [exitCallBack];
 				}
-				var handler = new config.handlerConstructor(options);
+				const handler = new config.handlerConstructor(handlerOptions);
 				addHandler(handler);
 			}
 		};
@@ -358,7 +360,7 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @param {luga.router.IRouteHandler} route
 		 */
-		var addHandler = function(route){
+		const addHandler = function(route){
 			if(self.getByPath(route.path) !== undefined){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.DUPLICATE_ROUTE, [route.path]));
 			}
@@ -367,7 +369,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return all the available route objects
-		 * @return {array.<luga.router.IRouteHandler>}
+		 * @return {Array.<luga.router.IRouteHandler>}
 		 */
 		this.getAll = function(){
 			return routeHandlers;
@@ -380,7 +382,7 @@ if(typeof(luga) === "undefined"){
 		 * @return {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
-			for(var i = 0; i < routeHandlers.length; i++){
+			for(let i = 0; i < routeHandlers.length; i++){
 				if(routeHandlers[i].path === path){
 					return routeHandlers[i];
 				}
@@ -401,7 +403,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
-				for(var i = 0; i < routeHandlers.length; i++){
+				for(let i = 0; i < routeHandlers.length; i++){
 					if(routeHandlers[i].match(fragment) === true){
 						return routeHandlers[i];
 					}
@@ -424,7 +426,7 @@ if(typeof(luga) === "undefined"){
 			if(inputString.indexOf("?") !== -1){
 				inputString = inputString.substring(0, inputString.indexOf("?"));
 			}
-			var pattern = new RegExp("^\/?" + config.rootPath);
+			const pattern = new RegExp("^\/?" + config.rootPath);
 			return inputString.replace(pattern, "");
 		};
 
@@ -450,7 +452,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {String} path
 		 */
 		this.remove = function(path){
-			var index = routeHandlers.indexOf(self.getByPath(path));
+			const index = routeHandlers.indexOf(self.getByPath(path));
 			if(index !== -1){
 				routeHandlers.splice(index, 1);
 			}
@@ -473,11 +475,11 @@ if(typeof(luga) === "undefined"){
 		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
 		 *
 		 * @param {String} fragment
-		 * @param {object|undefined} options.state
+		 * @param {Object|undefined} resOptions
 		 * @return {Boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
-		this.resolve = function(fragment, options){
-			var matches = self.getMatch(fragment);
+		this.resolve = function(fragment, resOptions){
+			let matches = self.getMatch(fragment);
 			if(matches === undefined){
 				return false;
 			}
@@ -485,8 +487,8 @@ if(typeof(luga) === "undefined"){
 			if(luga.type(matches) !== "array"){
 				matches = [matches];
 			}
-			exit(options);
-			enter(matches, fragment, options);
+			exit(resOptions);
+			enter(matches, fragment, resOptions);
 			return matches.length > 0;
 		};
 
@@ -494,15 +496,15 @@ if(typeof(luga) === "undefined"){
 		 * Overwrite the current handlers with the given ones
 		 * Then execute the enter() method on each of them
 		 * Finally: triggers a 'routeEntered' notification
-		 * @param {array.<luga.router.IRouteHandler>} handlers
+		 * @param {Array.<luga.router.IRouteHandler>} handlers
 		 * @param {String} fragment
-		 * @param {Object} options.state
+		 * @param {Object} enterOptions
 		 */
-		var enter = function(handlers, fragment, options){
+		const enter = function(handlers, fragment, enterOptions){
 			currentHandlers = handlers;
 			currentFragment = fragment;
-			currentHandlers.forEach(function(element, i, collection){
-				var context = assembleContext(element, fragment, options);
+			currentHandlers.forEach(function(element){
+				const context = assembleContext(element, fragment, enterOptions);
 				element.enter(context);
 				self.notifyObservers(CONST.EVENTS.ENTER, context);
 			});
@@ -510,11 +512,10 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Execute the exit() method on all the current handlers
-		 * @param {Object} options.state
 		 */
-		var exit = function(){
-			currentHandlers.forEach(function(element, i, collection){
-				var context = assembleContext(element, currentFragment, options);
+		const exit = function(){
+			currentHandlers.forEach(function(element){
+				const context = assembleContext(element, currentFragment, options);
 				element.exit(context);
 				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
@@ -524,12 +525,12 @@ if(typeof(luga) === "undefined"){
 		 * Assemble a route context
 		 * @param {luga.router.IRouteHandler} handler
 		 * @param {String} fragment
-		 * @param {Object} options
+		 * @param {Object} contextOptions
 		 * @return {luga.router.routeContext}
 		 */
-		var assembleContext = function(handler, fragment, options){
+		const assembleContext = function(handler, fragment, contextOptions){
 			/** @type {luga.router.routeContext} */
-			var context = {
+			const context = {
 				fragment: fragment,
 				path: handler.path,
 				payload: handler.getPayload(),
@@ -537,17 +538,17 @@ if(typeof(luga) === "undefined"){
 				historyState: undefined
 			};
 
-			luga.merge(context, options);
+			luga.merge(context, contextOptions);
 			return context;
 		};
 
 		/**
 		 * Change current configuration
-		 * @param {luga.router.options} options
+		 * @param {luga.router.options} setupOptions
 		 * @return {luga.router.options}
 		 */
-		this.setup = function(options){
-			luga.merge(config, options);
+		this.setup = function(setupOptions){
+			luga.merge(config, setupOptions);
 			return config;
 		};
 
@@ -597,7 +598,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {event} event
 		 */
 		this.onPopstate = function(event){
-			var fragment = self.normalizeFragment(document.location.pathname);
+			const fragment = self.normalizeFragment(document.location.pathname);
 			self.resolve(fragment, {historyState: event.state});
 		};
 
@@ -615,7 +616,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.router.RouteHandler = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_PATH_REGEXP: "luga.router.RouteHandler: Invalid path. You must use strings, RegExp are not allowed"
 			}
@@ -624,7 +625,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * @type {luga.router.IRouteHandler.options}
 		 */
-		var config = {
+		const config = {
 			path: "",
 			enterCallBacks: [],
 			exitCallBacks: [],
@@ -646,17 +647,17 @@ if(typeof(luga) === "undefined"){
 		this.path = config.path;
 
 		/** @type {RegExp} */
-		var compiledPath = luga.router.utils.compilePath(this.path);
+		const compiledPath = luga.router.utils.compilePath(this.path);
 
 		/** @type {Array} */
-		var paramsId = luga.router.utils.getParamIds(this.path);
+		const paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
 		 * @param {luga.router.routeContext} context
 		 */
 		this.enter = function(context){
-			config.enterCallBacks.forEach(function(element, i, collection){
+			config.enterCallBacks.forEach(function(element){
 				element.apply(null, [context]);
 			});
 		};
@@ -665,7 +666,7 @@ if(typeof(luga) === "undefined"){
 		 * Execute registered exit callbacks, if any
 		 */
 		this.exit = function(){
-			config.exitCallBacks.forEach(function(element, i, collection){
+			config.exitCallBacks.forEach(function(element){
 				element.apply(null, []);
 			});
 		};
@@ -676,10 +677,10 @@ if(typeof(luga) === "undefined"){
 		 * @return {Object}
 		 */
 		this.getParams = function(fragment){
-			var ret = {};
-			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			const ret = {};
+			const values = luga.router.utils.getParamValues(fragment, compiledPath);
 			// Merge the two parallel arrays
-			paramsId.forEach(function(element, i, collection){
+			paramsId.forEach(function(element, i){
 				ret[element] = values[i];
 			});
 			return ret;
@@ -720,7 +721,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @type {luga.history.options}
 	 */
-	var settings = {
+	const settings = {
 		pushState: false
 	};
 
@@ -735,22 +736,12 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Return true if the browser supports pushState, false otherwise
-	 * @return {Boolean}
-	 */
-	/* istanbul ignore next */
-	luga.history.isPushStateSupported = function(){
-		// Only IE9 should return false
-		return (history.pushState !== undefined);
-	};
-
-	/**
 	 * Return true if are using pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
 	 * @return {Boolean}
 	 */
 	luga.history.usePushState = function(){
-		return ((settings.pushState === true) && (luga.history.isPushStateSupported() === true));
+		return settings.pushState === true;
 	};
 
 	/**
@@ -769,7 +760,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.history.navigate.options} options
 	 */
 	luga.history.navigate = function(fragment, options){
-		var config = {
+		const config = {
 			replace: false,
 			title: "",
 			state: {}
@@ -778,7 +769,7 @@ if(typeof(luga) === "undefined"){
 
 		// pushState
 		if(luga.history.usePushState() === true){
-			var historyMethod = "pushState";
+			let historyMethod = "pushState";
 			if(config.replace === true){
 				historyMethod = "replaceState";
 			}
@@ -787,7 +778,7 @@ if(typeof(luga) === "undefined"){
 		// location hash
 		else{
 			if(config.replace === true){
-				var newLocation = location.href.replace(/(javascript:|#).*$/, "");
+				const newLocation = location.href.replace(/(javascript:|#).*$/, "");
 				location.replace(newLocation  + "#" + fragment);
 			}
 			else{
