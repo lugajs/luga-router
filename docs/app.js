@@ -1,4 +1,4 @@
-/* global Prism */
+/* global jQuery Prism */
 
 if(self.location.protocol === "file:"){
 	alert("The documentation is not going to work properly if accessed from a file system. You should use an HTTP server instead.");

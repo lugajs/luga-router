@@ -8,8 +8,7 @@ module.exports = {
 	// Default environments
 	env: {
 		es6: true,
-		browser: true,
-		jquery: true
+		browser: true
 	},
 
 	// Globals
@@ -24,7 +23,7 @@ module.exports = {
 		}
 	},
 
-	plugins: ['ie11'],
+	plugins: ["ie11"],
 
 	rules: {
 		"camelcase": ["error"],
