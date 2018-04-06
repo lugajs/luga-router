@@ -1,5 +1,4 @@
 - Use luga.dom.ready() for docs
-  Remove jQuery from samples
 
 - Update Luga JS
 - Remove dependency from jQuery
@@ -8,7 +7,6 @@
 
 - Use Map/Set
 - Use frozen property for public constants
-- Remove self = this. Use .bind() instead?
 
 -------------
 
