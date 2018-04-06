@@ -12,7 +12,7 @@
 	/**
 	 * @type {luga.history.options}
 	 */
-	var settings = {
+	const settings = {
 		pushState: false
 	};
 
@@ -51,7 +51,7 @@
 	 * @param {luga.history.navigate.options} options
 	 */
 	luga.history.navigate = function(fragment, options){
-		var config = {
+		const config = {
 			replace: false,
 			title: "",
 			state: {}
@@ -60,7 +60,7 @@
 
 		// pushState
 		if(luga.history.usePushState() === true){
-			var historyMethod = "pushState";
+			let historyMethod = "pushState";
 			if(config.replace === true){
 				historyMethod = "replaceState";
 			}
@@ -69,7 +69,7 @@
 		// location hash
 		else{
 			if(config.replace === true){
-				var newLocation = location.href.replace(/(javascript:|#).*$/, "");
+				const newLocation = location.href.replace(/(javascript:|#).*$/, "");
 				location.replace(newLocation  + "#" + fragment);
 			}
 			else{

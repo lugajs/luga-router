@@ -9,13 +9,13 @@
 	 */
 
 	// Leading and trailing slashes
-	var SLASHES_REGEXP = /^\/|\/$/g;
+	const SLASHES_REGEXP = /^\/|\/$/g;
 
 	// Params:  everything between "{ }" or ": :"
-	var PARAMS_REGEXP = /(?:\{|:)([^}:]+)(?:\}|:)/g;
+	const PARAMS_REGEXP = /(?:\{|:)([^}:]+)(?:\}|:)/g;
 
 	// Save params during compile (avoid escaping things that shouldn't be escaped)
-	var TOKENS = {
+	const TOKENS = {
 		OS: {
 			// Optional slashes
 			// Slash between "::" or "}:" or "\w:" or ":{?" or "}{?" or "\w{?"
@@ -65,26 +65,26 @@
 		}
 	};
 
-	for(var key in TOKENS){
+	for(let key in TOKENS){
 		/* istanbul ignore else */
 		if(TOKENS.hasOwnProperty(key) === true){
-			var current = TOKENS[key];
+			const current = TOKENS[key];
 			current.id = "__LUGA_" + key + "__";
 			current.save = ("save" in current) ? current.save.replace("{{id}}", current.id) : current.id;
 			current.rRestore = new RegExp(current.id, "g");
 		}
 	}
 
-	function replaceTokens(pattern, regexpName, replaceName){
-		for(var key in TOKENS){
+	const replaceTokens = function(pattern, regexpName, replaceName){
+		for(let key in TOKENS){
 			/* istanbul ignore else */
 			if(TOKENS.hasOwnProperty(key) === true){
-				var current = TOKENS[key];
+				const current = TOKENS[key];
 				pattern = pattern.replace(current[regexpName], current[replaceName]);
 			}
 		}
 		return pattern;
-	}
+	};
 
 	/**
 	 * Turn a path into a regular expression
@@ -94,7 +94,7 @@
 	luga.router.utils.compilePath = function(path){
 
 		// Remove leading and trailing slashes, if any
-		var pattern = path.replace(SLASHES_REGEXP, "");
+		let pattern = path.replace(SLASHES_REGEXP, "");
 
 		// Save tokens
 		pattern = replaceTokens(pattern, "rgx", "save");
@@ -113,16 +113,16 @@
 	 * @param  {String} path
 	 * @return {Array}
 	 */
-	function extractValues(regex, path){
-		var values = [];
-		var match;
+	const extractValues = function(regex, path){
+		const values = [];
+		let match;
 		// Reset lastIndex since RegExp can have "g" flag thus multiple runs might affect the result
 		regex.lastIndex = 0;
 		while((match = regex.exec(path)) !== null){
 			values.push(match[1]);
 		}
 		return values;
-	}
+	};
 
 	/**
 	 * Extract an array of id out of a given path
@@ -140,13 +140,14 @@
 	 * @return {Array}
 	 */
 	luga.router.utils.getParamValues = function(fragment, regex){
-		var values = regex.exec(fragment);
+		const values = regex.exec(fragment);
 		/* istanbul ignore else */
 		if(values !== null){
 			// We want a plain vanilla array, normalize the result object
 			values.shift();
 			delete values.index;
 			delete values.input;
+			delete values.groups;
 		}
 		return values;
 	};

@@ -19,7 +19,7 @@
 	 */
 	luga.router.Router = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_ROUTE: "luga.router.Router: Invalid route passed to .add() method",
 				INVALID_ADD_ARGUMENTS: "luga.router.Router: Invalid arguments passed to .add() method",
@@ -36,7 +36,7 @@
 		/**
 		 * @type {luga.router.options}
 		 */
-		var config = {
+		const config = {
 			rootPath: "",
 			handlerConstructor: luga.router.RouteHandler,
 			greedy: false,
@@ -46,16 +46,16 @@
 		luga.merge(config, options);
 
 		/** @type {luga.router.Router} */
-		var self = this;
+		const self = this;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
-		var routeHandlers = [];
+		let routeHandlers = [];
 
 		/** @type {string|undefined} */
-		var currentFragment;
+		let currentFragment;
 
 		/** @type {array.<luga.router.IRouteHandler>} */
-		var currentHandlers = [];
+		let currentHandlers = [];
 
 		/**
 		 * Add a route. It can be invoked with two different sets of arguments:
@@ -88,7 +88,7 @@
 				throw(CONST.ERROR_MESSAGES.INVALID_ADD_ARGUMENTS);
 			}
 			if((arguments.length > 0) && (luga.type(arguments[0]) === "string")){
-				var options = {
+				const options = {
 					path: path,
 					enterCallBacks: [],
 					exitCallBacks: [],
@@ -106,7 +106,7 @@
 				if(luga.type(exitCallBack) === "function"){
 					options.exitCallBacks = [exitCallBack];
 				}
-				var handler = new config.handlerConstructor(options);
+				const handler = new config.handlerConstructor(options);
 				addHandler(handler);
 			}
 		};
@@ -115,7 +115,7 @@
 		 *
 		 * @param {luga.router.IRouteHandler} route
 		 */
-		var addHandler = function(route){
+		const addHandler = function(route){
 			if(self.getByPath(route.path) !== undefined){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.DUPLICATE_ROUTE, [route.path]));
 			}
@@ -137,7 +137,7 @@
 		 * @return {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
-			for(var i = 0; i < routeHandlers.length; i++){
+			for(let i = 0; i < routeHandlers.length; i++){
 				if(routeHandlers[i].path === path){
 					return routeHandlers[i];
 				}
@@ -158,7 +158,7 @@
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
-				for(var i = 0; i < routeHandlers.length; i++){
+				for(let i = 0; i < routeHandlers.length; i++){
 					if(routeHandlers[i].match(fragment) === true){
 						return routeHandlers[i];
 					}
@@ -181,7 +181,7 @@
 			if(inputString.indexOf("?") !== -1){
 				inputString = inputString.substring(0, inputString.indexOf("?"));
 			}
-			var pattern = new RegExp("^\/?" + config.rootPath);
+			const pattern = new RegExp("^\/?" + config.rootPath);
 			return inputString.replace(pattern, "");
 		};
 
@@ -207,7 +207,7 @@
 		 * @param {String} path
 		 */
 		this.remove = function(path){
-			var index = routeHandlers.indexOf(self.getByPath(path));
+			const index = routeHandlers.indexOf(self.getByPath(path));
 			if(index !== -1){
 				routeHandlers.splice(index, 1);
 			}
@@ -234,7 +234,7 @@
 		 * @return {Boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
 		this.resolve = function(fragment, options){
-			var matches = self.getMatch(fragment);
+			let matches = self.getMatch(fragment);
 			if(matches === undefined){
 				return false;
 			}
@@ -255,11 +255,11 @@
 		 * @param {String} fragment
 		 * @param {Object} options.state
 		 */
-		var enter = function(handlers, fragment, options){
+		const enter = function(handlers, fragment, options){
 			currentHandlers = handlers;
 			currentFragment = fragment;
 			currentHandlers.forEach(function(element, i, collection){
-				var context = assembleContext(element, fragment, options);
+				const context = assembleContext(element, fragment, options);
 				element.enter(context);
 				self.notifyObservers(CONST.EVENTS.ENTER, context);
 			});
@@ -269,9 +269,9 @@
 		 * Execute the exit() method on all the current handlers
 		 * @param {Object} options.state
 		 */
-		var exit = function(){
+		const exit = function(){
 			currentHandlers.forEach(function(element, i, collection){
-				var context = assembleContext(element, currentFragment, options);
+				const context = assembleContext(element, currentFragment, options);
 				element.exit(context);
 				self.notifyObservers(CONST.EVENTS.EXIT, {});
 			});
@@ -284,9 +284,9 @@
 		 * @param {Object} options
 		 * @return {luga.router.routeContext}
 		 */
-		var assembleContext = function(handler, fragment, options){
+		const assembleContext = function(handler, fragment, options){
 			/** @type {luga.router.routeContext} */
-			var context = {
+			const context = {
 				fragment: fragment,
 				path: handler.path,
 				payload: handler.getPayload(),
@@ -354,7 +354,7 @@
 		 * @param {event} event
 		 */
 		this.onPopstate = function(event){
-			var fragment = self.normalizeFragment(document.location.pathname);
+			const fragment = self.normalizeFragment(document.location.pathname);
 			self.resolve(fragment, {historyState: event.state});
 		};
 

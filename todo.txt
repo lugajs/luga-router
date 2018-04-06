@@ -1,8 +1,5 @@
-- Add link to Github to the header
 - Use luga.dom.ready() for docs
   Remove jQuery from samples
-
-- Use const/let
 
 - Update Luga JS
 - Remove dependency from jQuery
