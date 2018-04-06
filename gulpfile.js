@@ -12,7 +12,9 @@ const header = require("gulp-header");
 const rename = require("gulp-rename");
 const runSequence = require("run-sequence");
 const sourcemaps = require("gulp-sourcemaps");
-const uglify = require("gulp-uglify");
+const composer = require("gulp-uglify/composer");
+const uglifyes = require("uglify-es");
+const uglify = composer(uglifyes, console);
 const zip = require("gulp-zip");
 const karmaServer = require("karma").Server;
 
