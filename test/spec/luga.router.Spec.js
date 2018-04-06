@@ -16,7 +16,7 @@ describe("luga.router", function(){
 
 		it("Return true if the given object implements the luga.router.IRouteHandler interface", function(){
 
-			var goodRute = new luga.router.RouteHandler({
+			const goodRute = new luga.router.RouteHandler({
 				path: "ciccio",
 				enterCallBacks: [],
 				exitCallBacks: []

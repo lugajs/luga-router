@@ -2,7 +2,7 @@ describe("luga.router.Router", function(){
 
 	"use strict";
 
-	var emptyRouter, baseRouter, greedyRouter, pushStateRouter, firstHandler, secondHandler, paramHandler, optionHandler, catchAllHandler, testObserver;
+	let emptyRouter, baseRouter, greedyRouter, pushStateRouter, firstHandler, secondHandler, paramHandler, optionHandler, catchAllHandler, testObserver;
 	beforeEach(function(){
 
 		emptyRouter = new luga.router.Router();
@@ -69,7 +69,7 @@ describe("luga.router.Router", function(){
 	});
 
 	it("Implements the luga.Notifier interface", function(){
-		var MockNotifier = function(){
+		const MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(baseRouter).toMatchDuckType(new MockNotifier());
@@ -93,7 +93,7 @@ describe("luga.router.Router", function(){
 
 			it("Set the routeHandler constructor class invoked by the .add() method", function(){
 
-				var mockHandler = function(options){
+				const mockHandler = function(options){
 					this.path = options.path;
 					this.enter = function(){
 					};
@@ -110,7 +110,7 @@ describe("luga.router.Router", function(){
 				});
 				expect(emptyRouter.setup().handlerConstructor).toEqual(mockHandler);
 				emptyRouter.add("test/path");
-				var mockInstance = emptyRouter.getByPath("test/path");
+				const mockInstance = emptyRouter.getByPath("test/path");
 				expect(mockInstance instanceof mockHandler).toEqual(true);
 			});
 
@@ -136,7 +136,7 @@ describe("luga.router.Router", function(){
 
 	describe(".add()", function(){
 
-		var path, callBacks;
+		let path, callBacks;
 		beforeEach(function(){
 
 			path = "test/path";
@@ -210,14 +210,14 @@ describe("luga.router.Router", function(){
 
 				it("A single function", function(){
 					emptyRouter.add(path, callBacks.enter);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.enter();
 					expect(callBacks.enter).toHaveBeenCalled();
 				});
 
 				it("An array of functions", function(){
 					emptyRouter.add(path, [callBacks.enter, callBacks.secondEnter]);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.enter();
 					expect(callBacks.enter).toHaveBeenCalled();
 					expect(callBacks.secondEnter).toHaveBeenCalled();
@@ -225,7 +225,7 @@ describe("luga.router.Router", function(){
 
 				it("An empty array", function(){
 					emptyRouter.add(path, []);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.enter();
 					expect(callBacks.enter).not.toHaveBeenCalled();
 					expect(callBacks.secondEnter).not.toHaveBeenCalled();
@@ -233,7 +233,7 @@ describe("luga.router.Router", function(){
 
 				it("Undefined", function(){
 					emptyRouter.add(path, undefined);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.enter();
 					expect(callBacks.enter).not.toHaveBeenCalled();
 					expect(callBacks.secondEnter).not.toHaveBeenCalled();
@@ -245,14 +245,14 @@ describe("luga.router.Router", function(){
 
 				it("A single function", function(){
 					emptyRouter.add(path, undefined, callBacks.exit);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.exit();
 					expect(callBacks.exit).toHaveBeenCalled();
 				});
 
 				it("An array of functions", function(){
 					emptyRouter.add(path, callBacks.enter, [callBacks.exit, callBacks.secondExit]);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.exit();
 					expect(callBacks.exit).toHaveBeenCalled();
 					expect(callBacks.secondExit).toHaveBeenCalled();
@@ -260,7 +260,7 @@ describe("luga.router.Router", function(){
 
 				it("An empty array", function(){
 					emptyRouter.add(path, callBacks.enter, []);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.exit();
 					expect(callBacks.exit).not.toHaveBeenCalled();
 					expect(callBacks.secondExit).not.toHaveBeenCalled();
@@ -268,7 +268,7 @@ describe("luga.router.Router", function(){
 
 				it("Undefined", function(){
 					emptyRouter.add(path, callBacks.enter, undefined);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					handler.exit();
 					expect(callBacks.exit).not.toHaveBeenCalled();
 					expect(callBacks.secondExit).not.toHaveBeenCalled();
@@ -280,13 +280,13 @@ describe("luga.router.Router", function(){
 
 				it("An arbitrary object", function(){
 					emptyRouter.add(path, callBacks.enter, callBacks.exit, {name: "test"});
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					expect(handler.getPayload()).toEqual({name: "test"});
 				});
 
 				it("Undefined", function(){
 					emptyRouter.add(path, callBacks.enter, callBacks.exit, undefined);
-					var handler = emptyRouter.getByPath(path);
+					const handler = emptyRouter.getByPath(path);
 					expect(handler.getPayload()).toBeUndefined();
 				});
 
@@ -408,7 +408,7 @@ describe("luga.router.Router", function(){
 				baseRouter.setup({
 					rootPath: "luga-router"
 				});
-				var fragment = document.location.pathname.replace(/^\/luga-router/, "");
+				const fragment = document.location.pathname.replace(/^\/luga-router/, "");
 				baseRouter.onPopstate({state: {name: "test"}});
 				expect(baseRouter.resolve).toHaveBeenCalledWith(fragment, {historyState: {name: "test"}});
 
@@ -463,14 +463,14 @@ describe("luga.router.Router", function(){
 
 			it("True if at least one routeHandler was resolved", function(){
 				spyOn(firstHandler, "enter");
-				var ret = baseRouter.resolve("test/first");
+				const ret = baseRouter.resolve("test/first");
 				expect(firstHandler.enter).toHaveBeenCalled();
 				expect(ret).toEqual(true);
 			});
 
 			it("False otherwise", function(){
 				spyOn(firstHandler, "enter");
-				var ret = baseRouter.resolve("no/match");
+				const ret = baseRouter.resolve("no/match");
 				expect(firstHandler.enter).not.toHaveBeenCalled();
 				expect(ret).toEqual(false);
 			});
@@ -559,8 +559,8 @@ describe("luga.router.Router", function(){
 						});
 
 						it("context.payload is undefined if not specified by the routeHandler", function(){
-							var payloadObj = {name: "myPayload"};
-							var payloadHandler = new luga.router.RouteHandler({
+							const payloadObj = {name: "myPayload"};
+							const payloadHandler = new luga.router.RouteHandler({
 								path: "test/payload",
 								payload: payloadObj,
 								historyState: undefined,
@@ -581,7 +581,7 @@ describe("luga.router.Router", function(){
 
 						it("context.historyState is populated only if .resolve() has been called from .onPopstate()", function(){
 							// We have to mock what will happen onpostate
-							var contextHistory;
+							let contextHistory;
 							spyOn(catchAllHandler, "enter").and.callFake(function(context){
 								contextHistory = context.historyState;
 							});
