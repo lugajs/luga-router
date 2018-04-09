@@ -117,32 +117,11 @@ describe("luga.history", function(){
 
 	describe(".usePushState()", function(){
 
-		describe("Return false:", function(){
-
-			it("By default", function(){
-				expect(luga.history.usePushState()).toEqual(false);
-			});
-
-			it("If pushState is not supported by the current browser, not matter the value of config.pushState", function(){
-				spyOn(luga.history, "isPushStateSupported").and.returnValue(false);
-				luga.history.setup({pushState: true});
-				expect(luga.history.usePushState()).toEqual(false);
-			});
-
-			it("If pushState is supported and config.pushState has been set to false", function(){
-				luga.history.setup({pushState: false});
-				expect(luga.history.usePushState()).toEqual(false);
-			});
-
-		});
-
-		describe("Return true:", function(){
-
-			it("If pushState is supported and config.pushState has been set to true", function(){
-				luga.history.setup({pushState: true});
-				expect(luga.history.usePushState()).toEqual(true);
-			});
-
+		it("Return the current value of  config.pushState", function(){
+			luga.history.setup({pushState: false});
+			expect(luga.history.usePushState()).toEqual(false);
+			luga.history.setup({pushState: true});
+			expect(luga.history.usePushState()).toEqual(true);
 		});
 
 	});

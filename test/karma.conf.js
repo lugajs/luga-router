@@ -12,10 +12,10 @@ module.exports = function(config) {
 		frameworks: ["jasmine"],
 		files: [
 			// Libs
-			"lib/jquery/jquery.min.js",
 			"lib/lugajs/luga.common.min.js",
 
-			// Jasmine libs
+			// Test libs
+			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/jasmineMatchers.min.js",
 			"test/jasmine.config.js",
 

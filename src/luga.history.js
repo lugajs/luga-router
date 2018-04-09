@@ -12,7 +12,7 @@
 	/**
 	 * @type {luga.history.options}
 	 */
-	var settings = {
+	const settings = {
 		pushState: false
 	};
 
@@ -27,22 +27,12 @@
 	};
 
 	/**
-	 * Return true if the browser supports pushState, false otherwise
-	 * @return {Boolean}
-	 */
-	/* istanbul ignore next */
-	luga.history.isPushStateSupported = function(){
-		// Only IE9 should return false
-		return (history.pushState !== undefined);
-	};
-
-	/**
 	 * Return true if are using pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
 	 * @return {Boolean}
 	 */
 	luga.history.usePushState = function(){
-		return ((settings.pushState === true) && (luga.history.isPushStateSupported() === true));
+		return settings.pushState === true;
 	};
 
 	/**
@@ -61,7 +51,7 @@
 	 * @param {luga.history.navigate.options} options
 	 */
 	luga.history.navigate = function(fragment, options){
-		var config = {
+		const config = {
 			replace: false,
 			title: "",
 			state: {}
@@ -70,7 +60,7 @@
 
 		// pushState
 		if(luga.history.usePushState() === true){
-			var historyMethod = "pushState";
+			let historyMethod = "pushState";
 			if(config.replace === true){
 				historyMethod = "replaceState";
 			}
@@ -79,7 +69,7 @@
 		// location hash
 		else{
 			if(config.replace === true){
-				var newLocation = location.href.replace(/(javascript:|#).*$/, "");
+				const newLocation = location.href.replace(/(javascript:|#).*$/, "");
 				location.replace(newLocation  + "#" + fragment);
 			}
 			else{

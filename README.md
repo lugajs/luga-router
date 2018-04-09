@@ -1,16 +1,10 @@
-<h2>Luga Router</h2>
+## Luga Router
 
-<p>A feature-rich JavaScript library for client-side routing. It's compact, focused and sharp.</p>
-<p>While developing Luga Router we had a few goals in mind:</p>
+A feature-rich JavaScript library for client-side routing. It's compact, focused and sharp
 
-<ul>
-	<li>
-		Do not accept a regular expression as path
-	</li>
-	<li>
-		The router is not a singleton, you may run multiple instances of it
-	</li>
-	<li>
-		Make everything extensible and open to customization
-	</li>
-</ul>
+While developing Luga Router we had a few goals in mind:
+- Do not accept a regular expression as path
+- The router is not a singleton, you may run multiple instances of it
+- Make everything extensible and open to customization
+
+Luga Router is part of [Luga JS](http://lugajs.org/) a set of JavaScript libraries, designed to build form and data centric applications

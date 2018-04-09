@@ -6,10 +6,10 @@
 			If you want every possible matching route to be resolved, you can configure your router to be greedy, passing the relevant options to its constructor.
 		</p>
 <pre><code class="language-javascript">// Configure the router to be greedy
-var myRouter = new luga.router.Router({greedy: true});
+const myRouter = new luga.router.Router({greedy: true});
 
 // This function will be invoked whenever the associated path will be matched
-var myCallback = function(context){
+const myCallback = function(context){
 	console.log(context.path);
 };
 

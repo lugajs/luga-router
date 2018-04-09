@@ -45,11 +45,11 @@
 			matches the fragment:
 		</p>
 
-<pre><code class="language-javascript">var firstPattern = luga.router.utils.compilePath("literal/{first}/{second}"); // => /^\/?literal\/([^\/?]+)\/([^\/?]+)\/?$/
+<pre><code class="language-javascript">const firstPattern = luga.router.utils.compilePath("literal/{first}/{second}"); // => /^\/?literal\/([^\/?]+)\/([^\/?]+)\/?$/
 firstPattern.test("literal/ciccio/pasticcio"); // => true
 firstPattern.test("literal/ciccio/"); // => false
 
-var secondPattern = luga.router.utils.compilePath("{first}/:firstoption:"); // => /^\/?([^\/?]+)\/?([^\/?]+)?\/?\/?$/
+const secondPattern = luga.router.utils.compilePath("{first}/:firstoption:"); // => /^\/?([^\/?]+)\/?([^\/?]+)?\/?\/?$/
 secondPattern.test("ciccio/pasticcio"); // => true
 secondPattern.test("ciccio/"); // => true
 </code></pre>
@@ -58,10 +58,10 @@ secondPattern.test("ciccio/"); // => true
 			You can also test what values are extracted from a given path:
 		</p>
 
-<pre><code class="language-javascript">var firstPattern = luga.router.utils.compilePath("/{first}/{second}");
+<pre><code class="language-javascript">const firstPattern = luga.router.utils.compilePath("/{first}/{second}");
 luga.router.utils.getParamValues("/ciccio/pasticcio", firstPattern); // => ["ciccio", "pasticcio"]
 
-var secondPattern = luga.router.utils.compilePath("/{first}/:option:");
+const secondPattern = luga.router.utils.compilePath("/{first}/:option:");
 luga.router.utils.getParamValues("/ciccio/", secondPattern); // => ["ciccio", undefined]
 </code></pre>
 

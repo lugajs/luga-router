@@ -51,8 +51,8 @@ if(typeof(luga) === "undefined"){
  * @property {String} fragment                Route fragment. Required
  * @property {String} path                    Route path. Required
  * @property {Object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
- * @property {object|undefined} payload       Payload associated with the current IRouteHandler. Optional
- * @property {object|undefined} historyState  Object associated with a popstate event. Optional
+ * @property {0bject|undefined} payload       Payload associated with the current IRouteHandler. Optional
+ * @property {0bject|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
 
@@ -60,7 +60,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.router");
-	luga.router.version = "0.5.2";
+	luga.router.version = "0.6.0";
 
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise

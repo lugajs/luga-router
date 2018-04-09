@@ -9,7 +9,7 @@
 	 */
 	luga.router.RouteHandler = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_PATH_REGEXP: "luga.router.RouteHandler: Invalid path. You must use strings, RegExp are not allowed"
 			}
@@ -18,7 +18,7 @@
 		/**
 		 * @type {luga.router.IRouteHandler.options}
 		 */
-		var config = {
+		const config = {
 			path: "",
 			enterCallBacks: [],
 			exitCallBacks: [],
@@ -40,17 +40,17 @@
 		this.path = config.path;
 
 		/** @type {RegExp} */
-		var compiledPath = luga.router.utils.compilePath(this.path);
+		const compiledPath = luga.router.utils.compilePath(this.path);
 
 		/** @type {Array} */
-		var paramsId = luga.router.utils.getParamIds(this.path);
+		const paramsId = luga.router.utils.getParamIds(this.path);
 
 		/**
 		 * Execute registered enter callbacks, if any
 		 * @param {luga.router.routeContext} context
 		 */
 		this.enter = function(context){
-			config.enterCallBacks.forEach(function(element, i, collection){
+			config.enterCallBacks.forEach(function(element){
 				element.apply(null, [context]);
 			});
 		};
@@ -59,7 +59,7 @@
 		 * Execute registered exit callbacks, if any
 		 */
 		this.exit = function(){
-			config.exitCallBacks.forEach(function(element, i, collection){
+			config.exitCallBacks.forEach(function(element){
 				element.apply(null, []);
 			});
 		};
@@ -70,10 +70,10 @@
 		 * @return {Object}
 		 */
 		this.getParams = function(fragment){
-			var ret = {};
-			var values = luga.router.utils.getParamValues(fragment, compiledPath);
+			const ret = {};
+			const values = luga.router.utils.getParamValues(fragment, compiledPath);
 			// Merge the two parallel arrays
-			paramsId.forEach(function(element, i, collection){
+			paramsId.forEach(function(element, i){
 				ret[element] = values[i];
 			});
 			return ret;

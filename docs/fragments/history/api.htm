@@ -32,17 +32,27 @@
 				{Object}
 			</td>
 			<td>
-				An options object that contains additional information in value/pair format. Optional.
-				The object is defined as follow:
 
-<pre><code class="language-javascript">/**
-	* @typedef {Object} luga.history.navigate.options
-	*
-	* @property {Boolean} replace  Determine if we add a new history entry or replace the current one
-	* @property {String}  title    Title to be passed to pushState. Default to empty string
-	* @property {Object}  state    A JavaScript object which is associated with the new history entry
-*/
-</code></pre>
+				<table class="table luga-docs-api">
+					<tr>
+						<td colspan="2">
+							An options object that contains additional information in value/pair format. Optional.
+							The object is defined as follow:
+						</td>
+					</tr>
+					<tr>
+						<td>{Boolean} replace</td>
+						<td>Determine if we add a new history entry or replace the current one</td>
+					</tr>
+					<tr>
+						<td>{String} title</td>
+						<td>Title to be passed to pushState. Default to empty string</td>
+					</tr>
+					<tr>
+						<td>{Object} state</td>
+						<td>A JavaScript object which is associated with the new history entry</td>
+					</tr>
+				</table>
 
 			</td>
 		</tr>
@@ -52,10 +62,13 @@
 	</table>
 
 <pre><code class="language-javascript">// Let's assume we are on http://mydomain.com/index.htm
-luga.history.navigate("test/route"); // => http://mydomain.com/index.htm#test/route
+luga.history.navigate("test/route");
+// => http://mydomain.com/index.htm#test/route
 
-luga.history.setup({pushState: true}); // => From now on pushState will be used
-luga.history.navigate("test/route"); // => http://mydomain.com/test/route
+luga.history.setup({pushState: true});
+// => From now on pushState will be used
+luga.history.navigate("test/route");
+// => http://mydomain.com/test/route
 
 // Same as above, but change the title:
 luga.history.navigate("test/route", {replace: true, title: "Test Title"});
@@ -93,31 +106,19 @@ luga.history.navigate("test/route", {title: "Test Title", state: {name: "Ciccio"
 	</table>
 
 <pre><code class="language-javascript">// If no argument is passed, returns the current configuration
-luga.history.setup(); // => {pushState: false}
-luga.history.setup({pushState: true}); // => From now on pushState will be used each time luga.history.navigate() is called
-luga.history.setup(); // => {pushState: true}
+luga.history.setup();
+// => {pushState: false}
+luga.history.setup({pushState: true});
+// => From now on pushState will be used each time luga.history.navigate() is called
+luga.history.setup();
+// => {pushState: true}
 </code></pre>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">luga.history.isPushStateSupported()</div>
-	<div class="panel-body">
-		Return true if the current browser supports pushState, false otherwise.
-	</div>
-	<table class="table luga-docs-api">
-		<th>Return type</th>
-		<tr>
-			<td>{Boolean}</td>
-		</tr>
-	</table>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-heading luga-docs-api-heading">luga.history.usePushState()</div>
 	<div class="panel-body">
 		Return true if are using pushState, false otherwise.
-		The result depend on a combination of browser capabilities and current configuration,
-		if the current browser doesn'r support pushState, this will return false, no matter the current configuration
 	</div>
 	<table class="table luga-docs-api">
 		<th>Return type</th>

@@ -17,7 +17,7 @@
     "globals"
   ],
   "dependencies": {
-    "lugajs": ">=0.9.5"
+    "lugajs": ">=0.9.8"
   },
   "keywords": [
     "luga-router",

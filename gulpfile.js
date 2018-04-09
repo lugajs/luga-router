@@ -4,21 +4,23 @@
 
 "use strict";
 
-var gulp = require("gulp");
-var changed = require("gulp-changed");
-var concat = require("gulp-concat");
-var fs = require("fs");
-var header = require("gulp-header");
-var rename = require("gulp-rename");
-var runSequence = require("run-sequence");
-var sourcemaps = require("gulp-sourcemaps");
-var uglify = require("gulp-uglify");
-var zip = require("gulp-zip");
-var karmaServer = require("karma").Server;
+const gulp = require("gulp");
+const changed = require("gulp-changed");
+const concat = require("gulp-concat");
+const fs = require("fs");
+const header = require("gulp-header");
+const rename = require("gulp-rename");
+const runSequence = require("run-sequence");
+const sourcemaps = require("gulp-sourcemaps");
+const composer = require("gulp-uglify/composer");
+const uglifyes = require("uglify-es");
+const uglify = composer(uglifyes, console);
+const zip = require("gulp-zip");
+const karmaServer = require("karma").Server;
 
-var pkg = require("./package.json");
+const pkg = require("./package.json");
 
-var CONST = {
+const CONST = {
 	SRC_ROUTER: "src/luga.router.js",
 	SRC_FILES: ["src/luga.router.js", "src/luga.router.utils.js", "src/luga.router.Router.js", "src/luga.router.RouteHandler.js", "src/luga.History.js"],
 	DIST_FOLDER: "dist",
@@ -33,10 +35,11 @@ var CONST = {
 /* Utilities */
 
 function assembleBanner(name, version){
-	var now = new Date();
-	var banner = [
+	const now = new Date();
+	const banner = [
 		"/*! ",
 		name + " " + version + " " + now.toISOString(),
+		pkg.homepage,
 		"Copyright 2015-" + now.getFullYear() + " " + pkg.author.name + " (" + pkg.author.email + ")",
 		"Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0",
 		" */",
@@ -45,9 +48,9 @@ function assembleBanner(name, version){
 }
 
 function getVersionNumber(filePath){
-	var buffer = fs.readFileSync(filePath);
-	var fileStr = buffer.toString("utf8", 0, buffer.length);
-	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
+	const buffer = fs.readFileSync(filePath);
+	const fileStr = buffer.toString("utf8", 0, buffer.length);
+	const version = CONST.VERSION_PATTERN.exec(fileStr)[1];
 	return version;
 }
 
@@ -83,7 +86,7 @@ gulp.task("coverage", function(done){
 });
 
 gulp.task("dist", function(){
-	var dataVersion = getVersionNumber(CONST.SRC_ROUTER);
+	const dataVersion = getVersionNumber(CONST.SRC_ROUTER);
 	return concatAndMinify(CONST.SRC_FILES, CONST.CONCATENATED_FILE, pkg.name, dataVersion);
 });
 

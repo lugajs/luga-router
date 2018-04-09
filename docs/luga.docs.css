@@ -132,6 +132,8 @@ dl, dt, dd, ol, ul, li {
 .luga-docs .panel-heading {
 	background-color: #FFFFFF;
 	border-bottom: 0.1em solid #7C93BA;
+	border-top-left-radius: 0.3em;
+	border-top-right-radius: 0.3em;
 	color: #3362B4;
 	font-weight: 700;
 }
@@ -238,6 +240,20 @@ ol.luga-docs-list li {
 	font-weight: normal;
 }
 
+.checkbox label input,
+.radio label input {
+	margin-right: 6px;
+}
+
+button.btn,
+.form-control + .form-control {
+	margin-left: 6px;
+}
+
+div.alert + p {
+	margin-top: 12px;
+}
+
 /* Table with attributes/api syntax */
 
 table.luga-docs-attributes,
@@ -278,6 +294,8 @@ table.luga-docs-attributes td {
 	font-weight: 600;
 }
 
+.table.luga-docs-attributes td,
+.table.luga-docs-attributes td,
 .table.luga-docs-api td,
 .table.luga-docs-api th {
 	padding: .75rem;
@@ -295,7 +313,6 @@ table.luga-docs-api td,
 table.luga-docs-attributes td {
 	background: #FCFCFC;
 	padding: 0.8em;
-	white-space: nowrap;
 }
 
 table.luga-docs-api td + td,

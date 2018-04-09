@@ -2,7 +2,7 @@ describe("luga.router.RouteHandler", function(){
 
 	"use strict";
 
-	var path, baseHandler, callBacks;
+	let path, baseHandler, callBacks;
 	beforeEach(function(){
 
 		path = "test/path";
@@ -58,7 +58,7 @@ describe("luga.router.RouteHandler", function(){
 			describe("Can be either:", function(){
 
 				it("A function", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						enterCallBacks: callBacks.enter
 					});
@@ -67,7 +67,7 @@ describe("luga.router.RouteHandler", function(){
 				});
 
 				it("An empty array", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						enterCallBacks: []
 					});
@@ -76,7 +76,7 @@ describe("luga.router.RouteHandler", function(){
 				});
 
 				it("An array of functions", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						enterCallBacks: [callBacks.enter, callBacks.secondEnter]
 					});
@@ -94,7 +94,7 @@ describe("luga.router.RouteHandler", function(){
 			describe("Can be either:", function(){
 
 				it("A function", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						exitCallBacks: callBacks.exit
 					});
@@ -103,7 +103,7 @@ describe("luga.router.RouteHandler", function(){
 				});
 
 				it("An empty array", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						exitCallBacks: []
 					});
@@ -112,7 +112,7 @@ describe("luga.router.RouteHandler", function(){
 				});
 
 				it("An array of functions", function(){
-					var testHandler = new luga.router.RouteHandler({
+					const testHandler = new luga.router.RouteHandler({
 						path: path,
 						exitCallBacks: [callBacks.exit, callBacks.secondExit]
 					});
@@ -128,7 +128,7 @@ describe("luga.router.RouteHandler", function(){
 		describe("options.payload:", function(){
 
 			it("Is an object that will be associated with the routeHandler", function(){
-				var testHandler = new luga.router.RouteHandler({
+				const testHandler = new luga.router.RouteHandler({
 					path: path,
 					payload: {name: "test"}
 				});
@@ -143,7 +143,7 @@ describe("luga.router.RouteHandler", function(){
 	describe(".enter()", function(){
 
 		it("Execute enter callbacks. Passing the given context as argument", function(){
-			var mockContext = {name: "test"};
+			const mockContext = {name: "test"};
 			baseHandler.enter(mockContext);
 			expect(callBacks.enter).toHaveBeenCalledWith(mockContext);
 			expect(callBacks.secondEnter).toHaveBeenCalledWith(mockContext);
@@ -168,7 +168,7 @@ describe("luga.router.RouteHandler", function(){
 		describe("Given a fragment:", function(){
 
 			it("Return an object containing an entry for each param and the relevant values extracted from the fragment", function(){
-				var testHandler = new luga.router.RouteHandler({
+				const testHandler = new luga.router.RouteHandler({
 					path: "{firstname}/{lastname}"
 				});
 				expect(testHandler.getParams("/ciccio/pasticcio")).toEqual({
@@ -178,14 +178,14 @@ describe("luga.router.RouteHandler", function(){
 			});
 
 			it("Return an object without any key if the path contains no params", function(){
-				var testHandler = new luga.router.RouteHandler({
+				const testHandler = new luga.router.RouteHandler({
 					path: "literal"
 				});
 				expect(testHandler.getParams("/ciccio/pasticcio")).toEqual({});
 			});
 
 			it("If the param is optional and it's not contained inside the fragment, the relevant key will contain undefined as value", function(){
-				var testHandler = new luga.router.RouteHandler({
+				const testHandler = new luga.router.RouteHandler({
 					path: "{firstname}/:lastname:"
 				});
 				expect(testHandler.getParams("/ciccio")).toEqual({
@@ -201,8 +201,8 @@ describe("luga.router.RouteHandler", function(){
 	describe(".getPayload()", function(){
 
 		it("Return the handler payload", function(){
-			var payloadObj = {name: "myPayload"};
-			var payloadHandler = new luga.router.RouteHandler({
+			const payloadObj = {name: "myPayload"};
+			const payloadHandler = new luga.router.RouteHandler({
 				path: "test/payload",
 				payload: payloadObj
 			});
@@ -220,21 +220,21 @@ describe("luga.router.RouteHandler", function(){
 		describe("Return true if the given fragment matches:", function(){
 
 			it("The literal path", function(){
-				var handler = new luga.router.RouteHandler({
+				const handler = new luga.router.RouteHandler({
 					path: "literal"
 				});
 				expect(handler.match("literal")).toEqual(true);
 			});
 
 			it("Path with named variables: literal/{first}/{second}", function(){
-				var handler = new luga.router.RouteHandler({
+				const handler = new luga.router.RouteHandler({
 					path: "literal/{first}/{second}"
 				});
 				expect(handler.match("literal/ciccio/pasticcio")).toEqual(true);
 			});
 
 			it("Path with optional segments: {first}/:firstoption:", function(){
-				var handler = new luga.router.RouteHandler({
+				const handler = new luga.router.RouteHandler({
 					path: "{first}/:firstoption:"
 				});
 				expect(handler.match("ciccio")).toEqual(true);
@@ -243,7 +243,7 @@ describe("luga.router.RouteHandler", function(){
 			});
 
 			it("Path with rest segments: {first}/:restoption*:/literal", function(){
-				var handler = new luga.router.RouteHandler({
+				const handler = new luga.router.RouteHandler({
 					path: "{first}/:restoption*:/literal"
 				});
 				expect(handler.match("literal/pasticcio/literal")).toEqual(true);
@@ -251,7 +251,7 @@ describe("luga.router.RouteHandler", function(){
 			});
 
 			it("Path with a mix of rest and optional segments: {first}/:option::restoption*:/literal", function(){
-				var handler = new luga.router.RouteHandler({
+				const handler = new luga.router.RouteHandler({
 					path: "{first}/:option::restoption*:/literal"
 				});
 				expect(handler.match("first/ciccio/pasticcio/literal")).toEqual(true);

@@ -2,18 +2,17 @@
 	<div class="panel-heading">Getting started</div>
 	<div class="panel-body">
 		<p>
-			Include the JavaScript files. First jQuery, then <a href="../lib/lugajs/luga.common.min.js">Luga Common</a>,
+			Include the JavaScript files. First <a href="../lib/lugajs/luga.common.min.js">Luga Common</a>,
 			then <a href="../dist/luga.router.min.js">Luga Router</a> (in this order)
 		</p>
 
-<pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script src="js/luga.common.min.js"&gt;&lt;/script&gt;
+<pre><code class="language-markup">&lt;script src="js/luga.common.min.js"&gt;&lt;/script&gt;
 &lt;script src="js/luga.router.min.js"&gt;&lt;/script&gt;
 </code></pre>
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 
 // This function will be invoked whenever the associated path will be matched
-var myCallback = function(context){
+const myCallback = function(context){
 	console.log(context.params.section);
 };
 

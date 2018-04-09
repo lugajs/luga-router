@@ -12,10 +12,10 @@
 			Using events may lead to cleaner and less-coupled code:
 		</p>
 
-<pre><code class="language-javascript">var myRouter = new luga.router.Router();
+<pre><code class="language-javascript">const myRouter = new luga.router.Router();
 
 // Pay attention to naming convention
-var myObserver = {
+const myObserver = {
 	onRouteEnteredHandler: function(context){
 		console.log("Enter: " + context.params.section);
 	},
