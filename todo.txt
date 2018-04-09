@@ -1,5 +1,3 @@
-- Update docs
-
 - Use Map/Set
 - Use frozen property for public constants
 
