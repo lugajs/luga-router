@@ -2,6 +2,10 @@ describe("luga.router", function(){
 
 	"use strict";
 
+	it("Requires Luga Common in order to work", function(){
+		expect(luga).toBeDefined();
+	});
+
 	it("Lives inside its own namespace", function(){
 		expect(luga.router).toBeDefined();
 	});
