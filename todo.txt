@@ -1,7 +1,4 @@
-- Update Luga JS
-- Remove dependency from jQuery
-  Update docs
-- Update Bower
+- Update docs
 
 - Use Map/Set
 - Use frozen property for public constants
