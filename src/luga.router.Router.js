@@ -272,7 +272,7 @@
 			currentHandlers.forEach(function(element){
 				const context = assembleContext(element, currentFragment, options);
 				element.exit(context);
-				self.notifyObservers(CONST.EVENTS.EXIT, {});
+				self.notifyObservers(CONST.EVENTS.EXIT, context);
 			});
 		};
 
