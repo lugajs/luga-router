@@ -309,33 +309,27 @@
 
 		/**
 		 * Bootstrap the Router
-		 * If inside a browser, start listening to the "hashchange" and "popstate" events
+		 * Start listening to the "hashchange" and "popstate" events
 		 */
 		this.start = function(){
-			/* istanbul ignore else */
-			if(window !== undefined){
-				if(config.pushState === false){
-					window.addEventListener("hashchange", self.onHashChange, false);
-				}
-				else{
-					window.addEventListener("popstate", self.onPopstate, false);
-				}
+			if(config.pushState === false){
+				window.addEventListener("hashchange", self.onHashChange, false);
+			}
+			else{
+				window.addEventListener("popstate", self.onPopstate, false);
 			}
 		};
 
 		/**
 		 * Stop the Router
-		 * If inside a browser, stop listening to the "hashchange" and "popstate" events
+		 * Stop listening to the "hashchange" and "popstate" events
 		 */
 		this.stop = function(){
-			/* istanbul ignore else */
-			if(window !== undefined){
-				if(config.pushState === false){
-					window.removeEventListener("hashchange", self.onHashChange, false);
-				}
-				else{
-					window.removeEventListener("popstate", self.onPopstate, false);
-				}
+			if(config.pushState === false){
+				window.removeEventListener("hashchange", self.onHashChange, false);
+			}
+			else{
+				window.removeEventListener("popstate", self.onPopstate, false);
 			}
 		};
 
