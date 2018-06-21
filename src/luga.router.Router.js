@@ -1,10 +1,10 @@
 /**
  * @typedef {Object} luga.router.options
  *
- * @property {String} rootPath                 Default to empty string
+ * @property {string} rootPath                 Default to empty string
  * @property {function} handlerConstructor     Constructor of routeHandler class. Must implement IRouteHandler. Default to luga.router.RouteHandler
- * @property {Boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
- * @property {Boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
+ * @property {boolean} greedy                  Set it to true to allow multiple routes matching. Default to false
+ * @property {boolean} pushState               Set it to true if you want to list to window.popstate. Default to false and listen to window.hashchange instead
  */
 (function(){
 	"use strict";
@@ -51,7 +51,7 @@
 		/** @type {Array.<luga.router.IRouteHandler>} */
 		let routeHandlers = [];
 
-		/** @type {String|undefined} */
+		/** @type {string|undefined} */
 		let currentFragment;
 
 		/** @type {Array.<luga.router.IRouteHandler>} */
@@ -65,9 +65,9 @@
 		 * ex: Router.add({luga.router.IRouteHandler})
 		 *
 		 *
-		 * @param {String|luga.router.IRouteHandler} path        Either a routeHandler object or a path expressed as string. Required
-		 * @param {Function|array.<function>} [enterCallBack]   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
-		 * @param {Function|array.<function>} [exitCallBack]     Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
+		 * @param {string|luga.router.IRouteHandler} path        Either a routeHandler object or a path expressed as string. Required
+		 * @param {Function|Array.<Function>} [enterCallBack]   Either a single callBack function or an array of functions to be invoked before entering the route. Optional
+		 * @param {Function|Array.<Function>} [exitCallBack]     Either a single callBack function or an array of functions to be invoked before leaving the route. Optional
 		 * @param {Object} [payload]                             A payload object to be passed to the callBacks. Optional
 		 */
 		this.add = function(path, enterCallBack, exitCallBack, payload){
@@ -133,7 +133,7 @@
 		/**
 		 * Return a registered route object associated with the given path
 		 * Return undefined if none is fund
-		 * @param {String} path
+		 * @param {string} path
 		 * @return {luga.router.IRouteHandler|undefined}
 		 */
 		this.getByPath = function(path){
@@ -153,8 +153,8 @@
 		 * 1) Return an array of matching routeHandler objects
 		 * 2) Return an empty array if none is fund
 		 *
-		 * @param {String} fragment
-		 * @return {luga.router.IRouteHandler|undefined|array.<luga.router.IRouteHandler>}
+		 * @param {string} fragment
+		 * @return {luga.router.IRouteHandler|undefined|Array.<luga.router.IRouteHandler>}
 		 */
 		this.getMatch = function(fragment){
 			if(config.greedy === false){
@@ -174,8 +174,8 @@
 		/**
 		 * Remove the rootPath in front of the given string
 		 * Also remove the querystring, if any
-		 * @param {String} inputString
-		 * @return {String}
+		 * @param {string} inputString
+		 * @return {string}
 		 */
 		this.normalizeFragment = function(inputString){
 			if(inputString.indexOf("?") !== -1){
@@ -188,8 +188,8 @@
 		/**
 		 * Remove any '#' and/or '!' in front of the given string
 		 * Then remove the rootPath too
-		 * @param {String} inputString
-		 * @return {String}
+		 * @param {string} inputString
+		 * @return {string}
 		 */
 		this.normalizeHash = function(inputString){
 			if(inputString[0] === "#"){
@@ -204,7 +204,7 @@
 		/**
 		 * Remove the routeHandler matching the given path
 		 * Fails silently if the given path does not match any routeHandler
-		 * @param {String} path
+		 * @param {string} path
 		 */
 		this.remove = function(path){
 			const index = routeHandlers.indexOf(self.getByPath(path));
@@ -229,9 +229,9 @@
 		 * 1) Call the exit() method of the previously matched routeHandlers
 		 * 2) Call the enter() method of all the registered routeHandlers matching the given fragment
 		 *
-		 * @param {String} fragment
+		 * @param {string} fragment
 		 * @param {Object|undefined} resOptions
-		 * @return {Boolean} True if at least one routeHandler was resolved, false otherwise
+		 * @return {boolean} True if at least one routeHandler was resolved, false otherwise
 		 */
 		this.resolve = function(fragment, resOptions){
 			let matches = self.getMatch(fragment);
@@ -252,7 +252,7 @@
 		 * Then execute the enter() method on each of them
 		 * Finally: triggers a 'routeEntered' notification
 		 * @param {Array.<luga.router.IRouteHandler>} handlers
-		 * @param {String} fragment
+		 * @param {string} fragment
 		 * @param {Object} enterOptions
 		 */
 		const enter = function(handlers, fragment, enterOptions){
@@ -279,7 +279,7 @@
 		/**
 		 * Assemble a route context
 		 * @param {luga.router.IRouteHandler} handler
-		 * @param {String} fragment
+		 * @param {string} fragment
 		 * @param {Object} contextOptions
 		 * @return {luga.router.routeContext}
 		 */

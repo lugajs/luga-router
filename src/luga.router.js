@@ -6,7 +6,7 @@ if(typeof(luga) === "undefined"){
 /**
  * @interface luga.router.IRouteHandler
  *
- * @property {String} path
+ * @property {string} path
  *
  * Execute registered enter callbacks, if any
  * @function
@@ -26,33 +26,33 @@ if(typeof(luga) === "undefined"){
  * Return an object containing an entry for each param and the relevant values extracted from the fragment
  * @function
  * @name luga.router.IRouteHandler#getParams
- * @param {String} fragment
+ * @param {string} fragment
  * @return {Object}
  *
  * Return true if the given fragment matches the Route. False otherwise
  * @function
  * @name luga.router.IRouteHandler#match
- * @param {String}  fragment
+ * @param {string}  fragment
  * @return {Boolean}
  */
 
 /**
  * @typedef {Object} luga.router.IRouteHandler.options
  *
- * @property {String}           path              Path. Required
- * @property {Array.<function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
- * @property {Array.<function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
+ * @property {string}           path              Path. Required
+ * @property {Array.<Function>} enterCallBacks    An array of functions that will be called on entering the route. Default to an empty array
+ * @property {Array.<Function>} exitCallBacks     An array of functions that will be called on exiting the route. Default to an empty array
  * @property {Object} payload                     An arbitrary object to be passed to callBacks every time they are invoked. Optional
  */
 
 /**
  * @typedef {Object} luga.router.routeContext
  *
- * @property {String} fragment                Route fragment. Required
- * @property {String} path                    Route path. Required
+ * @property {string} fragment                Route fragment. Required
+ * @property {string} path                    Route path. Required
  * @property {Object} params                  Object containing an entry for each param and the relevant values extracted from the fragment
- * @property {0bject|undefined} payload       Payload associated with the current IRouteHandler. Optional
- * @property {0bject|undefined} historyState  Object associated with a popstate event. Optional
+ * @property {Object|undefined} payload       Payload associated with the current IRouteHandler. Optional
+ * @property {Object|undefined} historyState  Object associated with a popstate event. Optional
  *                                            https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
  */
 
@@ -65,7 +65,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if the given object implements the luga.router.IRouteHandler interface. False otherwise
 	 * @param {*} obj
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.router.isValidRouteHandler = function(obj){
 		if(luga.type(obj) === "object"){

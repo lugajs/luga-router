@@ -66,7 +66,7 @@
 
 		/**
 		 * Return an object containing an entry for each param and the relevant values extracted from the fragment
-		 * @param {String} fragment
+		 * @param {string} fragment
 		 * @return {Object}
 		 */
 		this.getParams = function(fragment){
@@ -90,8 +90,8 @@
 
 		/**
 		 * Return true if the given fragment matches the Route. False otherwise
-		 * @param {String}  fragment
-		 * @return {Boolean}
+		 * @param {string}  fragment
+		 * @return {boolean}
 		 */
 		this.match = function(fragment){
 			return compiledPath.test(fragment);
