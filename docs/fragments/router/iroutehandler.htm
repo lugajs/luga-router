@@ -12,7 +12,7 @@
 <pre><code class="language-javascript">/**
 	* @interface luga.router.IRouteHandler
 	*
-	* @property {String} path
+	* @property {string} path
 	*
 	* Execute registered enter callbacks, if any
 	* @function
@@ -32,14 +32,14 @@
 	* Return an object containing an entry for each param and the relevant values extracted from the fragment
 	* @function
 	* @name luga.router.IRouteHandler#getParams
-	* @param {String} fragment
+	* @param {string} fragment
 	* @return {Object}
 	*
 	* Return true if the given fragment matches the Route. False otherwise
 	* @function
 	* @name luga.router.IRouteHandler#match
-	* @param {String}  fragment
-	* @return {Boolean}
+	* @param {string}  fragment
+	* @return {boolean}
 */
 </code></pre>
 
@@ -50,7 +50,7 @@
 <pre><code class="language-javascript">/**
 	* @typedef {Object} luga.router.IRouteHandler.options
 	*
-	* @property {String} path              Path. Required
+	* @property {string} path              Path. Required
 	* @property {Array.&lt;function&gt;} enterCallBacks Array of functions that will be called on entering the route. Default to []
 	* @property {Array.&lt;function&gt;} exitCallBacks  Array of functions that will be called on exiting the route. Default to []
 	* @property {Object} payload           An object to be passed to callBacks every time they are invoked. Optional

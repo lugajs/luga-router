@@ -14,7 +14,7 @@
 		<tr>
 			<td>options.rootPath</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				A base path that must be removed from the beginning of every url fragment.
@@ -24,7 +24,7 @@
 		<tr>
 			<td>options.greedy</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				By default the router execute the first routeHandler that matches the url fragment.
@@ -34,7 +34,7 @@
 		<tr>
 			<td>options.pushState</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				Set it to true if you want to list to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate">window.popstate</a>.
@@ -88,7 +88,7 @@ const myRouter = new luga.router.Router({
 		<tr>
 			<td>path</td>
 			<td>
-				{String|<a href="#router/iroutehandler">luga.router.IRouteHandler</a>}
+				{string|<a href="#router/iroutehandler">luga.router.IRouteHandler</a>}
 			</td>
 			<td>
 				Either a routeHandler object or a path expressed as string. <a href="#router/path">Paths</a> can only be strings, RexExp aren't allowed. Required
@@ -210,7 +210,7 @@ location.hash = "second/test/page";  // => log "second" inside the console
 		<tr>
 			<td>fragment</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				The fragment we want to resolve
@@ -243,7 +243,7 @@ location.hash = "second/test/page";  // => log "second" inside the console
 		<tr>
 			<td>inputString</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				The string we want to normalize
@@ -253,7 +253,7 @@ location.hash = "second/test/page";  // => log "second" inside the console
 	<table class="table luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{String}</td>
+			<td>{string}</td>
 		</tr>
 	</table>
 	<table class="table luga-docs-api">
@@ -289,7 +289,7 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 		<tr>
 			<td>inputString</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				The string we want to normalize
@@ -299,7 +299,7 @@ routerWithRootPath.normalizeFragment("root/page") //=> "page"
 	<table class="table luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{String}</td>
+			<td>{string}</td>
 		</tr>
 	</table>
 	<table class="table luga-docs-api">
@@ -328,7 +328,7 @@ routerWithRootPath.normalizeHash("#root/page") //=> "page"
 		<tr>
 			<td>path</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				The path we want to remove from the router
@@ -365,7 +365,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 		<tr>
 			<td>fragment</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				The fragment we want to resolve
@@ -384,7 +384,7 @@ myRouter.remove("/missing"); //=> Nothing happens
 	<table class="table luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{Boolean} True if at least one routeHandler was resolved, false otherwise</td>
+			<td>{boolean} True if at least one routeHandler was resolved, false otherwise</td>
 		</tr>
 	</table>
 	<table class="table luga-docs-api">
@@ -411,7 +411,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.rootPath</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				A base path that must be removed from the beginning of every url fragment.
@@ -421,7 +421,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.greedy</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				By default the router execute the first routeHandler that matches the url fragment.
@@ -431,7 +431,7 @@ myRouter.resolve("mysection/mypage"); // => Returns true
 		<tr>
 			<td>options.pushState</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				Set it to true if you want to list to window.popstate.
